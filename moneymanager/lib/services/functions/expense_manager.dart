@@ -1,4 +1,4 @@
-import 'package:moneymanager/services/models/expense.dart';
+import 'package:moneyManager/services/models/expense.dart';
 
 class ExpenseManager {
   static List<Expense> expenses=[];

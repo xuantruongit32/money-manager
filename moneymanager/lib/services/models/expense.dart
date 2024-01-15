@@ -1,5 +1,5 @@
 import 'package:uuid/uuid.dart';
-import 'package:moneymanager/services/models/account.dart';
+import 'package:moneyManager/services/models/account.dart';
 
 var uuid = const Uuid();
 

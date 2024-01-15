@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:moneymanager/services/pages/tabs/account.dart';
-import 'package:moneymanager/services/pages/tabs/trans.dart';
-import 'package:moneymanager/services/pages/tabs/more.dart';
-import 'package:moneymanager/services/pages/tabs/stats.dart';
+import 'package:moneyManager/services/pages/tabs/account.dart';
+import 'package:moneyManager/services/pages/tabs/trans.dart';
+import 'package:moneyManager/services/pages/tabs/more.dart';
+import 'package:moneyManager/services/pages/tabs/stats.dart';
 
 void main() {
   runApp(MoneyManager());

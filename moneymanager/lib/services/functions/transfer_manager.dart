@@ -1,4 +1,4 @@
-import 'package:moneymanager/services/models/transfer.dart';
+import 'package:moneyManager/services/models/transfer.dart';
 
 class TransferManager {
   static List<Transfer> transfers=[];

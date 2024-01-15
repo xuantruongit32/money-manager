@@ -1,4 +1,4 @@
-import 'package:moneymanager/services/models/account.dart';
+import 'package:moneyManager/services/models/account.dart';
 
 class AccountManager {
   static List<String> group = ['cash', 'card'];
