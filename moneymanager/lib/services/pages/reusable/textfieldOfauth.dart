@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AuthTextField extends StatelessWidget {
-  const AuthTextField({required this.secure, required this.hintText, Key? key})
+  const AuthTextField({required this.controller,required this.secure, required this.hintText, Key? key})
       : super(key: key);
   final String hintText;
   final bool secure;
+  final controller;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,7 @@ class AuthTextField extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.only(left: 10),
           child: TextField(
+            controller: controller,
             obscureText: secure,
             decoration: InputDecoration(
               border: InputBorder.none,

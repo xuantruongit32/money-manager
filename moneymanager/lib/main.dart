@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:moneyManager/auth/login.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:moneyManager/auth/authPage.dart';
 
-void main() {
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+);
+
   runApp(MoneyManager());
 }
 
@@ -16,7 +24,7 @@ class _MoneyManagerState extends State<MoneyManager> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Login(),
+      home: AuthPage(),
     );
   }
 }

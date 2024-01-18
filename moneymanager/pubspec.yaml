@@ -17,6 +17,7 @@ dependencies:
   flutter_svg: ^2.0.9
   google_sign_in: ^6.2.1
   firebase_core: ^2.24.2
+  firebase_auth: ^4.16.0
 
 dev_dependencies:
   flutter_test:
@@ -31,4 +32,4 @@ flutter_launcher_icons:
 flutter:
   assets:
     - assets/
-    - assets/icon/icons8-google.svg
+    - assets/images/
