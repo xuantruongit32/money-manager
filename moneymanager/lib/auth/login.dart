@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Login extends StatefulWidget {
   Login({Key? key}) : super(key: key);
@@ -108,6 +109,42 @@ class _LoginState extends State<Login> {
                   style: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const Gap(20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.all(16.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(9.0),
+                      ),
+                    ),
+                    onPressed: () {},
+                    child: SvgPicture.asset(
+                      'assets/icon/icons8-google.svg',
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.all(16.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(9.0),
+                      ),
+                    ),
+                    onPressed: () {},
+                    child: SvgPicture.asset(
+                      'assets/icon/icons8-google.svg',
+                    ),
                   ),
                 ),
               ],
