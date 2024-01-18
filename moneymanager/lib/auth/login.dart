@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:moneyManager/services/pages/reusable/textfieldOfauth.dart';
+import 'package:moneyManager/services/pages/reusable/squareTileofAuth.dart';
 
 class Login extends StatefulWidget {
   Login({Key? key}) : super(key: key);
@@ -30,49 +31,14 @@ class _LoginState extends State<Login> {
               style: TextStyle(fontSize: 15),
             ),
             const Gap(10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: Colors.grey,
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Email',
-                    ),
-                  ),
-                ),
-              ),
+            AuthTextField(
+              hintText: 'Email',
+              secure: false,
             ),
             const Gap(15),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: Colors.grey,
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Password',
-                    ),
-                  ),
-                ),
-              ),
+            AuthTextField(
+              hintText: 'Password',
+              secure: true,
             ),
             const Gap(20),
             Padding(
@@ -97,6 +63,49 @@ class _LoginState extends State<Login> {
               ),
             ),
             const Gap(10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text('Forgot Password?'),
+                ],
+              ),
+            ),
+            const Gap(50),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Divider(
+                      thickness: 0.5,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  Text('Or continue with',
+                      style: TextStyle(
+                        color: Colors.grey,
+                      )),
+                  Expanded(
+                    child: Divider(
+                      thickness: 0.5,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Gap(50),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AuthSquareTile(imagePath: 'assets/images/google.png'),
+                const Gap(25),
+                AuthSquareTile(imagePath: 'assets/images/facebook.png'),
+              ],
+            ),
+            const Gap(50),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -113,42 +122,6 @@ class _LoginState extends State<Login> {
                 ),
               ],
             ),
-            const Gap(20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.all(16.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(9.0),
-                      ),
-                    ),
-                    onPressed: () {},
-                    child: SvgPicture.asset(
-                      'assets/icon/icons8-google.svg',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.all(16.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(9.0),
-                      ),
-                    ),
-                    onPressed: () {},
-                    child: SvgPicture.asset(
-                      'assets/icon/icons8-google.svg',
-                    ),
-                  ),
-                ),
-              ],
-            )
           ],
         ),
       ),
