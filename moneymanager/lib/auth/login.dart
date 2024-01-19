@@ -46,7 +46,7 @@ class _LoginState extends State<Login> {
               hintText: 'Email',
               secure: false,
             ),
-            const Gap(15),
+            const Gap(12),
             AuthTextField(
               controller: passwordController,
               hintText: 'Password',
@@ -64,7 +64,7 @@ class _LoginState extends State<Login> {
                 ],
               ),
             ),
-            const Gap(50),
+            const Gap(30),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Row(
@@ -88,7 +88,7 @@ class _LoginState extends State<Login> {
                 ],
               ),
             ),
-            const Gap(50),
+            const Gap(30),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -97,7 +97,7 @@ class _LoginState extends State<Login> {
                 AuthSquareTile(imagePath: 'assets/images/facebook.png'),
               ],
             ),
-            const Gap(50),
+            const Gap(30),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
