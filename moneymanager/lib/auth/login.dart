@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:moneyManager/services/pages/reusable/textfieldOfauth.dart';
 import 'package:moneyManager/services/pages/reusable/squareTileofAuth.dart';
 import 'package:moneyManager/services/pages/reusable/authButton.dart';
+import 'package:moneyManager/services/pages/reusable/errorDialog.dart';
 
 class Login extends StatefulWidget {
   Login({Key? key}) : super(key: key);
@@ -16,9 +17,26 @@ class _LoginState extends State<Login> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   void signUserIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: usernameController.text, password: passwordController.text);
-    print(usernameController.text);
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: usernameController.text, password: passwordController.text);
+    } catch (e) {
+      Navigator.pop(context);
+      showDialog(
+          context: context,
+          builder: (context) {
+            return ErrorDialog(
+                errorMessage: "Failed to sign in, please try again");
+          });
+    }
   }
 
   @override
