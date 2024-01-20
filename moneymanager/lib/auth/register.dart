@@ -7,7 +7,8 @@ import 'package:moneyManager/services/pages/reusable/authButton.dart';
 import 'package:moneyManager/services/pages/reusable/errorDialog.dart';
 
 class Register extends StatefulWidget {
-  Register({Key? key}) : super(key: key);
+  Register({required this.onTap, Key? key}) : super(key: key);
+  final Function() onTap;
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -16,7 +17,8 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-  void signUserIn() async {
+  final confirmPasswordController = TextEditingController();
+  void signUserUp() async {
     showDialog(
       context: context,
       builder: (context) {
@@ -26,15 +28,24 @@ class _RegisterState extends State<Register> {
       },
     );
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: usernameController.text, password: passwordController.text);
+      if (passwordController.text == confirmPasswordController.text) {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: usernameController.text, password: passwordController.text);
+      } else {
+        Navigator.pop(context);
+        showDialog(
+            context: context,
+            builder: (context) {
+              return ErrorDialog(errorMessage: "Password not match");
+            });
+      }
     } catch (e) {
       Navigator.pop(context);
       showDialog(
           context: context,
           builder: (context) {
             return ErrorDialog(
-                errorMessage: "Failed to sign in, please try again");
+                errorMessage: "Failed to sign up, please try again");
           });
     }
   }
@@ -42,97 +53,111 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "HELLO AGAIN!",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const Gap(10),
-            Text(
-              "Welcome back, you've been missed",
-              style: TextStyle(fontSize: 15),
-            ),
-            const Gap(10),
-            AuthTextField(
-              controller: usernameController,
-              hintText: 'Email',
-              secure: false,
-            ),
-            const Gap(12),
-            AuthTextField(
-              controller: passwordController,
-              hintText: 'Password',
-              secure: true,
-            ),
-            const Gap(20),
-            AuthButton(buttonText: 'Sign Up', fun: signUserIn),
-            const Gap(10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text('Forgot Password?'),
-                ],
-              ),
-            ),
-            const Gap(30),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Divider(
-                      thickness: 0.5,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  Text('Or continue with',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      )),
-                  Expanded(
-                    child: Divider(
-                      thickness: 0.5,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Gap(30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                AuthSquareTile(imagePath: 'assets/images/google.png'),
-                const Gap(25),
-                AuthSquareTile(imagePath: 'assets/images/facebook.png'),
-              ],
-            ),
-            const Gap(30),
-            Row(
+      //safeArea: avoid certain system-defined areas
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Not a member? ',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  'Register now',
+                  "HELLO AGAIN!",
                   style: TextStyle(
-                    color: Colors.blue,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                const Gap(10),
+                Text(
+                  "Join today.",
+                  style: TextStyle(fontSize: 15),
+                ),
+                const Gap(10),
+                AuthTextField(
+                  controller: usernameController,
+                  hintText: 'Email',
+                  secure: false,
+                ),
+                const Gap(12),
+                AuthTextField(
+                  controller: passwordController,
+                  hintText: 'Password',
+                  secure: true,
+                ),
+                const Gap(12),
+                AuthTextField(
+                  controller: confirmPasswordController,
+                  hintText: 'Confirm Password',
+                  secure: true,
+                ),
+                const Gap(20),
+                AuthButton(buttonText: 'Sign Up', fun: signUserUp),
+                const Gap(10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text('Forgot Password?'),
+                    ],
+                  ),
+                ),
+                const Gap(30),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          thickness: 0.5,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Text('Or continue with',
+                          style: TextStyle(
+                            color: Colors.grey,
+                          )),
+                      Expanded(
+                        child: Divider(
+                          thickness: 0.5,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Gap(30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AuthSquareTile(imagePath: 'assets/images/google.png'),
+                    const Gap(25),
+                    AuthSquareTile(imagePath: 'assets/images/facebook.png'),
+                  ],
+                ),
+                const Gap(30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Already have an account? ',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    GestureDetector(
+                      onTap: widget.onTap,
+                      child: Text(
+                        'Login now',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );

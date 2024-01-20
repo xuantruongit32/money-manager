@@ -13,7 +13,7 @@ class _LoginOrRegisterState extends State<LoginOrRegister> {
   bool showLoginPage = true;
   void changePage() {
     setState(() {
-      showLoginPage = false;
+      showLoginPage = !showLoginPage;
     });
   }
 
@@ -23,6 +23,8 @@ class _LoginOrRegisterState extends State<LoginOrRegister> {
         ? Login(
             onTap: changePage,
           )
-        : Register());
+        : Register(
+            onTap: changePage,
+          ));
   }
 }
