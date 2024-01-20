@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:moneyManager/services/pages/others/homePage.dart';
-import 'package:moneyManager/auth/login.dart';
+import 'package:moneyManager/auth/login_or_register.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class AuthPage extends StatelessWidget {
             Navigator.pop(context);
             return MoneyManager();
           } else
-            return Login();
+            return LoginOrRegister();
         }),
       ),
     );

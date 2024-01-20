@@ -6,15 +6,14 @@ import 'package:moneyManager/services/pages/reusable/squareTileofAuth.dart';
 import 'package:moneyManager/services/pages/reusable/authButton.dart';
 import 'package:moneyManager/services/pages/reusable/errorDialog.dart';
 
-class Login extends StatefulWidget {
-  Login({required this.onTap, Key? key}) : super(key: key);
-  final Function() onTap;
+class Register extends StatefulWidget {
+  Register({Key? key}) : super(key: key);
 
   @override
-  _LoginState createState() => _LoginState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   void signUserIn() async {
@@ -72,7 +71,7 @@ class _LoginState extends State<Login> {
               secure: true,
             ),
             const Gap(20),
-            AuthButton(buttonText: 'Sign In', fun: signUserIn),
+            AuthButton(buttonText: 'Sign Up', fun: signUserIn),
             const Gap(10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -124,14 +123,11 @@ class _LoginState extends State<Login> {
                   'Not a member? ',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                GestureDetector(
-                  onTap: widget.onTap,
-                  child: Text(
-                    'Register now',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
+                Text(
+                  'Register now',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
