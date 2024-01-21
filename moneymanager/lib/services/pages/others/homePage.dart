@@ -4,6 +4,7 @@ import 'package:moneyManager/services/pages/tabs/account.dart';
 import 'package:moneyManager/services/pages/tabs/trans.dart';
 import 'package:moneyManager/services/pages/tabs/more.dart';
 import 'package:moneyManager/services/pages/tabs/stats.dart';
+import 'package:line_icons/line_icons.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -40,11 +41,14 @@ class _HomePageState extends State<HomePage> {
         unselectedItemColor: Colors.black,
         fixedColor: Colors.red.shade500,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Trans'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_rounded), label: 'Stats'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.account_balance), label: 'Account'),
-          BottomNavigationBarItem(icon: Icon(Icons.more), label: 'More'),
+              icon: Icon(LineIcons.moneyBill), label: 'Trans'),
+          BottomNavigationBarItem(
+              icon: Icon(LineIcons.pieChart), label: 'Stats'),
+          BottomNavigationBarItem(
+              icon: Icon(LineIcons.piggyBank), label: 'Account'),
+          BottomNavigationBarItem(
+              icon: Icon(LineIcons.peopleCarry), label: 'More'),
         ],
         currentIndex: _currentIndex,
         onTap: (index) {
