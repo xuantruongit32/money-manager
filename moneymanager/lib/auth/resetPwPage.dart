@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:moneyManager/services/pages/reusable/textfieldOfauth.dart';
-import 'package:moneyManager/services/pages/reusable/authButton.dart';
-import 'package:moneyManager/services/pages/reusable/errorDialog.dart';
+import 'package:moneyManager/services/pages/reusable/auth/textfieldOfauth.dart';
+import 'package:moneyManager/services/pages/reusable/auth/authButton.dart';
+import 'package:moneyManager/services/pages/reusable/auth/errorDialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gap/gap.dart';
 

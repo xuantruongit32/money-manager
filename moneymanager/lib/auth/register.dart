@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:moneyManager/services/pages/reusable/textfieldOfauth.dart';
-import 'package:moneyManager/services/pages/reusable/squareTileofAuth.dart';
-import 'package:moneyManager/services/pages/reusable/authButton.dart';
-import 'package:moneyManager/services/pages/reusable/errorDialog.dart';
-import 'package:moneyManager/services/functions/google_auth_service.dart';
+import 'package:moneyManager/services/pages/reusable/auth/textfieldOfauth.dart';
+import 'package:moneyManager/services/pages/reusable/auth/squareTileofAuth.dart';
+import 'package:moneyManager/services/pages/reusable/auth/authButton.dart';
+import 'package:moneyManager/services/pages/reusable/auth/errorDialog.dart';
+import 'package:moneyManager/services/functions/auth/google_auth_service.dart';
 
 class Register extends StatefulWidget {
   Register({required this.onTap, Key? key}) : super(key: key);
