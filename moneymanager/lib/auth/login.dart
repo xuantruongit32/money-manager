@@ -39,17 +39,10 @@ class _LoginState extends State<Login> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "HELLO AGAIN!",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const Gap(10),
-            Text(
-              "Welcome back, you've been missed",
-              style: TextStyle(fontSize: 15),
+            Image.asset(
+              'assets/images/launcher_icon-removebg.png',
+              height: 250,
+              width: 250,
             ),
             const Gap(10),
             AuthTextField(
@@ -109,28 +102,8 @@ class _LoginState extends State<Login> {
                 ),
                 const Gap(25),
                 AuthSquareTile(
-                  onTap: () => GoogleAuthService().signInWithGoogle(),
-                  imagePath: 'assets/images/facebook.png',
-                ),
-              ],
-            ),
-            const Gap(30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Not a member? ',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                GestureDetector(
                   onTap: widget.onTap,
-                  child: Text(
-                    'Register now',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  imagePath: 'assets/images/signUp.png',
                 ),
               ],
             ),
