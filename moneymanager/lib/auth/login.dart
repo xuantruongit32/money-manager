@@ -5,6 +5,7 @@ import 'package:moneyManager/services/pages/reusable/textfieldOfauth.dart';
 import 'package:moneyManager/services/pages/reusable/squareTileofAuth.dart';
 import 'package:moneyManager/services/pages/reusable/authButton.dart';
 import 'package:moneyManager/services/pages/reusable/errorDialog.dart';
+import 'package:moneyManager/services/functions/google_auth_service.dart';
 
 class Login extends StatefulWidget {
   Login({required this.onTap, Key? key}) : super(key: key);
@@ -18,19 +19,10 @@ class _LoginState extends State<Login> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   void signUserIn() async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: usernameController.text, password: passwordController.text);
     } catch (e) {
-      Navigator.pop(context);
       showDialog(
           context: context,
           builder: (context) {
@@ -111,9 +103,15 @@ class _LoginState extends State<Login> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                AuthSquareTile(imagePath: 'assets/images/google.png'),
+                AuthSquareTile(
+                  onTap: () => GoogleAuthService().signInWithGoogle(),
+                  imagePath: 'assets/images/google.png',
+                ),
                 const Gap(25),
-                AuthSquareTile(imagePath: 'assets/images/facebook.png'),
+                AuthSquareTile(
+                  onTap: () => GoogleAuthService().signInWithGoogle(),
+                  imagePath: 'assets/images/facebook.png',
+                ),
               ],
             ),
             const Gap(30),

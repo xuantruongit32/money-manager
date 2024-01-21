@@ -5,6 +5,7 @@ import 'package:moneyManager/services/pages/reusable/textfieldOfauth.dart';
 import 'package:moneyManager/services/pages/reusable/squareTileofAuth.dart';
 import 'package:moneyManager/services/pages/reusable/authButton.dart';
 import 'package:moneyManager/services/pages/reusable/errorDialog.dart';
+import 'package:moneyManager/services/functions/google_auth_service.dart';
 
 class Register extends StatefulWidget {
   Register({required this.onTap, Key? key}) : super(key: key);
@@ -19,20 +20,11 @@ class _RegisterState extends State<Register> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   void signUserUp() async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
     try {
       if (passwordController.text == confirmPasswordController.text) {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: usernameController.text, password: passwordController.text);
       } else {
-        Navigator.pop(context);
         showDialog(
             context: context,
             builder: (context) {
@@ -40,7 +32,6 @@ class _RegisterState extends State<Register> {
             });
       }
     } catch (e) {
-      Navigator.pop(context);
       showDialog(
           context: context,
           builder: (context) {
@@ -95,12 +86,6 @@ class _RegisterState extends State<Register> {
                 const Gap(10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text('Forgot Password?'),
-                    ],
-                  ),
                 ),
                 const Gap(30),
                 Padding(
@@ -130,9 +115,15 @@ class _RegisterState extends State<Register> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    AuthSquareTile(imagePath: 'assets/images/google.png'),
+                    AuthSquareTile(
+                      imagePath: 'assets/images/google.png',
+                      onTap: () => GoogleAuthService().signInWithGoogle(),
+                    ),
                     const Gap(25),
-                    AuthSquareTile(imagePath: 'assets/images/facebook.png'),
+                    AuthSquareTile(
+                      imagePath: 'assets/images/facebook.png',
+                      onTap: () => GoogleAuthService().signInWithGoogle(),
+                    ),
                   ],
                 ),
                 const Gap(30),
