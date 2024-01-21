@@ -6,6 +6,8 @@ import 'package:moneyManager/services/pages/reusable/squareTileofAuth.dart';
 import 'package:moneyManager/services/pages/reusable/authButton.dart';
 import 'package:moneyManager/services/pages/reusable/errorDialog.dart';
 import 'package:moneyManager/services/functions/google_auth_service.dart';
+import 'package:moneyManager/auth/resetPwPage.dart';
+import 'package:moneyManager/services/functions/resetPassword.dart';
 
 class Login extends StatefulWidget {
   Login({required this.onTap, Key? key}) : super(key: key);
@@ -65,7 +67,20 @@ class _LoginState extends State<Login> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text('Forgot Password?'),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ResetPwPage(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Forgot password?',
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                    ),
                   ],
                 ),
               ),
