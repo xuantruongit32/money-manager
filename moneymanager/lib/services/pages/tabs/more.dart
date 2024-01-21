@@ -5,6 +5,6 @@ class More extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('More');
+    return Center(child: Text('More'));
   }
 }

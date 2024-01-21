@@ -5,6 +5,6 @@ class Account extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Account');
+    return Center(child: Text('Account'));
   }
 }

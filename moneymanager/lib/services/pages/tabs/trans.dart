@@ -5,6 +5,6 @@ class Trans extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Trans');
+    return Center(child: Text('Trans'));
   }
 }

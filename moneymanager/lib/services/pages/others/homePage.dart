@@ -5,14 +5,14 @@ import 'package:moneyManager/services/pages/tabs/trans.dart';
 import 'package:moneyManager/services/pages/tabs/more.dart';
 import 'package:moneyManager/services/pages/tabs/stats.dart';
 
-class MoneyManager extends StatefulWidget {
-  MoneyManager({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  HomePage({Key? key}) : super(key: key);
 
   @override
-  _MoneyManagerState createState() => _MoneyManagerState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MoneyManagerState extends State<MoneyManager> {
+class _HomePageState extends State<HomePage> {
   void signUserOut() {
     FirebaseAuth.instance.signOut();
   }
@@ -40,8 +40,8 @@ class _MoneyManagerState extends State<MoneyManager> {
         unselectedItemColor: Colors.black,
         fixedColor: Colors.red.shade500,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Trans'),
-          BottomNavigationBarItem(icon: Icon(Icons.chair), label: 'Stats'),
+          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Trans'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_rounded), label: 'Stats'),
           BottomNavigationBarItem(
               icon: Icon(Icons.account_balance), label: 'Account'),
           BottomNavigationBarItem(icon: Icon(Icons.more), label: 'More'),
