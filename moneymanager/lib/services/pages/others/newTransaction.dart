@@ -20,6 +20,12 @@ class _NewTransactionState extends State<NewTransaction> {
     super.dispose();
   }
 
+  void _onPageChanged(int page) {
+    setState(() {
+      _selectedPage = page;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,6 +95,7 @@ class _NewTransactionState extends State<NewTransaction> {
         ],
       ),
       body: PageView(
+        onPageChanged: _onPageChanged,
         controller: _controller,
         scrollDirection: Axis.horizontal,
         children: [
