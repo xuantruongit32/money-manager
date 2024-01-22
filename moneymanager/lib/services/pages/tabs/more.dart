@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moneyManager/services/pages/reusable/iconButtonText.dart';
 import 'package:gap/gap.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:moneyManager/services/pages/tabs/feedback.dart';
 
 class More extends StatelessWidget {
   const More({Key? key}) : super(key: key);
@@ -44,7 +45,12 @@ class More extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               IconButtonText(
-                fun: () {},
+                fun: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FeedBack(),
+                  ),
+                ),
                 label: 'Feedback',
                 icon: Icon(Icons.feedback),
               ),
