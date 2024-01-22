@@ -7,6 +7,7 @@ import 'package:moneyManager/services/pages/reusable/auth/authButton.dart';
 import 'package:moneyManager/services/pages/reusable/choose.dart';
 import 'package:intl/intl.dart';
 import 'package:moneyManager/services/functions/account_manager.dart';
+import 'package:moneyManager/services/functions/income_category_manager.dart';
 import 'package:moneyManager/services/models/account.dart';
 
 class NewTransaction extends StatefulWidget {
@@ -17,8 +18,12 @@ class NewTransaction extends StatefulWidget {
 }
 
 class _NewTransactionState extends State<NewTransaction> {
-  String selectedAccount =
-      AccountManager.accounts.isNotEmpty ? "" : 'No accounts available';
+  String selectedAccount = AccountManager.accounts.isNotEmpty
+      ? "                     "
+      : 'No accounts available';
+  String selectedCategory = IncomeCategoryManager.categories.isNotEmpty
+      ? "                   "
+      : 'No category available';
 
   var format = DateFormat('d/M/yyyy (E)');
   var _selectedDate = DateTime.now();
@@ -40,12 +45,124 @@ class _NewTransactionState extends State<NewTransaction> {
     final selected = await showDialog<Account>(
       context: context,
       builder: (BuildContext context) {
-        return Choose(selected: selectedAccount, list: AccountManager.accounts);
+        return AlertDialog(
+          title: Center(
+            child: Text(
+              'Select Account',
+              style: TextStyle(
+                color: Colors.deepPurple,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: ListView(
+              shrinkWrap: true,
+              children: AccountManager.accounts
+                  .map<Widget>((account) => Card(
+                        elevation: 2.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            account.name,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          leading: Icon(
+                            Icons.account_circle,
+                            color: Colors.deepPurple,
+                          ),
+                          tileColor: selectedAccount == account.name
+                              ? Colors.deepPurple.withOpacity(0.2)
+                              : null,
+                          onTap: () {
+                            Navigator.pop(context, account);
+                          },
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                            vertical: 8.0,
+                          ),
+                        ),
+                      ))
+                  .toList(),
+            ),
+          ),
+        );
       },
     );
     if (selected != null) {
       setState(() {
         selectedAccount = selected.name;
+      });
+    }
+  }
+
+  void _showCategoryPicker(BuildContext context) async {
+    final selected = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(
+            child: Text(
+              'Select Category',
+              style: TextStyle(
+                color: Colors.deepPurple,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: ListView(
+              shrinkWrap: true,
+              children: IncomeCategoryManager.categories
+                  .map<Widget>((category) => Card(
+                        elevation: 2.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            category,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          leading: Icon(
+                            Icons.food_bank,
+                            color: Colors.deepPurple,
+                          ),
+                          tileColor: selectedCategory == category
+                              ? Colors.deepPurple.withOpacity(0.2)
+                              : null,
+                          onTap: () {
+                            Navigator.pop(context, category);
+                          },
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                            vertical: 8.0,
+                          ),
+                        ),
+                      ))
+                  .toList(),
+            ),
+          ),
+        );
+      },
+    );
+    if (selected != null) {
+      setState(() {
+        selectedCategory = selected;
       });
     }
   }
@@ -74,7 +191,13 @@ class _NewTransactionState extends State<NewTransaction> {
               ),
             ),
             const Gap(15),
-            LineOfAddTrans(text: 'Category', content: 'Content'),
+            GestureDetector(
+              onTap: () => _showCategoryPicker(context),
+              child: LineOfAddTrans(
+                text: 'Category',
+                content: selectedCategory,
+              ),
+            ),
             const Gap(15),
             AddTextField(
                 icon: Icon(LineIcons.coins),
