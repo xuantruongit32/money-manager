@@ -5,6 +5,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:gap/gap.dart';
 import 'package:moneyManager/services/pages/reusable/auth/authButton.dart';
 import 'package:intl/intl.dart';
+import 'package:moneyManager/services/functions/account_manager.dart';
 
 class NewTransaction extends StatefulWidget {
   NewTransaction({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class _NewTransactionState extends State<NewTransaction> {
   var _selectedDate = DateTime.now();
   final _amountController = TextEditingController();
   final _noteController = TextEditingController();
+  var selectedAccount = AccountManager.accounts[0].name;
 
   void _pickDate() async {
     final now = DateTime.now();
@@ -46,7 +48,12 @@ class _NewTransactionState extends State<NewTransaction> {
               ),
             ),
             const Gap(15),
-            LineOfAddTrans(text: 'Account ', content: 'Content'),
+            GestureDetector(
+              child: LineOfAddTrans(
+                text: 'Account ',
+                content: 'Content',
+              ),
+            ),
             const Gap(15),
             LineOfAddTrans(text: 'Category', content: 'Content'),
             const Gap(15),

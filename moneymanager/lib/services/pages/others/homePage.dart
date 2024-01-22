@@ -14,10 +14,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  void signUserOut() {
-    FirebaseAuth.instance.signOut();
-  }
-
   var _currentIndex = 0;
 
   final tabs = [
@@ -29,26 +25,23 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: [
-        IconButton(
-          onPressed: signUserOut,
-          icon: Icon(Icons.logout),
-        )
-      ]),
+      appBar: AppBar(),
       body: tabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         unselectedItemColor: Colors.black,
         fixedColor: Colors.red.shade500,
+        showSelectedLabels: true,
+        showUnselectedLabels: false,
         items: const [
           BottomNavigationBarItem(
               icon: Icon(LineIcons.moneyBill), label: 'Trans'),
           BottomNavigationBarItem(
-              icon: Icon(LineIcons.pieChart), label: 'Stats'),
+              icon: Icon(LineIcons.pieChart), label: 'Stat'),
           BottomNavigationBarItem(
               icon: Icon(LineIcons.piggyBank), label: 'Account'),
           BottomNavigationBarItem(
-              icon: Icon(LineIcons.peopleCarry), label: 'More'),
+              icon: Icon(LineIcons.horizontalEllipsis), label: 'More'),
         ],
         currentIndex: _currentIndex,
         onTap: (index) {
