@@ -4,6 +4,7 @@ import 'package:moneyManager/services/pages/reusable/addTextField.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:gap/gap.dart';
 import 'package:moneyManager/services/pages/reusable/auth/authButton.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   NewTransaction({Key? key}) : super(key: key);
@@ -13,8 +14,22 @@ class NewTransaction extends StatefulWidget {
 }
 
 class _NewTransactionState extends State<NewTransaction> {
+  var format = DateFormat('d/M/yyyy (E)');
+  var _selectedDate = DateTime.now();
   final _amountController = TextEditingController();
   final _noteController = TextEditingController();
+
+  void _pickDate() async {
+    final now = DateTime.now();
+    final first = DateTime(now.year - 3, now.month, now.day);
+    final last = DateTime(now.year + 2, now.month, now.day);
+    final pickedDate = await showDatePicker(
+        context: context, firstDate: first, lastDate: last, initialDate: now);
+    setState(() {
+      _selectedDate = pickedDate!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,9 +38,15 @@ class _NewTransactionState extends State<NewTransaction> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            LineOfAddTrans(text: 'Date      ', content: 'Content'),
+            GestureDetector(
+              onTap: _pickDate,
+              child: LineOfAddTrans(
+                text: 'Date       ',
+                content: format.format(_selectedDate),
+              ),
+            ),
             const Gap(15),
-            LineOfAddTrans(text: 'Account', content: 'Content'),
+            LineOfAddTrans(text: 'Account ', content: 'Content'),
             const Gap(15),
             LineOfAddTrans(text: 'Category', content: 'Content'),
             const Gap(15),

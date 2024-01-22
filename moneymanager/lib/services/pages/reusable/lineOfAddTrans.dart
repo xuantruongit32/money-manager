@@ -18,7 +18,12 @@ class LineOfAddTrans extends StatelessWidget {
               style: TextStyle(fontSize: 16),
             ),
             const Gap(100),
-            Text(content),
+            Text(
+              content,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
         Divider(),
