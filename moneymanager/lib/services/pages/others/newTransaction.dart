@@ -4,8 +4,10 @@ import 'package:moneyManager/services/pages/reusable/addTextField.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:gap/gap.dart';
 import 'package:moneyManager/services/pages/reusable/auth/authButton.dart';
+import 'package:moneyManager/services/pages/reusable/choose.dart';
 import 'package:intl/intl.dart';
 import 'package:moneyManager/services/functions/account_manager.dart';
+import 'package:moneyManager/services/models/account.dart';
 
 class NewTransaction extends StatefulWidget {
   NewTransaction({Key? key}) : super(key: key);
@@ -15,11 +17,13 @@ class NewTransaction extends StatefulWidget {
 }
 
 class _NewTransactionState extends State<NewTransaction> {
+  String selectedAccount =
+      AccountManager.accounts.isNotEmpty ? "" : 'No accounts available';
+
   var format = DateFormat('d/M/yyyy (E)');
   var _selectedDate = DateTime.now();
   final _amountController = TextEditingController();
   final _noteController = TextEditingController();
-  var selectedAccount = AccountManager.accounts[0].name;
 
   void _pickDate() async {
     final now = DateTime.now();
@@ -30,6 +34,20 @@ class _NewTransactionState extends State<NewTransaction> {
     setState(() {
       _selectedDate = pickedDate!;
     });
+  }
+
+  void _showAccountPicker(BuildContext context) async {
+    final selected = await showDialog<Account>(
+      context: context,
+      builder: (BuildContext context) {
+        return Choose(selected: selectedAccount, list: AccountManager.accounts);
+      },
+    );
+    if (selected != null) {
+      setState(() {
+        selectedAccount = selected.name;
+      });
+    }
   }
 
   @override
@@ -49,9 +67,10 @@ class _NewTransactionState extends State<NewTransaction> {
             ),
             const Gap(15),
             GestureDetector(
+              onTap: () => _showAccountPicker(context),
               child: LineOfAddTrans(
                 text: 'Account ',
-                content: 'Content',
+                content: selectedAccount,
               ),
             ),
             const Gap(15),
