@@ -4,7 +4,6 @@ import 'package:moneyManager/services/pages/reusable/addTextField.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:gap/gap.dart';
 import 'package:moneyManager/services/pages/reusable/auth/authButton.dart';
-import 'package:moneyManager/services/pages/reusable/choose.dart';
 import 'package:intl/intl.dart';
 import 'package:moneyManager/services/functions/account_manager.dart';
 import 'package:moneyManager/services/functions/income_category_manager.dart';
@@ -175,28 +174,22 @@ class _NewTransactionState extends State<NewTransaction> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            GestureDetector(
-              onTap: _pickDate,
-              child: LineOfAddTrans(
-                text: 'Date       ',
-                content: format.format(_selectedDate),
-              ),
+            LineOfAddTrans(
+              fun: () => _pickDate(),
+              text: 'Date       ',
+              content: format.format(_selectedDate),
             ),
             const Gap(15),
-            GestureDetector(
-              onTap: () => _showAccountPicker(context),
-              child: LineOfAddTrans(
-                text: 'Account ',
-                content: selectedAccount,
-              ),
+            LineOfAddTrans(
+              fun: () => _showAccountPicker(context),
+              text: 'Account ',
+              content: selectedAccount,
             ),
             const Gap(15),
-            GestureDetector(
-              onTap: () => _showCategoryPicker(context),
-              child: LineOfAddTrans(
-                text: 'Category',
-                content: selectedCategory,
-              ),
+            LineOfAddTrans(
+              fun: () => _showCategoryPicker(context),
+              text: 'Category',
+              content: selectedCategory,
             ),
             const Gap(15),
             AddTextField(
