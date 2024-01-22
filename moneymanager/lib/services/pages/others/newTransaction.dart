@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moneyManager/services/pages/others/newExpense.dart';
 import 'package:moneyManager/services/pages/others/newIncome.dart';
+import 'package:moneyManager/services/pages/others/newTransfer.dart';
 import 'package:gap/gap.dart';
 
 class NewTransaction extends StatefulWidget {
@@ -28,7 +29,9 @@ class _NewTransactionState extends State<NewTransaction> {
             onPressed: () {
               _controller.animateToPage(
                 0,
-                duration: const Duration(seconds: 1),
+                duration: const Duration(
+                  milliseconds: 500,
+                ),
                 curve: Curves.easeInOut,
               );
               setState(() {
@@ -46,7 +49,9 @@ class _NewTransactionState extends State<NewTransaction> {
             onPressed: () {
               _controller.animateToPage(
                 1,
-                duration: const Duration(seconds: 1),
+                duration: const Duration(
+                  milliseconds: 500,
+                ),
                 curve: Curves.easeInOut,
               );
               setState(() {
@@ -62,6 +67,13 @@ class _NewTransactionState extends State<NewTransaction> {
           ),
           TextButton(
             onPressed: () {
+              _controller.animateToPage(
+                2,
+                duration: const Duration(
+                  milliseconds: 500,
+                ),
+                curve: Curves.easeInOut,
+              );
               setState(() {
                 _selectedPage = 2;
               });
@@ -82,6 +94,7 @@ class _NewTransactionState extends State<NewTransaction> {
         children: [
           NewIncome(),
           NewExpense(),
+          NewTransfer(),
         ],
       ),
     );
