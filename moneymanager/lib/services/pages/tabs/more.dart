@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moneyManager/services/pages/reusable/iconButtonText.dart';
+import 'package:moneyManager/services/pages/reusable/customIcon.dart';
 import 'package:gap/gap.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:moneyManager/services/pages/tabs/feedback.dart';
@@ -22,21 +23,19 @@ class More extends StatelessWidget {
               IconButtonText(
                 fun: () {},
                 label: 'Settings',
-                icon: Icon(Icons.settings),
+                icon: CustomIcon(imagePath: 'assets/icon/setting.png'),
               ),
               IconButtonText(
                 fun: () {},
                 label: 'Personal',
-                icon: Icon(
-                  Icons.person,
+                icon: CustomIcon(
+                  imagePath: 'assets/icon/personal.png',
                 ),
               ),
               IconButtonText(
                 fun: () {},
                 label: 'Style',
-                icon: Icon(
-                  Icons.style,
-                ),
+                icon: CustomIcon(imagePath: 'assets/icon/style.png'),
               ),
             ],
           ),
@@ -52,21 +51,19 @@ class More extends StatelessWidget {
                   ),
                 ),
                 label: 'Feedback',
-                icon: Icon(Icons.feedback),
+                icon: CustomIcon(imagePath: 'assets/icon/feedback.png'),
               ),
               IconButtonText(
                 fun: () {},
                 label: 'Help',
-                icon: Icon(Icons.question_mark),
+                icon: CustomIcon(imagePath: 'assets/icon/help.png'),
               ),
               IconButtonText(
                 fun: () {
                   FirebaseAuth.instance.signOut();
                 },
                 label: 'Sign Out',
-                icon: Icon(
-                  Icons.logout,
-                ),
+                icon: CustomIcon(imagePath: 'assets/icon/logout.png'),
               ),
             ],
           )
