@@ -170,7 +170,7 @@ class _NewIncomeState extends State<NewIncome> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(18.0),
         child: Column(
           children: [
             LineOfAddTrans(
@@ -178,13 +178,13 @@ class _NewIncomeState extends State<NewIncome> {
               text: 'Date       ',
               content: format.format(_selectedDate),
             ),
-            const Gap(15),
+            const Gap(13),
             LineOfAddTrans(
               fun: () => _showAccountPicker(context),
               text: 'Account ',
               content: selectedAccount,
             ),
-            const Gap(15),
+            const Gap(13),
             LineOfAddTrans(
               fun: () => _showCategoryPicker(context),
               text: 'Category',

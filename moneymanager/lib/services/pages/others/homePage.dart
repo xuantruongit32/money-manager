@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         unselectedItemColor: Colors.black,
-        fixedColor: Colors.red.shade500,
+        fixedColor: Colors.deepPurple,
         showSelectedLabels: true,
         showUnselectedLabels: false,
         items: const [
