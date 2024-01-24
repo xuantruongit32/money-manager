@@ -8,26 +8,38 @@ import 'package:intl/intl.dart';
 import 'package:moneyManager/services/functions/account_manager.dart';
 import 'package:moneyManager/services/functions/income_category_manager.dart';
 import 'package:moneyManager/services/models/account.dart';
+import 'package:moneyManager/services/models/income.dart';
+import 'package:moneyManager/services/functions/checkData.dart';
 
 class NewIncome extends StatefulWidget {
-  NewIncome({Key? key}) : super(key: key);
+  NewIncome({required this.addTrans, Key? key}) : super(key: key);
 
+  final Function addTrans;
   @override
   _NewIncomeState createState() => _NewIncomeState();
 }
 
 class _NewIncomeState extends State<NewIncome> {
-  String selectedAccount = AccountManager.accounts.isNotEmpty
+  Account selectedAccount = Account.empty();
+  String showAccount = AccountManager.accounts.isNotEmpty
       ? "                     "
       : 'No accounts available';
-  String selectedCategory = IncomeCategoryManager.categories.isNotEmpty
+  String showCategory = IncomeCategoryManager.categories.isNotEmpty
       ? "                   "
       : 'No category available';
+  String selectedCategory = '';
 
   var format = DateFormat('d/M/yyyy (E)');
   var _selectedDate = DateTime.now();
   final _amountController = TextEditingController();
   final _noteController = TextEditingController();
+
+  @override
+  void dispose() {
+    _amountController.dispose();
+    _noteController.dispose();
+    super.dispose();
+  }
 
   void _pickDate() async {
     final now = DateTime.now();
@@ -78,7 +90,7 @@ class _NewIncomeState extends State<NewIncome> {
                             Icons.account_circle,
                             color: Colors.deepPurple,
                           ),
-                          tileColor: selectedAccount == account.name
+                          tileColor: selectedAccount.name == account.name
                               ? Colors.deepPurple.withOpacity(0.2)
                               : null,
                           onTap: () {
@@ -98,8 +110,25 @@ class _NewIncomeState extends State<NewIncome> {
     );
     if (selected != null) {
       setState(() {
-        selectedAccount = selected.name;
+        selectedAccount = selected;
+        showAccount = selected.name;
       });
+    }
+  }
+
+  void submitData() {
+    if (CheckData(
+            amount: _amountController.text,
+            account: selectedAccount,
+            category: selectedCategory)
+        .checkDataTrans()) {
+      Income newIncome = Income(
+          date: _selectedDate,
+          note: _noteController.text,
+          amount: double.parse(_amountController.text),
+          acc: selectedAccount,
+          category: selectedCategory);
+      widget.addTrans(newIncome);
     }
   }
 
@@ -162,6 +191,7 @@ class _NewIncomeState extends State<NewIncome> {
     if (selected != null) {
       setState(() {
         selectedCategory = selected;
+        showCategory = selected;
       });
     }
   }
@@ -182,13 +212,13 @@ class _NewIncomeState extends State<NewIncome> {
             LineOfAddTrans(
               fun: () => _showAccountPicker(context),
               text: 'Account ',
-              content: selectedAccount,
+              content: showAccount,
             ),
             const Gap(13),
             LineOfAddTrans(
               fun: () => _showCategoryPicker(context),
               text: 'Category',
-              content: selectedCategory,
+              content: showCategory,
             ),
             const Gap(15),
             AddTextField(
@@ -203,7 +233,7 @@ class _NewIncomeState extends State<NewIncome> {
                 controller: _noteController,
                 keyNumber: false),
             const Gap(30),
-            AuthButton(buttonText: 'Save', fun: () {})
+            AuthButton(buttonText: 'Save', fun: submitData)
           ],
         ),
       ),

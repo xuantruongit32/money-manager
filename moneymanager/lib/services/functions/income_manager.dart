@@ -6,28 +6,28 @@ class IncomeManager {
   static List<Income> incomes = [
     Income(
       acc: AccountManager.accounts[1],
-      title: 'Hehe',
+      note: 'Hehe',
       amount: 20,
       category: IncomeCategoryManager.categories[1],
       date: DateTime.now(),
     ),
     Income(
       acc: AccountManager.accounts[1],
-      title: 'Hehe',
+      note: 'Hehe',
       amount: 20,
       category: IncomeCategoryManager.categories[1],
       date: DateTime.now(),
     ),
     Income(
       acc: AccountManager.accounts[1],
-      title: 'Hehe',
+      note: 'Hehe',
       amount: 20,
       category: IncomeCategoryManager.categories[1],
       date: DateTime.now(),
     ),
     Income(
       acc: AccountManager.accounts[1],
-      title: 'Hehe',
+      note: 'Hehe',
       amount: 20,
       category: IncomeCategoryManager.categories[1],
       date: DateTime.now(),

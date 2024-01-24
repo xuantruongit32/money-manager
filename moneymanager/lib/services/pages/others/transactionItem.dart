@@ -25,7 +25,7 @@ class TransactionItem extends StatelessWidget {
           const Gap(50),
           Column(
             children: [
-              Text(transaction.title),
+              Text(transaction.note),
               Text(
                 transaction.acc.name,
                 style: TextStyle(color: Colors.black38),

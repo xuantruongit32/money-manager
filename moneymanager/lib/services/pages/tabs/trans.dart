@@ -29,13 +29,24 @@ class _TransState extends State<Trans> {
     ));
   }
 
+  void addTrans(Income income) {
+    setState(() {
+      IncomeManager.incomes.add(income);
+    });
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => NewTransaction()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => NewTransaction(
+                        addTrans: addTrans,
+                      )));
         },
         child: Icon(Icons.add),
       ),
