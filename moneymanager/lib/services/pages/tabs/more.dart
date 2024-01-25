@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:moneyManager/services/pages/reusable/iconButtonText.dart';
 import 'package:moneyManager/services/pages/reusable/customIcon.dart';
 import 'package:gap/gap.dart';
@@ -61,6 +62,8 @@ class More extends StatelessWidget {
               IconButtonText(
                 fun: () {
                   FirebaseAuth.instance.signOut();
+                  GoogleSignIn().signOut();
+                  GoogleSignIn().disconnect();
                 },
                 label: 'Sign Out',
                 icon: CustomIcon(imagePath: 'assets/icon/logout.png'),
