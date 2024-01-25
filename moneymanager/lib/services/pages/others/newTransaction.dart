@@ -106,7 +106,9 @@ class _NewTransactionState extends State<NewTransaction> {
           NewExpense(
             addTrans: widget.addTrans,
           ),
-          NewTransfer(),
+          NewTransfer(
+            addTrans: widget.addTrans,
+          ),
         ],
       ),
     );

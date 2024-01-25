@@ -4,22 +4,28 @@ import 'package:moneyManager/services/pages/reusable/addTextField.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:gap/gap.dart';
 import 'package:moneyManager/services/pages/reusable/auth/authButton.dart';
+import 'package:moneyManager/services/pages/reusable/auth/errorDialog.dart';
 import 'package:intl/intl.dart';
 import 'package:moneyManager/services/functions/account_manager.dart';
 import 'package:moneyManager/services/models/account.dart';
+import 'package:moneyManager/services/models/transaction.dart';
+import 'package:moneyManager/services/functions/checkData.dart';
 
 class NewTransfer extends StatefulWidget {
-  NewTransfer({Key? key}) : super(key: key);
+  NewTransfer({required this.addTrans, Key? key}) : super(key: key);
+  final Function addTrans;
 
   @override
   _NewTransferState createState() => _NewTransferState();
 }
 
 class _NewTransferState extends State<NewTransfer> {
-  String selectedAccount1 = AccountManager.accounts.isNotEmpty
+  Account _selectedAcc1 = Account.empty();
+  String showAccount1 = AccountManager.accounts.isNotEmpty
       ? "                     "
       : 'No accounts available';
-  String selectedAccount2 = AccountManager.accounts.isNotEmpty
+  Account _selectedAcc2 = Account.empty();
+  String showAccount2 = AccountManager.accounts.isNotEmpty
       ? "                     "
       : 'No accounts available';
   var format = DateFormat('d/M/yyyy (E)');
@@ -39,7 +45,7 @@ class _NewTransferState extends State<NewTransfer> {
   }
 
   void _showAccountPicker(BuildContext context, bool check) async {
-    final selectedAccount = check ? selectedAccount1 : selectedAccount2;
+    final selectedAccount = check ? _selectedAcc1 : _selectedAcc2;
     final selected = await showDialog<Account>(
       context: context,
       builder: (BuildContext context) {
@@ -77,7 +83,7 @@ class _NewTransferState extends State<NewTransfer> {
                             Icons.account_circle,
                             color: Colors.deepPurple,
                           ),
-                          tileColor: selectedAccount == account.name
+                          tileColor: selectedAccount.name == account.name
                               ? Colors.deepPurple.withOpacity(0.2)
                               : null,
                           onTap: () {
@@ -98,9 +104,40 @@ class _NewTransferState extends State<NewTransfer> {
     if (selected != null) {
       setState(() {
         check
-            ? selectedAccount1 = selected.name
-            : selectedAccount2 = selected.name;
+            ? (
+                _selectedAcc1 = selected,
+                showAccount1 = selected.name,
+              )
+            : (
+                _selectedAcc2 = selected,
+                showAccount2 = selected.name,
+              );
       });
+    }
+  }
+
+  void submitData() {
+    if (CheckData(
+            amount: _amountController.text,
+            account: _selectedAcc1,
+            category: _selectedAcc2.name)
+        .checkDataTransfer(_selectedAcc2)) {
+      Transaction newTransfer = Transaction(
+          date: _selectedDate,
+          note: _noteController.text,
+          amount: double.parse(_amountController.text),
+          acc: _selectedAcc1,
+          category: _selectedAcc2.name,
+          type: Type.Transfer);
+      newTransfer.acc2 = _selectedAcc2;
+      widget.addTrans(newTransfer);
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => ErrorDialog(
+          errorMessage: 'Failed to save transfer, try again',
+        ),
+      );
     }
   }
 
@@ -120,13 +157,13 @@ class _NewTransferState extends State<NewTransfer> {
             LineOfAddTrans(
               fun: () => _showAccountPicker(context, true),
               text: 'Account 1',
-              content: selectedAccount1,
+              content: showAccount1,
             ),
             const Gap(15),
             LineOfAddTrans(
               fun: () => _showAccountPicker(context, false),
               text: 'Account 2',
-              content: selectedAccount2,
+              content: showAccount2,
             ),
             const Gap(15),
             AddTextField(
@@ -141,7 +178,7 @@ class _NewTransferState extends State<NewTransfer> {
                 controller: _noteController,
                 keyNumber: false),
             const Gap(30),
-            AuthButton(buttonText: 'Save', fun: () {})
+            AuthButton(buttonText: 'Save', fun: submitData)
           ],
         ),
       ),

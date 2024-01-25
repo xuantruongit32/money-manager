@@ -3,7 +3,7 @@ import 'package:moneyManager/services/models/account.dart';
 
 var uuid = const Uuid();
 
-enum Type { Income, Expense }
+enum Type { Income, Expense, Transfer }
 
 class Transaction {
   Transaction(
@@ -20,5 +20,6 @@ class Transaction {
   final String id;
   final String category;
   final Account acc;
+  Account acc2 = Account.empty();
   final Type type;
 }
