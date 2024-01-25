@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:moneyManager/services/models/transaction.dart';
 
 class TransactionItem extends StatelessWidget {
   const TransactionItem({required this.transaction, Key? key})
       : super(key: key);
-  final transaction;
+  final Transaction transaction;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,12 @@ class TransactionItem extends StatelessWidget {
           const Spacer(),
           Text(
             transaction.amount.toString() + '\$',
-            style: TextStyle(color: Colors.blue),
+            style: TextStyle(
+                color: (transaction.type == Type.Income)
+                    ? Colors.blue
+                    : (transaction.type == Type.Expense)
+                        ? Colors.red
+                        : Colors.black54),
           ),
         ]),
       ),

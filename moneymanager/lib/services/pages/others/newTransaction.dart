@@ -5,7 +5,7 @@ import 'package:moneyManager/services/pages/others/newTransfer.dart';
 import 'package:gap/gap.dart';
 
 class NewTransaction extends StatefulWidget {
-  NewTransaction({required this.addTrans,Key? key}) : super(key: key);
+  NewTransaction({required this.addTrans, Key? key}) : super(key: key);
   final Function addTrans;
 
   @override
@@ -100,8 +100,12 @@ class _NewTransactionState extends State<NewTransaction> {
         controller: _controller,
         scrollDirection: Axis.horizontal,
         children: [
-          NewIncome(addTrans: widget.addTrans,),
-          NewExpense(),
+          NewIncome(
+            addTrans: widget.addTrans,
+          ),
+          NewExpense(
+            addTrans: widget.addTrans,
+          ),
           NewTransfer(),
         ],
       ),

@@ -8,26 +8,38 @@ import 'package:intl/intl.dart';
 import 'package:moneyManager/services/functions/account_manager.dart';
 import 'package:moneyManager/services/functions/transaction_category_manager.dart';
 import 'package:moneyManager/services/models/account.dart';
+import 'package:moneyManager/services/models/transaction.dart';
+import 'package:moneyManager/services/functions/checkData.dart';
 
 class NewExpense extends StatefulWidget {
-  NewExpense({Key? key}) : super(key: key);
+  NewExpense({required this.addTrans, Key? key}) : super(key: key);
 
+  final Function addTrans;
   @override
   _NewExpenseState createState() => _NewExpenseState();
 }
 
 class _NewExpenseState extends State<NewExpense> {
-  String selectedAccount = AccountManager.accounts.isNotEmpty
+  Account selectedAccount = Account.empty();
+  String showAccount = AccountManager.accounts.isNotEmpty
       ? "                     "
       : 'No accounts available';
-  String selectedCategory = TransactionCategoryManager.expenseCategories.isNotEmpty
+  String showCategory = TransactionCategoryManager.incomeCategories.isNotEmpty
       ? "                   "
       : 'No category available';
+  String selectedCategory = '';
 
   var format = DateFormat('d/M/yyyy (E)');
   var _selectedDate = DateTime.now();
   final _amountController = TextEditingController();
   final _noteController = TextEditingController();
+
+  @override
+  void dispose() {
+    _amountController.dispose();
+    _noteController.dispose();
+    super.dispose();
+  }
 
   void _pickDate() async {
     final now = DateTime.now();
@@ -78,7 +90,7 @@ class _NewExpenseState extends State<NewExpense> {
                             Icons.account_circle,
                             color: Colors.deepPurple,
                           ),
-                          tileColor: selectedAccount == account.name
+                          tileColor: selectedAccount.name == account.name
                               ? Colors.deepPurple.withOpacity(0.2)
                               : null,
                           onTap: () {
@@ -98,8 +110,26 @@ class _NewExpenseState extends State<NewExpense> {
     );
     if (selected != null) {
       setState(() {
-        selectedAccount = selected.name;
+        selectedAccount = selected;
+        showAccount = selected.name;
       });
+    }
+  }
+
+  void submitData() {
+    if (CheckData(
+            amount: _amountController.text,
+            account: selectedAccount,
+            category: selectedCategory)
+        .checkDataTrans()) {
+      Transaction newExpense = Transaction(
+          date: _selectedDate,
+          note: _noteController.text,
+          amount: double.parse(_amountController.text),
+          acc: selectedAccount,
+          category: selectedCategory,
+          type: Type.Expense);
+      widget.addTrans(newExpense);
     }
   }
 
@@ -162,6 +192,7 @@ class _NewExpenseState extends State<NewExpense> {
     if (selected != null) {
       setState(() {
         selectedCategory = selected;
+        showCategory = selected;
       });
     }
   }
@@ -170,7 +201,7 @@ class _NewExpenseState extends State<NewExpense> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(18.0),
         child: Column(
           children: [
             LineOfAddTrans(
@@ -178,17 +209,17 @@ class _NewExpenseState extends State<NewExpense> {
               text: 'Date       ',
               content: format.format(_selectedDate),
             ),
-            const Gap(15),
+            const Gap(13),
             LineOfAddTrans(
               fun: () => _showAccountPicker(context),
               text: 'Account ',
-              content: selectedAccount,
+              content: showAccount,
             ),
-            const Gap(15),
+            const Gap(13),
             LineOfAddTrans(
               fun: () => _showCategoryPicker(context),
               text: 'Category',
-              content: selectedCategory,
+              content: showCategory,
             ),
             const Gap(15),
             AddTextField(
@@ -203,7 +234,7 @@ class _NewExpenseState extends State<NewExpense> {
                 controller: _noteController,
                 keyNumber: false),
             const Gap(30),
-            AuthButton(buttonText: 'Save', fun: () {})
+            AuthButton(buttonText: 'Save', fun: submitData)
           ],
         ),
       ),
