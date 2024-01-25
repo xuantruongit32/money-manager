@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moneyManager/services/pages/reusable/lineOfAddTrans.dart';
 import 'package:moneyManager/services/pages/reusable/addTextField.dart';
+import 'package:moneyManager/services/pages/reusable/auth/errorDialog.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:gap/gap.dart';
 import 'package:moneyManager/services/pages/reusable/auth/authButton.dart';
@@ -130,6 +131,13 @@ class _NewExpenseState extends State<NewExpense> {
           category: selectedCategory,
           type: Type.Expense);
       widget.addTrans(newExpense);
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => ErrorDialog(
+          errorMessage: 'Failed to save expense, try again',
+        ),
+      );
     }
   }
 
