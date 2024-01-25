@@ -6,9 +6,9 @@ import 'package:gap/gap.dart';
 import 'package:moneyManager/services/pages/reusable/auth/authButton.dart';
 import 'package:intl/intl.dart';
 import 'package:moneyManager/services/functions/account_manager.dart';
-import 'package:moneyManager/services/functions/income_category_manager.dart';
+import 'package:moneyManager/services/functions/transaction_category_manager.dart';
 import 'package:moneyManager/services/models/account.dart';
-import 'package:moneyManager/services/models/income.dart';
+import 'package:moneyManager/services/models/transaction.dart';
 import 'package:moneyManager/services/functions/checkData.dart';
 
 class NewIncome extends StatefulWidget {
@@ -24,7 +24,7 @@ class _NewIncomeState extends State<NewIncome> {
   String showAccount = AccountManager.accounts.isNotEmpty
       ? "                     "
       : 'No accounts available';
-  String showCategory = IncomeCategoryManager.categories.isNotEmpty
+  String showCategory = TransactionCategoryManager.incomeCategories.isNotEmpty
       ? "                   "
       : 'No category available';
   String selectedCategory = '';
@@ -122,12 +122,13 @@ class _NewIncomeState extends State<NewIncome> {
             account: selectedAccount,
             category: selectedCategory)
         .checkDataTrans()) {
-      Income newIncome = Income(
+      Transaction newIncome = Transaction(
           date: _selectedDate,
           note: _noteController.text,
           amount: double.parse(_amountController.text),
           acc: selectedAccount,
-          category: selectedCategory);
+          category: selectedCategory,
+          type: Type.Income);
       widget.addTrans(newIncome);
     }
   }
@@ -151,7 +152,7 @@ class _NewIncomeState extends State<NewIncome> {
             width: double.maxFinite,
             child: ListView(
               shrinkWrap: true,
-              children: IncomeCategoryManager.categories
+              children: TransactionCategoryManager.incomeCategories
                   .map<Widget>((category) => Card(
                         elevation: 2.0,
                         shape: RoundedRectangleBorder(

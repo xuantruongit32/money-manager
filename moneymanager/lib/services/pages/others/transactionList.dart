@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:moneyManager/services/functions/income_manager.dart';
+import 'package:moneyManager/services/functions/transaction_manager.dart';
 import 'package:moneyManager/services/pages/others/transactionItem.dart';
-import 'package:moneyManager/services/models/income.dart';
+import 'package:moneyManager/services/models/transaction.dart';
 
 class TransactionList extends StatefulWidget {
   TransactionList({required this.deleteTransaction, Key? key})
       : super(key: key);
-  final Function(Income income) deleteTransaction;
+  final Function(Transaction tran) deleteTransaction;
 
   @override
   State<TransactionList> createState() => _TransactionListState();
@@ -16,14 +16,14 @@ class _TransactionListState extends State<TransactionList> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: IncomeManager.incomes.length,
+      itemCount: TransactionManager.trans.length,
       itemBuilder: (ctx, index) => Dismissible(
-        key: ValueKey(IncomeManager.incomes[index]),
+        key: ValueKey(TransactionManager.trans[index]),
         child: TransactionItem(
-          transaction: IncomeManager.incomes[index],
+          transaction: TransactionManager.trans[index],
         ),
         onDismissed: (direction) {
-          widget.deleteTransaction(IncomeManager.incomes[index]);
+          widget.deleteTransaction(TransactionManager.trans[index]);
         },
       ),
     );

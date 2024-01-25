@@ -6,7 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:moneyManager/services/pages/reusable/auth/authButton.dart';
 import 'package:intl/intl.dart';
 import 'package:moneyManager/services/functions/account_manager.dart';
-import 'package:moneyManager/services/functions/expense_category_manager.dart';
+import 'package:moneyManager/services/functions/transaction_category_manager.dart';
 import 'package:moneyManager/services/models/account.dart';
 
 class NewExpense extends StatefulWidget {
@@ -20,7 +20,7 @@ class _NewExpenseState extends State<NewExpense> {
   String selectedAccount = AccountManager.accounts.isNotEmpty
       ? "                     "
       : 'No accounts available';
-  String selectedCategory = ExpenseCategoryManager.categories.isNotEmpty
+  String selectedCategory = TransactionCategoryManager.expenseCategories.isNotEmpty
       ? "                   "
       : 'No category available';
 
@@ -122,7 +122,7 @@ class _NewExpenseState extends State<NewExpense> {
             width: double.maxFinite,
             child: ListView(
               shrinkWrap: true,
-              children: ExpenseCategoryManager.categories
+              children: TransactionCategoryManager.expenseCategories
                   .map<Widget>((category) => Card(
                         elevation: 2.0,
                         shape: RoundedRectangleBorder(

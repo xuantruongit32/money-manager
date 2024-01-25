@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:moneyManager/services/models/income.dart';
-import 'package:moneyManager/services/functions/income_manager.dart';
+import 'package:moneyManager/services/models/transaction.dart';
+import 'package:moneyManager/services/functions/transaction_manager.dart';
 import 'package:moneyManager/services/pages/others/newTransaction.dart';
 import 'package:moneyManager/services/pages/others/transactionList.dart';
 
@@ -12,10 +12,10 @@ class Trans extends StatefulWidget {
 }
 
 class _TransState extends State<Trans> {
-  void _deleteTransaction(Income income) {
-    final transactionIndex = IncomeManager.incomes.indexOf(income);
+  void _deleteTransaction(Transaction tran) {
+    final transactionIndex = TransactionManager.trans.indexOf(tran);
     setState(() {
-      IncomeManager.removeIncome(income);
+      TransactionManager.trans.remove(tran);
     });
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text('Transaction Deleted'),
@@ -23,15 +23,15 @@ class _TransState extends State<Trans> {
           label: 'Undo',
           onPressed: () {
             setState(() {
-              IncomeManager.incomes.insert(transactionIndex, income);
+              TransactionManager.trans.insert(transactionIndex, tran);
             });
           }),
     ));
   }
 
-  void addTrans(Income income) {
+  void addTrans(Transaction tran) {
     setState(() {
-      IncomeManager.incomes.add(income);
+      TransactionManager.trans.add(tran);
     });
     Navigator.pop(context);
   }

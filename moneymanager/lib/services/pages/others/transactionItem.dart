@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:moneyManager/services/models/expense.dart';
-import 'package:moneyManager/services/models/income.dart';
-import 'package:moneyManager/services/models/transfer.dart';
 import 'package:gap/gap.dart';
 
 class TransactionItem extends StatelessWidget {
