@@ -10,7 +10,7 @@ class SentEmail {
   final subject;
   void sendEmail(BuildContext context) async {
     final mailer = Mailer(
-        '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');
+        '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');
     final content = Content('text/plain', controller.text);
     final toAddress = Address('21010646@st.phenikaa-uni.edu.vn');
     final fromAddress = Address('xuantruongit32@gmail.com');

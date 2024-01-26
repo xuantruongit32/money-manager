@@ -14,8 +14,10 @@ class Trans extends StatefulWidget {
 class _TransState extends State<Trans> {
   void _deleteTransaction(Transaction tran) {
     final transactionIndex = TransactionManager.trans.indexOf(tran);
+    final todayTransactionIndex = TransactionManager.todayTrans.indexOf(tran);
     setState(() {
       TransactionManager.trans.remove(tran);
+      TransactionManager.todayTrans.remove(tran);
     });
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text('Transaction Deleted'),
@@ -24,14 +26,18 @@ class _TransState extends State<Trans> {
           onPressed: () {
             setState(() {
               TransactionManager.trans.insert(transactionIndex, tran);
+              TransactionManager.todayTrans.insert(todayTransactionIndex, tran);
             });
           }),
     ));
   }
 
+  var tranList = TransactionManager().getTransactionsForToday;
+
   void addTrans(Transaction tran) {
     setState(() {
       TransactionManager.trans.add(tran);
+      TransactionManager.todayTrans.add(tran);
     });
     Navigator.pop(context);
   }

@@ -14,16 +14,21 @@ class TransactionList extends StatefulWidget {
 
 class _TransactionListState extends State<TransactionList> {
   @override
+  void initState() {
+    TransactionManager().getTransactionsForToday();
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: TransactionManager.trans.length,
+      itemCount: TransactionManager.todayTrans.length,
       itemBuilder: (ctx, index) => Dismissible(
-        key: ValueKey(TransactionManager.trans[index]),
+        key: ValueKey(TransactionManager.todayTrans[index]),
         child: TransactionItem(
-          transaction: TransactionManager.trans[index],
+          transaction: TransactionManager.todayTrans[index],
         ),
         onDismissed: (direction) {
-          widget.deleteTransaction(TransactionManager.trans[index]);
+          widget.deleteTransaction(TransactionManager.todayTrans[index]);
         },
       ),
     );
