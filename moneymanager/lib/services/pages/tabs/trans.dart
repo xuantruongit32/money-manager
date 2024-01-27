@@ -13,6 +13,21 @@ class Trans extends StatefulWidget {
 }
 
 class _TransState extends State<Trans> {
+  var _selectedPage = 0;
+  final _controller = PageController(initialPage: 0);
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _onPageChange(int page) {
+    setState(() {
+      _selectedPage = page;
+    });
+  }
+
   var _selectedDate = DateTime.now();
   @override
   void initState() {
@@ -86,19 +101,41 @@ class _TransState extends State<Trans> {
             ),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              _controller.animateTo(0,
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.easeInOut);
+            },
             child: Text('Daily'),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              _controller.animateTo(
+                1,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+              );
+            },
             child: Text('Monthly'),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              _controller.animateTo(
+                2,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+              );
+            },
             child: Text('Yearly'),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              _controller.animateTo(
+                3,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+              );
+            },
             child: Text('Total'),
           ),
         ],
@@ -114,12 +151,37 @@ class _TransState extends State<Trans> {
         },
         child: Icon(Icons.add),
       ),
-      body: TransactionManager.todayTrans.length == 0
-          ? Center(child: Text('No transaction found'))
-          : TransactionList(
-              transList: TransactionManager.todayTrans,
-              deleteTransaction: _deleteTransaction,
-            ),
+      body: PageView(
+        onPageChanged: _onPageChange,
+        controller: _controller,
+        scrollDirection: Axis.horizontal,
+        children: [
+          TransactionManager.todayTrans.length == 0
+              ? Center(child: Text('No transaction found'))
+              : TransactionList(
+                  transList: TransactionManager.todayTrans,
+                  deleteTransaction: _deleteTransaction,
+                ),
+          TransactionManager.monthlyTrans.length == 0
+              ? Center(child: Text('No transaction found'))
+              : TransactionList(
+                  transList: TransactionManager.monthlyTrans,
+                  deleteTransaction: _deleteTransaction,
+                ),
+          TransactionManager.yearlyTrans.length == 0
+              ? Center(child: Text('No transaction found'))
+              : TransactionList(
+                  transList: TransactionManager.yearlyTrans,
+                  deleteTransaction: _deleteTransaction,
+                ),
+          TransactionManager.trans.length == 0
+              ? Center(child: Text('No transaction found'))
+              : TransactionList(
+                  transList: TransactionManager.trans,
+                  deleteTransaction: _deleteTransaction,
+                ),
+        ],
+      ),
     );
   }
 }

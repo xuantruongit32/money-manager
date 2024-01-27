@@ -71,17 +71,25 @@ class TransactionManager {
     Map<DateTime, List<Transaction>> groupedTransactions =
         groupTransactionsByDate();
 
-    int daysInMonth = DateTime(startDate.year, startDate.month + 1, 0).day;
-    DateTime endDate = startDate.add(Duration(days: daysInMonth - 1));
+    int currentMonth = startDate.month;
+    int currentYear = startDate.year;
+    DateTime startDateOfMonth = DateTime(currentYear, currentMonth, 1);
+    DateTime endDateOfMonth =
+        DateTime(currentYear, currentMonth + 1, 1).subtract(
+      Duration(days: 1),
+    );
 
     List<Transaction> monthlyTransactions = [];
 
-    for (int i = startDate.day; i <= endDate.day; i++) {
-      DateTime dateOnly = DateTime(startDate.year, startDate.month, i);
+    for (DateTime date = startDateOfMonth;
+        date.isBefore(endDateOfMonth) || date.isAtSameMomentAs(endDateOfMonth);
+        date = date.add(Duration(days: 1))) {
+      DateTime dateOnly = DateTime(date.year, date.month, date.day);
       if (groupedTransactions.containsKey(dateOnly)) {
         monthlyTransactions.addAll(groupedTransactions[dateOnly]!);
       }
     }
+
     monthlyTrans = monthlyTransactions;
   }
 
