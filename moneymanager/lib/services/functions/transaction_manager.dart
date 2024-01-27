@@ -37,14 +37,78 @@ class TransactionManager {
     return groupedTransactions;
   }
 
-  void getTransactionsForToday() {
+  void getTransactionsDaily(DateTime daily) {
     Map<DateTime, List<Transaction>> groupedTransactions =
         groupTransactionsByDate();
-    DateTime today = DateTime.now();
-    DateTime todayDateOnly = DateTime(today.year, today.month, today.day);
-    todayTrans = groupedTransactions[todayDateOnly] ?? [];
+    DateTime dateOnly = DateTime(daily.year, daily.month, daily.day);
+    todayTrans = groupedTransactions[dateOnly] ?? [];
+  }
 
+  void getTransactionsWeekly(DateTime startDate) {
+    Map<DateTime, List<Transaction>> groupedTransactions =
+        groupTransactionsByDate();
+
+    DateTime currentDate = startDate;
+    DateTime endDate = startDate.add(Duration(days: 6));
+
+    List<Transaction> weeklyTransactions = [];
+
+    while (currentDate.isBefore(endDate) ||
+        currentDate.isAtSameMomentAs(endDate)) {
+      DateTime dateOnly =
+          DateTime(currentDate.year, currentDate.month, currentDate.day);
+      if (groupedTransactions.containsKey(dateOnly)) {
+        weeklyTransactions.addAll(groupedTransactions[dateOnly]!);
+      }
+
+      currentDate = currentDate.add(Duration(days: 1));
+    }
+
+    weeklyTrans = weeklyTransactions;
+  }
+
+  void getTransactionsMonthly(DateTime startDate) {
+    Map<DateTime, List<Transaction>> groupedTransactions =
+        groupTransactionsByDate();
+
+    int daysInMonth = DateTime(startDate.year, startDate.month + 1, 0).day;
+    DateTime endDate = startDate.add(Duration(days: daysInMonth - 1));
+
+    List<Transaction> monthlyTransactions = [];
+
+    for (int i = startDate.day; i <= endDate.day; i++) {
+      DateTime dateOnly = DateTime(startDate.year, startDate.month, i);
+      if (groupedTransactions.containsKey(dateOnly)) {
+        monthlyTransactions.addAll(groupedTransactions[dateOnly]!);
+      }
+    }
+    monthlyTrans = monthlyTransactions;
+  }
+
+  void getTransactionsYearly(DateTime startDate) {
+    Map<DateTime, List<Transaction>> groupedTransactions =
+        groupTransactionsByDate();
+
+    int currentYear = startDate.year;
+    DateTime startDateOfYear = DateTime(currentYear, 1, 1);
+    DateTime endDateOfYear = DateTime(currentYear, 12, 31);
+
+    List<Transaction> yearlyTransactions = [];
+
+    for (DateTime date = startDateOfYear;
+        date.isBefore(endDateOfYear) || date.isAtSameMomentAs(endDateOfYear);
+        date = date.add(Duration(days: 1))) {
+      DateTime dateOnly = DateTime(date.year, date.month, date.day);
+      if (groupedTransactions.containsKey(dateOnly)) {
+        yearlyTransactions.addAll(groupedTransactions[dateOnly]!);
+      }
+    }
+
+    yearlyTrans = yearlyTransactions;
   }
 
   static List<Transaction> todayTrans = [];
+  static List<Transaction> weeklyTrans = [];
+  static List<Transaction> monthlyTrans = [];
+  static List<Transaction> yearlyTrans = [];
 }

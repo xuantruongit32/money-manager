@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:moneyManager/services/functions/transaction_manager.dart';
 import 'package:moneyManager/services/pages/others/transactionItem.dart';
 import 'package:moneyManager/services/models/transaction.dart';
 
 class TransactionList extends StatefulWidget {
-  TransactionList({required this.transList,required this.deleteTransaction, Key? key})
+  TransactionList(
+      {required this.transList, required this.deleteTransaction, Key? key})
       : super(key: key);
   final Function(Transaction tran) deleteTransaction;
   final transList;
@@ -15,11 +15,6 @@ class TransactionList extends StatefulWidget {
 
 class _TransactionListState extends State<TransactionList> {
   @override
-  void initState() {
-    TransactionManager().getTransactionsForToday();
-    super.initState();
-  }
-
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: widget.transList.length,

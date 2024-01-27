@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:moneyManager/services/models/transaction.dart';
-import 'package:moneyManager/services/functions/transaction_manager.dart';
 import 'package:moneyManager/services/pages/others/newTransaction.dart';
 import 'package:moneyManager/services/pages/others/transactionList.dart';
+import 'package:moneyManager/services/functions/transaction_manager.dart';
 
 class Trans extends StatefulWidget {
   const Trans({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class Trans extends StatefulWidget {
 class _TransState extends State<Trans> {
   @override
   void initState() {
-    TransactionManager().getTransactionsForToday();
+    TransactionManager().getTransactionsDaily(DateTime.now());
     super.initState();
   }
 
@@ -38,13 +38,11 @@ class _TransState extends State<Trans> {
     ));
   }
 
-  var tranList = TransactionManager().getTransactionsForToday;
 
   void addTrans(Transaction tran) {
     setState(() {
       TransactionManager.trans.add(tran);
-      TransactionManager().getTransactionsForToday();
-      //     TransactionManager.todayTrans.add(tran);
+      TransactionManager().getTransactionsDaily(DateTime.now());
     });
     Navigator.pop(context);
   }
