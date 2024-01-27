@@ -12,6 +12,12 @@ class Trans extends StatefulWidget {
 }
 
 class _TransState extends State<Trans> {
+  @override
+  void initState() {
+    TransactionManager().getTransactionsForToday();
+    super.initState();
+  }
+
   void _deleteTransaction(Transaction tran) {
     final transactionIndex = TransactionManager.trans.indexOf(tran);
     final todayTransactionIndex = TransactionManager.todayTrans.indexOf(tran);
@@ -37,7 +43,8 @@ class _TransState extends State<Trans> {
   void addTrans(Transaction tran) {
     setState(() {
       TransactionManager.trans.add(tran);
-      TransactionManager.todayTrans.add(tran);
+      TransactionManager().getTransactionsForToday();
+      //     TransactionManager.todayTrans.add(tran);
     });
     Navigator.pop(context);
   }
@@ -57,6 +64,7 @@ class _TransState extends State<Trans> {
         child: Icon(Icons.add),
       ),
       body: TransactionList(
+        transList: TransactionManager.todayTrans,
         deleteTransaction: _deleteTransaction,
       ),
     );

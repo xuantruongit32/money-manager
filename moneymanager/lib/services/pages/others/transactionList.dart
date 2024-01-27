@@ -4,9 +4,10 @@ import 'package:moneyManager/services/pages/others/transactionItem.dart';
 import 'package:moneyManager/services/models/transaction.dart';
 
 class TransactionList extends StatefulWidget {
-  TransactionList({required this.deleteTransaction, Key? key})
+  TransactionList({required this.transList,required this.deleteTransaction, Key? key})
       : super(key: key);
   final Function(Transaction tran) deleteTransaction;
+  final transList;
 
   @override
   State<TransactionList> createState() => _TransactionListState();
@@ -21,14 +22,14 @@ class _TransactionListState extends State<TransactionList> {
 
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: TransactionManager.todayTrans.length,
+      itemCount: widget.transList.length,
       itemBuilder: (ctx, index) => Dismissible(
-        key: ValueKey(TransactionManager.todayTrans[index]),
+        key: ValueKey(widget.transList[index]),
         child: TransactionItem(
-          transaction: TransactionManager.todayTrans[index],
+          transaction: widget.transList[index],
         ),
         onDismissed: (direction) {
-          widget.deleteTransaction(TransactionManager.todayTrans[index]);
+          widget.deleteTransaction(widget.transList[index]);
         },
       ),
     );
