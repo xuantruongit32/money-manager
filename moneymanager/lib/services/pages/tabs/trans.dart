@@ -32,6 +32,8 @@ class _TransState extends State<Trans> {
   @override
   void initState() {
     TransactionManager().getTransactionsDaily(_selectedDate);
+    TransactionManager().getTransactionsMonthly(_selectedDate);
+    TransactionManager().getTransactionsYearly(_selectedDate);
     super.initState();
   }
 
@@ -43,11 +45,12 @@ class _TransState extends State<Trans> {
     setState(() {
       TransactionManager.trans.remove(tran);
       TransactionManager.todayTrans.remove(tran);
-      TransactionManager.weeklyTrans.remove(tran);
+      TransactionManager.monthlyTrans.remove(tran);
       TransactionManager.yearlyTrans.remove(tran);
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        duration: Duration(seconds: 2),
         content: Text('Transaction Deleted'),
         action: SnackBarAction(
             label: 'Undo',
@@ -78,7 +81,7 @@ class _TransState extends State<Trans> {
 
   @override
   Widget build(BuildContext context) {
-    var format = DateFormat('d/M/yyyy (E)');
+    var format = DateFormat('d/M/yyyy');
     void _pickDate() async {
       final now = DateTime.now();
       final first = DateTime(now.year - 3, now.month, now.day);
@@ -88,56 +91,91 @@ class _TransState extends State<Trans> {
       setState(() {
         _selectedDate = pickedDate!;
         TransactionManager().getTransactionsDaily(_selectedDate);
+        TransactionManager().getTransactionsMonthly(_selectedDate);
+        TransactionManager().getTransactionsYearly(_selectedDate);
       });
     }
 
     return Scaffold(
       appBar: AppBar(
         actions: [
-          TextButton(
-            onPressed: () => _pickDate(),
-            child: Text(
-              format.format(_selectedDate),
+          Padding(
+            padding: const EdgeInsets.only(right: 18.0),
+            child: TextButton(
+              onPressed: () => _pickDate(),
+              child: Text(
+                format.format(_selectedDate),
+              ),
             ),
           ),
           TextButton(
             onPressed: () {
-              _controller.animateTo(0,
-                  duration: Duration(milliseconds: 500),
-                  curve: Curves.easeInOut);
+              _controller.animateToPage(
+                0,
+                duration: Duration(
+                  milliseconds: 500,
+                ),
+                curve: Curves.easeInOut,
+              );
             },
-            child: Text('Daily'),
+            child: Text(
+              'Daily',
+              style: TextStyle(
+                color: _selectedPage == 0 ? Colors.black : Colors.deepPurple,
+              ),
+            ),
           ),
           TextButton(
             onPressed: () {
-              _controller.animateTo(
+              _controller.animateToPage(
                 1,
-                duration: Duration(milliseconds: 500),
+                duration: Duration(
+                  milliseconds: 500,
+                ),
                 curve: Curves.easeInOut,
               );
             },
-            child: Text('Monthly'),
+            child: Text(
+              'Monthly',
+              style: TextStyle(
+                color: _selectedPage == 1 ? Colors.black : Colors.deepPurple,
+              ),
+            ),
           ),
           TextButton(
             onPressed: () {
-              _controller.animateTo(
+              _controller.animateToPage(
                 2,
-                duration: Duration(milliseconds: 500),
+                duration: Duration(
+                  milliseconds: 500,
+                ),
                 curve: Curves.easeInOut,
               );
             },
-            child: Text('Yearly'),
+            child: Text(
+              'Yearly',
+              style: TextStyle(
+                color: _selectedPage == 2 ? Colors.black : Colors.deepPurple,
+              ),
+            ),
           ),
           TextButton(
             onPressed: () {
-              _controller.animateTo(
+              _controller.animateToPage(
                 3,
-                duration: Duration(milliseconds: 500),
+                duration: Duration(
+                  milliseconds: 500,
+                ),
                 curve: Curves.easeInOut,
               );
             },
-            child: Text('Total'),
-          ),
+            child: Text(
+              'Total',
+              style: TextStyle(
+                color: _selectedPage == 3 ? Colors.black : Colors.deepPurple,
+              ),
+            ),
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(
