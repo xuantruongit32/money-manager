@@ -23,9 +23,13 @@ class _TransState extends State<Trans> {
   void _deleteTransaction(Transaction tran) {
     final transactionIndex = TransactionManager.trans.indexOf(tran);
     final todayTransactionIndex = TransactionManager.todayTrans.indexOf(tran);
+    final monthTransactionIndex = TransactionManager.monthlyTrans.indexOf(tran);
+    final yearlyTransactionIndex = TransactionManager.yearlyTrans.indexOf(tran);
     setState(() {
       TransactionManager.trans.remove(tran);
       TransactionManager.todayTrans.remove(tran);
+      TransactionManager.weeklyTrans.remove(tran);
+      TransactionManager.yearlyTrans.remove(tran);
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -37,6 +41,10 @@ class _TransState extends State<Trans> {
                 TransactionManager.trans.insert(transactionIndex, tran);
                 TransactionManager.todayTrans
                     .insert(todayTransactionIndex, tran);
+                TransactionManager.monthlyTrans
+                    .insert(monthTransactionIndex, tran);
+                TransactionManager.yearlyTrans
+                    .insert(yearlyTransactionIndex, tran);
               });
             }),
       ),
@@ -47,6 +55,8 @@ class _TransState extends State<Trans> {
     setState(() {
       TransactionManager.trans.add(tran);
       TransactionManager().getTransactionsDaily(_selectedDate);
+      TransactionManager().getTransactionsMonthly(_selectedDate);
+      TransactionManager().getTransactionsYearly(_selectedDate);
     });
     Navigator.pop(context);
   }
@@ -74,6 +84,22 @@ class _TransState extends State<Trans> {
             child: Text(
               format.format(_selectedDate),
             ),
+          ),
+          TextButton(
+            onPressed: () {},
+            child: Text('Daily'),
+          ),
+          TextButton(
+            onPressed: () {},
+            child: Text('Monthly'),
+          ),
+          TextButton(
+            onPressed: () {},
+            child: Text('Yearly'),
+          ),
+          TextButton(
+            onPressed: () {},
+            child: Text('Total'),
           ),
         ],
       ),
