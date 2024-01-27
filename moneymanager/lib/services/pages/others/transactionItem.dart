@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 import 'package:moneyManager/services/models/transaction.dart';
 
 class TransactionItem extends StatelessWidget {
-  const TransactionItem({required this.transaction, Key? key})
-      : super(key: key);
+  TransactionItem({required this.transaction, Key? key}) : super(key: key);
   final Transaction transaction;
+  final format = DateFormat('d/M/yy');
 
   @override
   Widget build(BuildContext context) {
@@ -18,19 +19,26 @@ class TransactionItem extends StatelessWidget {
         child: Row(children: [
           Container(
             width: MediaQuery.of(context).size.width / 4,
-            child: Text(
-              transaction.category,
-              style: TextStyle(color: Colors.black38),
+            child: Column(
+              children: [
+                Text(
+                  format.format(transaction.date),
+                ),
+                Text(
+                  transaction.category,
+                  style: TextStyle(color: Colors.black38),
+                ),
+              ],
             ),
           ),
-          const Gap(50),
+          const Gap(70),
           Column(
             children: [
-              Text(transaction.note),
               Text(
                 transaction.acc.name,
                 style: TextStyle(color: Colors.black38),
               ),
+              Text(transaction.note),
             ],
           ),
           const Spacer(),
