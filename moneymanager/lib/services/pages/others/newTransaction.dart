@@ -48,7 +48,7 @@ class _NewTransactionState extends State<NewTransaction> {
             child: Text(
               'Income',
               style: TextStyle(
-                color: _selectedPage == 0 ? Colors.deepPurple : Colors.black,
+                color: _selectedPage == 0 ? Colors.black : Colors.deepPurple,
               ),
             ),
           ),
@@ -68,7 +68,7 @@ class _NewTransactionState extends State<NewTransaction> {
             child: Text(
               'Expense',
               style: TextStyle(
-                color: _selectedPage == 1 ? Colors.deepPurple : Colors.black,
+                color: _selectedPage == 1 ? Colors.black : Colors.deepPurple,
               ),
             ),
           ),
@@ -88,7 +88,7 @@ class _NewTransactionState extends State<NewTransaction> {
             child: Text(
               'Transfer',
               style: TextStyle(
-                color: _selectedPage == 2 ? Colors.deepPurple : Colors.black,
+                color: _selectedPage == 2 ? Colors.black : Colors.deepPurple,
               ),
             ),
           ),
