@@ -115,6 +115,56 @@ class TransactionManager {
     yearlyTrans = yearlyTransactions;
   }
 
+  double getIncomeMonthlyCategory(String category) {
+    double totalIncome = 0;
+
+    for (Transaction transaction in monthlyTrans) {
+      if (transaction.type == Type.Income && transaction.category == category) {
+        totalIncome += transaction.amount;
+      }
+    }
+
+    return totalIncome;
+  }
+
+  double getExpenseMonthlyCategory(String category) {
+    double totalExpense = 0;
+
+    for (Transaction transaction in monthlyTrans) {
+      if (transaction.type == Type.Expense &&
+          transaction.category == category) {
+        totalExpense += transaction.amount;
+      }
+    }
+
+    return totalExpense;
+  }
+
+  double getIncomeYearlyCategory(String category) {
+    double totalIncome = 0;
+
+    for (Transaction transaction in yearlyTrans) {
+      if (transaction.type == Type.Income && transaction.category == category) {
+        totalIncome += transaction.amount;
+      }
+    }
+
+    return totalIncome;
+  }
+
+  double getExpenseYearlyCategory(String category) {
+    double totalExpense = 0;
+
+    for (Transaction transaction in yearlyTrans) {
+      if (transaction.type == Type.Expense &&
+          transaction.category == category) {
+        totalExpense += transaction.amount;
+      }
+    }
+
+    return totalExpense;
+  }
+
   static List<Transaction> todayTrans = [];
   static List<Transaction> weeklyTrans = [];
   static List<Transaction> monthlyTrans = [];
