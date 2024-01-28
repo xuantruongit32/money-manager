@@ -15,7 +15,9 @@ class ExpenseChart extends StatelessWidget {
       for (String category in TransactionCategoryManager.expenseCategories)
         category: time == 'Monthly'
             ? TransactionManager().getExpenseMonthlyCategory(date, category)
-            : TransactionManager().getExpenseYearlyCategory(date, category),
+            : time == 'Yearly'
+                ? TransactionManager().getExpenseYearlyCategory(date, category)
+                : TransactionManager().getExpenseWeeklyCategory(date, category),
     };
     return Chart(
       dataMap: dataMap,

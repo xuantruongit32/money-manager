@@ -15,7 +15,9 @@ class IncomeChart extends StatelessWidget {
       for (String category in TransactionCategoryManager.incomeCategories)
         category: time == 'Monthly'
             ? TransactionManager().getIncomeMonthlyCategory(date, category)
-            : TransactionManager().getIncomeYearlyCategory(date,category),
+            : time == 'Yearly'
+                ? TransactionManager().getIncomeYearlyCategory(date, category)
+                : TransactionManager().getIncomeWeeklyCategory(date, category),
     };
     return Chart(
       dataMap: dataMap,

@@ -12,7 +12,7 @@ class Stats extends StatefulWidget {
 }
 
 class _StatsState extends State<Stats> {
-  String _selectedTime = 'Monthly';
+  String _selectedTime = 'Weekly';
   var format = DateFormat('d/M/yyyy (E)');
   var _selectedDate = DateTime.now();
   final _controller = PageController();
@@ -81,7 +81,7 @@ class _StatsState extends State<Stats> {
                 ),
               ),
               DropdownButton(
-                items: ['Monthly', 'Yearly', 'Period']
+                items: ['Weekly', 'Monthly', 'Yearly']
                     .map(
                       (e) => DropdownMenuItem(
                         child: Text(e),

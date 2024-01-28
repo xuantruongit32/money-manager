@@ -48,8 +48,9 @@ class TransactionManager {
     Map<DateTime, List<Transaction>> groupedTransactions =
         groupTransactionsByDate();
 
-    DateTime currentDate = startDate;
-    DateTime endDate = startDate.add(Duration(days: 6));
+    DateTime currentDate =
+        startDate.subtract(Duration(days: startDate.weekday - 1));
+    DateTime endDate = currentDate.add(Duration(days: 6));
 
     List<Transaction> weeklyTransactions = [];
 
@@ -159,6 +160,54 @@ class TransactionManager {
       }
     }
     return monthlyTransactions;
+  }
+
+  List<Transaction> getTransactionsWeeklyForStats(DateTime startDate) {
+    Map<DateTime, List<Transaction>> groupedTransactions =
+        groupTransactionsByDate();
+
+    DateTime currentDate =
+        startDate.subtract(Duration(days: startDate.weekday - 1));
+    DateTime endDate = currentDate.add(Duration(days: 6));
+
+    List<Transaction> weeklyTransactions = [];
+
+    while (currentDate.isBefore(endDate) ||
+        currentDate.isAtSameMomentAs(endDate)) {
+      DateTime dateOnly =
+          DateTime(currentDate.year, currentDate.month, currentDate.day);
+      if (groupedTransactions.containsKey(dateOnly)) {
+        weeklyTransactions.addAll(groupedTransactions[dateOnly]!);
+      }
+
+      currentDate = currentDate.add(Duration(days: 1));
+    }
+    return weeklyTransactions;
+  }
+
+  double getIncomeWeeklyCategory(DateTime startDate, String category) {
+    double totalIncome = 0;
+
+    for (Transaction transaction in getTransactionsWeeklyForStats(startDate)) {
+      if (transaction.type == Type.Income && transaction.category == category) {
+        totalIncome += transaction.amount;
+      }
+    }
+
+    return totalIncome;
+  }
+
+  double getExpenseWeeklyCategory(DateTime startDate, String category) {
+    double totalExpense = 0;
+
+    for (Transaction transaction in getTransactionsWeeklyForStats(startDate)) {
+      if (transaction.type == Type.Expense &&
+          transaction.category == category) {
+        totalExpense += transaction.amount;
+      }
+    }
+
+    return totalExpense;
   }
 
   double getIncomeMonthlyCategory(DateTime startDate, String category) {
