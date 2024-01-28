@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
-import 'package:moneyManager/services/functions/transaction_manager.dart';
 import 'package:moneyManager/services/pages/others/expense_chart.dart';
 import 'package:moneyManager/services/pages/others/income_chart.dart';
 
@@ -106,8 +105,14 @@ class _StatsState extends State<Stats> {
         controller: _controller,
         onPageChanged: _onPageChanged,
         children: [
-          IncomeChart(fun: TransactionManager().getIncomeMonthlyCategory),
-          ExpenseChart(fun: TransactionManager().getExpenseMonthlyCategory),
+          IncomeChart(
+            time: _selectedTime,
+            date: _selectedDate,
+          ),
+          ExpenseChart(
+            date: _selectedDate,
+            time: _selectedTime,
+          ),
         ],
       ),
     );

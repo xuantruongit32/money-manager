@@ -115,10 +115,56 @@ class TransactionManager {
     yearlyTrans = yearlyTransactions;
   }
 
-  double getIncomeMonthlyCategory(String category) {
+  List<Transaction> getTransactionsYearlyForStats(DateTime startDate) {
+    Map<DateTime, List<Transaction>> groupedTransactions =
+        groupTransactionsByDate();
+
+    int currentYear = startDate.year;
+    DateTime startDateOfYear = DateTime(currentYear, 1, 1);
+    DateTime endDateOfYear = DateTime(currentYear, 12, 31);
+
+    List<Transaction> yearlyTransactions = [];
+
+    for (DateTime date = startDateOfYear;
+        date.isBefore(endDateOfYear) || date.isAtSameMomentAs(endDateOfYear);
+        date = date.add(Duration(days: 1))) {
+      DateTime dateOnly = DateTime(date.year, date.month, date.day);
+      if (groupedTransactions.containsKey(dateOnly)) {
+        yearlyTransactions.addAll(groupedTransactions[dateOnly]!);
+      }
+    }
+    return yearlyTransactions;
+  }
+
+  List<Transaction> getTransactionsMonthlyForStats(DateTime startDate) {
+    Map<DateTime, List<Transaction>> groupedTransactions =
+        groupTransactionsByDate();
+
+    int currentMonth = startDate.month;
+    int currentYear = startDate.year;
+    DateTime startDateOfMonth = DateTime(currentYear, currentMonth, 1);
+    DateTime endDateOfMonth =
+        DateTime(currentYear, currentMonth + 1, 1).subtract(
+      Duration(days: 1),
+    );
+
+    List<Transaction> monthlyTransactions = [];
+
+    for (DateTime date = startDateOfMonth;
+        date.isBefore(endDateOfMonth) || date.isAtSameMomentAs(endDateOfMonth);
+        date = date.add(Duration(days: 1))) {
+      DateTime dateOnly = DateTime(date.year, date.month, date.day);
+      if (groupedTransactions.containsKey(dateOnly)) {
+        monthlyTransactions.addAll(groupedTransactions[dateOnly]!);
+      }
+    }
+    return monthlyTransactions;
+  }
+
+  double getIncomeMonthlyCategory(DateTime startDate, String category) {
     double totalIncome = 0;
 
-    for (Transaction transaction in monthlyTrans) {
+    for (Transaction transaction in getTransactionsMonthlyForStats(startDate)) {
       if (transaction.type == Type.Income && transaction.category == category) {
         totalIncome += transaction.amount;
       }
@@ -127,10 +173,10 @@ class TransactionManager {
     return totalIncome;
   }
 
-  double getExpenseMonthlyCategory(String category) {
+  double getExpenseMonthlyCategory(DateTime startDate, String category) {
     double totalExpense = 0;
 
-    for (Transaction transaction in monthlyTrans) {
+    for (Transaction transaction in getTransactionsMonthlyForStats(startDate)) {
       if (transaction.type == Type.Expense &&
           transaction.category == category) {
         totalExpense += transaction.amount;
@@ -140,10 +186,10 @@ class TransactionManager {
     return totalExpense;
   }
 
-  double getIncomeYearlyCategory(String category) {
+  double getIncomeYearlyCategory(DateTime startDate, String category) {
     double totalIncome = 0;
 
-    for (Transaction transaction in yearlyTrans) {
+    for (Transaction transaction in getTransactionsYearlyForStats(startDate)) {
       if (transaction.type == Type.Income && transaction.category == category) {
         totalIncome += transaction.amount;
       }
@@ -152,10 +198,10 @@ class TransactionManager {
     return totalIncome;
   }
 
-  double getExpenseYearlyCategory(String category) {
+  double getExpenseYearlyCategory(DateTime startDate, String category) {
     double totalExpense = 0;
 
-    for (Transaction transaction in yearlyTrans) {
+    for (Transaction transaction in getTransactionsYearlyForStats(startDate)) {
       if (transaction.type == Type.Expense &&
           transaction.category == category) {
         totalExpense += transaction.amount;
