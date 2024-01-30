@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:moneyManager/services/functions/account_manager.dart';
 import 'package:moneyManager/services/models/account.dart';
-import 'package:moneyManager/services/pages/others/accoutItem.dart';
+import 'package:moneyManager/services/pages/others/accountItem.dart';
 import 'package:moneyManager/services/pages/others/newAccount.dart';
 
 class AccountPage extends StatefulWidget {
@@ -24,18 +24,24 @@ class _AccountPageState extends State<AccountPage> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => NewAccount(
-                    addAcc: addAcc,
+          PopupMenuButton(
+            onSelected: (value) {
+              if (value == 'Add') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NewAccount(
+                      addAcc: addAcc,
+                    ),
                   ),
-                ),
-              );
+                );
+              }
             },
-            icon: Icon(Icons.edit),
+            itemBuilder: (context) => <PopupMenuEntry<String>>[
+              PopupMenuItem(child: Text('Add'), value: 'Add'),
+              PopupMenuItem(child: Text('Remove'), value: 'Remove'),
+              PopupMenuItem(child: Text('Edit'), value: 'Edit'),
+            ],
           ),
         ],
         title: Text('Accounts'),
