@@ -4,6 +4,7 @@ import 'package:moneyManager/services/functions/account_manager.dart';
 import 'package:moneyManager/services/models/account.dart';
 import 'package:moneyManager/services/pages/others/accountItem.dart';
 import 'package:moneyManager/services/pages/others/newAccount.dart';
+import 'package:moneyManager/services/pages/others/removeAccount.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -33,6 +34,13 @@ class _AccountPageState extends State<AccountPage> {
                     builder: (context) => NewAccount(
                       addAcc: addAcc,
                     ),
+                  ),
+                );
+              } else if (value == 'Remove') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RemoveAccount(),
                   ),
                 );
               }

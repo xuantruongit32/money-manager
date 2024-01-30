@@ -13,6 +13,13 @@ class NewAccount extends StatefulWidget {
 }
 
 class _NewAccountState extends State<NewAccount> {
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _amountController.dispose();
+    super.dispose();
+  }
+
   final _nameController = TextEditingController();
   final _amountController = TextEditingController();
 
