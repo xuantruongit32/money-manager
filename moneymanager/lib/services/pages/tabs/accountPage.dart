@@ -20,6 +20,12 @@ class _AccountPageState extends State<AccountPage> {
     });
   }
 
+  void removeAcc(Account acc) {
+    setState(() {
+      AccountManager.accounts.remove(acc);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +46,9 @@ class _AccountPageState extends State<AccountPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => RemoveAccount(),
+                    builder: (context) => RemoveAccount(
+                      removeAcc: removeAcc,
+                    ),
                   ),
                 );
               }

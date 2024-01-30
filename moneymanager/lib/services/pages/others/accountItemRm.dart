@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AccountItemRm extends StatelessWidget {
-  const AccountItemRm({Key? key, required this.account}) : super(key: key);
+  const AccountItemRm(
+      {Key? key, required this.account, required this.removeAcc})
+      : super(key: key);
+
+  final Function removeAcc;
 
   final account;
   @override
@@ -16,7 +20,7 @@ class AccountItemRm extends StatelessWidget {
         children: [
           Text(account.name),
           IconButton(
-            onPressed: () {},
+            onPressed: () => removeAcc(account),
             icon: Icon(
               Icons.remove_circle,
               color: Colors.red,
