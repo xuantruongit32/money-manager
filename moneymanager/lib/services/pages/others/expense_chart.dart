@@ -9,10 +9,10 @@ class ExpenseChart extends StatelessWidget {
       : super(key: key);
   final DateTime date;
   final String time;
-  double total = 0;
 
   @override
   Widget build(BuildContext context) {
+  double total = 0;
     Map<String, double> dataMap = {
       for (String category in TransactionCategoryManager.expenseCategories)
         category: time == 'Monthly'
