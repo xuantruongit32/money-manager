@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moneyManager/services/pages/tabs/account.dart';
+import 'package:moneyManager/services/pages/tabs/accountPage.dart';
 import 'package:moneyManager/services/pages/tabs/trans.dart';
 import 'package:moneyManager/services/pages/tabs/more.dart';
 import 'package:moneyManager/services/pages/tabs/stats.dart';
@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   final tabs = [
     Trans(),
     Stats(),
-    Account(),
+    AccountPage(),
     More(),
   ];
   @override
