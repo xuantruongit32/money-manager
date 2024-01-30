@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:moneyManager/services/functions/transaction_category_manager.dart';
+import 'package:moneyManager/services/pages/others/addCategory.dart';
 import 'package:moneyManager/services/pages/others/categoryItem.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -12,6 +13,18 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
+  void _addIncomeCategory(String category) {
+    setState(() {
+      TransactionCategoryManager.addIncomeCategory(category);
+    });
+  }
+
+  void _addExpenseCategory(String category) {
+    setState(() {
+      TransactionCategoryManager.addExpenseCategory(category);
+    });
+  }
+
   void _removeCategory(String category) {
     showDialog(
       context: context,
@@ -70,19 +83,29 @@ class _CategoryPageState extends State<CategoryPage> {
                   .toList(),
             ),
             const Gap(10),
-            DottedBorder(
-              child: Container(
-                width: MediaQuery.of(context).size.width - 30,
-                child: Center(
-                  child: Text(
-                    '+',
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
+            GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddCategory(
+                    addCategory: _addIncomeCategory,
                   ),
                 ),
               ),
-              padding: EdgeInsets.all(12),
+              child: DottedBorder(
+                child: Container(
+                  width: MediaQuery.of(context).size.width - 30,
+                  child: Center(
+                    child: Text(
+                      '+',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+                padding: EdgeInsets.all(12),
+              ),
             ),
             const Gap(50),
             Padding(
@@ -106,19 +129,28 @@ class _CategoryPageState extends State<CategoryPage> {
                   .toList(),
             ),
             const Gap(10),
-            DottedBorder(
-              child: Container(
-                width: MediaQuery.of(context).size.width - 30,
-                child: Center(
-                  child: Text(
-                    '+',
-                    style: TextStyle(
-                      fontSize: 20,
+            GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      AddCategory(addCategory: _addExpenseCategory),
+                ),
+              ),
+              child: DottedBorder(
+                child: Container(
+                  width: MediaQuery.of(context).size.width - 30,
+                  child: Center(
+                    child: Text(
+                      '+',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                 ),
+                padding: EdgeInsets.all(12),
               ),
-              padding: EdgeInsets.all(12),
             ),
           ],
         ),

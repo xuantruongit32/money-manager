@@ -13,7 +13,7 @@ class TransactionCategoryManager {
   }
 
   static void addExpenseCategory(String category) {
-    incomeCategories.add(category);
+    expenseCategories.add(category);
   }
 
   static void removeIncomeCategory(String category) {
