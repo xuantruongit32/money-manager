@@ -21,9 +21,9 @@ class AccountItem extends StatelessWidget {
         children: [
           Text(acc.name),
           Text(
-            acc.amount.toString() + '\$',
+            acc.amount.abs().toString() + '\$',
             style: TextStyle(
-              color: Colors.blue,
+              color: acc.amount >= 0 ? Colors.blue : Colors.red,
             ),
           ),
         ],

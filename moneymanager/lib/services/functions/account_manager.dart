@@ -1,14 +1,13 @@
 import 'package:moneyManager/services/models/account.dart';
 
 class AccountManager {
-  static List<String> group = ['cash', 'card'];
   static List<Account> accounts = [
-    Account(amount: 30, group: group[0], name: 'Test1'),
-    Account(amount: 30, group: group[0], name: 'Test2'),
-    Account(amount: 30, group: group[0], name: 'Test3'),
-    Account(amount: 30, group: group[0], name: 'Test4'),
-    Account(amount: 30, group: group[0], name: 'Test5'),
-    Account(amount: 30, group: group[0], name: 'Test6'),
+    Account(amount: 30, name: 'Test1'),
+    Account(amount: -30, name: 'Test2'),
+    Account(amount: 30, name: 'Test3'),
+    Account(amount: 30, name: 'Test4'),
+    Account(amount: 30, name: 'Test5'),
+    Account(amount: 30, name: 'Test6'),
   ];
 
   static void addAccount(Account acc) {
@@ -17,5 +16,34 @@ class AccountManager {
 
   static void removeAccount(Account acc) {
     accounts.remove(acc);
+  }
+
+  static double getAssets() {
+    double assets = 0;
+    for (var acc in accounts) {
+      if (acc.amount >= 0) {
+        assets += acc.amount;
+      }
+    }
+    return assets;
+  }
+
+  static double getTotal() {
+    double total = 0;
+    for (var acc in accounts) {
+      total += acc.amount;
+    }
+
+    return total;
+  }
+
+  static double getDebt() {
+    double debt = 0;
+    for (var acc in accounts) {
+      if (acc.amount < 0) {
+        debt += acc.amount;
+      }
+    }
+    return debt;
   }
 }
