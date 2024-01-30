@@ -4,6 +4,7 @@ import 'package:moneyManager/services/pages/reusable/iconButtonText.dart';
 import 'package:moneyManager/services/pages/reusable/customIcon.dart';
 import 'package:gap/gap.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:moneyManager/services/pages/tabs/categoryPage.dart';
 import 'package:moneyManager/services/pages/tabs/feedback.dart';
 
 class More extends StatelessWidget {
@@ -53,9 +54,16 @@ class More extends StatelessWidget {
                   icon: CustomIcon(imagePath: 'assets/icon/feedback.png'),
                 ),
                 IconButtonText(
-                  fun: () {},
-                  label: 'Help',
-                  icon: CustomIcon(imagePath: 'assets/icon/help.png'),
+                  fun: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CategoryPage(),
+                      ),
+                    );
+                  },
+                  label: 'Category',
+                  icon: CustomIcon(imagePath: 'assets/icon/category.png'),
                 ),
                 IconButtonText(
                   fun: () {
