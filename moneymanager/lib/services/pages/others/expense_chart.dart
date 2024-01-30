@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:moneyManager/services/functions/transaction_category_manager.dart';
 import 'package:moneyManager/services/functions/transaction_manager.dart';
+import 'package:moneyManager/services/pages/others/inforStat.dart';
 import 'package:moneyManager/services/pages/reusable/pie_chart.dart';
 
 class ExpenseChart extends StatelessWidget {
-  const ExpenseChart({Key? key, required this.time, required this.date})
+  ExpenseChart({Key? key, required this.time, required this.date})
       : super(key: key);
   final DateTime date;
   final String time;
+  double total = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +21,28 @@ class ExpenseChart extends StatelessWidget {
                 ? TransactionManager().getExpenseYearlyCategory(date, category)
                 : TransactionManager().getExpenseWeeklyCategory(date, category),
     };
-    return Chart(
-      dataMap: dataMap,
-      name: 'Test',
+    dataMap.forEach((key, value) {
+      total += value;
+    });
+    dataMap = {'total': total, ...dataMap};
+    return Column(
+      children: [
+        InformationStat(
+          dataMap: dataMap,
+          colors: [
+            Colors.red,
+            Colors.green,
+            Colors.blue,
+            Colors.orange,
+            Colors.purple,
+            Colors.brown,
+          ],
+        ),
+        Chart(
+          dataMap: dataMap,
+          name: 'Test',
+        ),
+      ],
     );
   }
 }
