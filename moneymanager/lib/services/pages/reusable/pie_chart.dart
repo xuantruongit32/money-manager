@@ -9,30 +9,22 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    dataMap.remove('total');
     return PieChart(
       dataMap: dataMap,
       animationDuration: Duration(microseconds: 800),
       chartLegendSpacing: 32,
-      chartRadius: MediaQuery.of(context).size.width / 3.2,
+      chartRadius: MediaQuery.of(context).size.width / 1.5,
       colorList: [
+        Colors.green,
         Colors.blue,
-        Colors.red,
+        Colors.orange,
         Colors.purple,
         Colors.brown,
-        Colors.orange,
-        Colors.amber
       ],
       initialAngleInDegree: 0,
       ringStrokeWidth: 32,
-      legendOptions: LegendOptions(
-        showLegendsInRow: true,
-        legendPosition: LegendPosition.bottom,
-        showLegends: true,
-        legendShape: BoxShape.circle,
-        legendTextStyle: TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      legendOptions: LegendOptions(showLegends: false),
       chartValuesOptions: ChartValuesOptions(
         showChartValueBackground: true,
         showChartValues: true,
