@@ -12,6 +12,34 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
+  void _removeCategory(String category) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Center(child: Text('Confirm remove')),
+        content: Text('Are you sure want to remove category?'),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                TransactionCategoryManager.removeIncomeCategory(category);
+                TransactionCategoryManager.removeExpenseCategory(category);
+              });
+              Navigator.pop(context);
+            },
+            child: Text('OK'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +62,10 @@ class _CategoryPageState extends State<CategoryPage> {
             Column(
               children: TransactionCategoryManager.incomeCategories
                   .map(
-                    (e) => CategoryItem(category: e),
+                    (e) => CategoryItem(
+                      category: e,
+                      removeCategory: _removeCategory,
+                    ),
                   )
                   .toList(),
             ),
@@ -67,7 +98,10 @@ class _CategoryPageState extends State<CategoryPage> {
             Column(
               children: TransactionCategoryManager.expenseCategories
                   .map(
-                    (e) => CategoryItem(category: e),
+                    (e) => CategoryItem(
+                      category: e,
+                      removeCategory: _removeCategory,
+                    ),
                   )
                   .toList(),
             ),

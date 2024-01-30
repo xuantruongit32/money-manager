@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CategoryItem extends StatelessWidget {
-  const CategoryItem({Key? key, required this.category}) : super(key: key);
+  const CategoryItem(
+      {Key? key, required this.category, required this.removeCategory})
+      : super(key: key);
   final category;
+  final Function removeCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,9 @@ class CategoryItem extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    removeCategory(category);
+                  },
                   icon: Icon(
                     Icons.remove_circle,
                     color: Colors.red,
