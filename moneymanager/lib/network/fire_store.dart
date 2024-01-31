@@ -43,7 +43,7 @@ class FireStore {
         FirebaseFirestore.instance.collection('users/$userId/category');
 
     await categoryCollection.doc('income').update({
-      'categories': category,
+      category: category,
     });
   }
 
@@ -53,7 +53,25 @@ class FireStore {
         FirebaseFirestore.instance.collection('users/$userId/category');
 
     await categoryCollection.doc('expense').update({
-      'categories': category,
+      category: category,
+    });
+  }
+
+  Future<void> removeIncomeCategoryFromFireStore(String category) async {
+    final userId = getUserId();
+    CollectionReference categoryCollection =
+        FirebaseFirestore.instance.collection('users/$userId/category');
+    await categoryCollection.doc('income').update({
+      category: FieldValue.arrayRemove([category]),
+    });
+  }
+
+  Future<void> removeExpenseCategoryFromFireStore(String category) async {
+    final userId = getUserId();
+    CollectionReference categoryCollection =
+        FirebaseFirestore.instance.collection('users/$userId/category');
+    await categoryCollection.doc('expense').update({
+      category: FieldValue.arrayRemove([category]),
     });
   }
 }

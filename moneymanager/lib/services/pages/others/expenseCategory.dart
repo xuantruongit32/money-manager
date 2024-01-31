@@ -32,6 +32,7 @@ class _ExpenseCategoryState extends State<ExpenseCategory> {
             onPressed: () {
               setState(() {
                 TransactionCategoryManager.removeExpenseCategory(category);
+                FireStore().removeExpenseCategoryFromFireStore(category);
               });
               Navigator.pop(context);
             },

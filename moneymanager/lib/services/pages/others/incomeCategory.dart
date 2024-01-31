@@ -32,6 +32,7 @@ class _IncomeCategoryState extends State<IncomeCategory> {
             onPressed: () {
               setState(() {
                 TransactionCategoryManager.removeIncomeCategory(category);
+                FireStore().removeIncomeCategoryFromFireStore(category);
               });
               Navigator.pop(context);
             },
