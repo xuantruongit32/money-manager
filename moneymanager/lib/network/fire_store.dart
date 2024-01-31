@@ -13,12 +13,11 @@ class FireStore {
     }
   }
 
-  Future<void> addTransactionToFireStore(List trans) async {
+  Future<void> addTransactionToFireStore(var tran) async {
     final userId = getUserId();
 
     CollectionReference transactionsCollection =
         FirebaseFirestore.instance.collection('users/$userId/transactions');
-    for (var tran in trans) {
       await transactionsCollection.doc(tran.id).set({
         'note': tran.note,
         'amount': tran.amount,
@@ -28,6 +27,12 @@ class FireStore {
         'accountId': tran.acc.id,
         'type': tran.type.toString(),
       });
-    }
+  }
+  Future<void> removeTransactionToFireStore(var tran) async {
+    final userId = getUserId();
+
+    CollectionReference transactionsCollection =
+        FirebaseFirestore.instance.collection('users/$userId/transactions');
+      await transactionsCollection.doc(tran.id).delete();
   }
 }

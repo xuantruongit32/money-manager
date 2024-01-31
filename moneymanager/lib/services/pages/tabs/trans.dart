@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:moneyManager/network/fire_store.dart';
 import 'package:moneyManager/services/models/transaction.dart';
 import 'package:moneyManager/services/pages/others/newTransaction.dart';
 import 'package:moneyManager/services/pages/others/transactionList.dart';
@@ -52,6 +53,7 @@ class _TransState extends State<Trans> {
         tran.acc2.amount -= tran.amount;
       }
       TransactionManager.trans.remove(tran);
+      FireStore().removeTransactionToFireStore(tran);
       if (tran.date.day == _selectedDate.day &&
           tran.date.month == _selectedDate.month &&
           tran.date.year == _selectedDate.year) {
@@ -79,6 +81,7 @@ class _TransState extends State<Trans> {
                   tran.acc.amount -= tran.amount;
                   tran.acc2.amount += tran.amount;
                 }
+                FireStore().addTransactionToFireStore(tran);
                 TransactionManager.trans.insert(transactionIndex, tran);
                 if (tran.date.day == _selectedDate.day &&
                     tran.date.month == _selectedDate.month &&
@@ -110,6 +113,7 @@ class _TransState extends State<Trans> {
         tran.acc2.amount += tran.amount;
       }
       TransactionManager.trans.add(tran);
+      FireStore().addTransactionToFireStore(tran);
       TransactionManager().getTransactionsDaily(_selectedDate);
       TransactionManager().getTransactionsMonthly(_selectedDate);
       TransactionManager().getTransactionsYearly(_selectedDate);
