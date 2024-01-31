@@ -52,9 +52,16 @@ class _TransState extends State<Trans> {
         tran.acc2.amount -= tran.amount;
       }
       TransactionManager.trans.remove(tran);
-      TransactionManager.todayTrans.remove(tran);
-      TransactionManager.monthlyTrans.remove(tran);
-      TransactionManager.yearlyTrans.remove(tran);
+      if (tran.date.day == _selectedDate.day &&
+          tran.date.month == _selectedDate.month &&
+          tran.date.year == _selectedDate.year) {
+        TransactionManager.todayTrans.remove(tran);
+      } else if (tran.date.month == _selectedDate.month &&
+          tran.date.year == _selectedDate.year) {
+        TransactionManager.monthlyTrans.remove(tran);
+      } else if (tran.date.year == _selectedDate.year) {
+        TransactionManager.yearlyTrans.remove(tran);
+      }
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -73,12 +80,19 @@ class _TransState extends State<Trans> {
                   tran.acc2.amount += tran.amount;
                 }
                 TransactionManager.trans.insert(transactionIndex, tran);
-                TransactionManager.todayTrans
-                    .insert(todayTransactionIndex, tran);
-                TransactionManager.monthlyTrans
-                    .insert(monthTransactionIndex, tran);
-                TransactionManager.yearlyTrans
-                    .insert(yearlyTransactionIndex, tran);
+                if (tran.date.day == _selectedDate.day &&
+                    tran.date.month == _selectedDate.month &&
+                    tran.date.year == _selectedDate.year) {
+                  TransactionManager.todayTrans
+                      .insert(todayTransactionIndex, tran);
+                } else if (tran.date.month == _selectedDate.month &&
+                    tran.date.year == _selectedDate.year) {
+                  TransactionManager.monthlyTrans
+                      .insert(monthTransactionIndex, tran);
+                } else if (tran.date.year == _selectedDate.year) {
+                  TransactionManager.yearlyTrans
+                      .insert(yearlyTransactionIndex, tran);
+                }
               });
             }),
       ),
