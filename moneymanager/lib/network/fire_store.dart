@@ -74,4 +74,23 @@ class FireStore {
       category: FieldValue.arrayRemove([category]),
     });
   }
+
+  Future<void> addAccountToFireStore(var acc) async {
+    final userId = getUserId();
+
+    CollectionReference transactionsCollection =
+        FirebaseFirestore.instance.collection('users/$userId/accounts');
+    await transactionsCollection.doc(acc.id).set({
+      'amount': acc.amount,
+      'id': acc.id,
+      'name': acc.name,
+    });
+  }
+
+  Future<void> removeAccountToFireStore(var acc) async {
+    final userId = getUserId();
+    CollectionReference accountCollection =
+        FirebaseFirestore.instance.collection('/users/$userId/accounts');
+    await accountCollection.doc(acc.id).delete();
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:moneyManager/network/fire_store.dart';
 import 'package:moneyManager/services/functions/account_manager.dart';
 import 'package:moneyManager/services/models/account.dart';
 import 'package:moneyManager/services/pages/others/accountItem.dart';
@@ -17,12 +18,14 @@ class _AccountPageState extends State<AccountPage> {
   void addAcc(Account acc) {
     setState(() {
       AccountManager.accounts.add(acc);
+      FireStore().addAccountToFireStore(acc);
     });
   }
 
   void removeAcc(Account acc) {
     setState(() {
       AccountManager.accounts.remove(acc);
+      FireStore().removeAccountToFireStore(acc);
     });
   }
 
