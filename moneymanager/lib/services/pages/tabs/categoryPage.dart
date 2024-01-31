@@ -1,9 +1,6 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:moneyManager/services/functions/transaction_category_manager.dart';
-import 'package:moneyManager/services/pages/others/addCategory.dart';
-import 'package:moneyManager/services/pages/others/categoryItem.dart';
+import 'package:moneyManager/services/pages/others/expenseCategory.dart';
+import 'package:moneyManager/services/pages/others/incomeCategory.dart';
 
 class CategoryPage extends StatefulWidget {
   CategoryPage({Key? key}) : super(key: key);
@@ -13,44 +10,19 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  void _addIncomeCategory(String category) {
-    setState(() {
-      TransactionCategoryManager.addIncomeCategory(category);
-    });
+  final _controller = PageController();
+  var _selectedPage = 0;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
-  void _addExpenseCategory(String category) {
+  void _onPageChanged(int page) {
     setState(() {
-      TransactionCategoryManager.addExpenseCategory(category);
+      _selectedPage = page;
     });
-  }
-
-  void _removeCategory(String category) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Center(child: Text('Confirm remove')),
-        content: Text('Are you sure want to remove category?'),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                TransactionCategoryManager.removeIncomeCategory(category);
-                TransactionCategoryManager.removeExpenseCategory(category);
-              });
-              Navigator.pop(context);
-            },
-            child: Text('OK'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text('Cancel'),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
@@ -58,102 +30,43 @@ class _CategoryPageState extends State<CategoryPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Category'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              _controller.animateToPage(
+                0,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+              );
+            },
+            child: Text(
+              'Income',
+              style: TextStyle(
+                color: _selectedPage == 0 ? Colors.black : Colors.deepPurple,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              _controller.animateToPage(
+                1,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+              );
+            },
+            child: Text(
+              'Expense',
+              style: TextStyle(
+                color: _selectedPage == 1 ? Colors.black : Colors.deepPurple,
+              ),
+            ),
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Income Category',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black45,
-                ),
-              ),
-            ),
-            Column(
-              children: TransactionCategoryManager.incomeCategories
-                  .map(
-                    (e) => CategoryItem(
-                      category: e,
-                      removeCategory: _removeCategory,
-                    ),
-                  )
-                  .toList(),
-            ),
-            const Gap(10),
-            GestureDetector(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AddCategory(
-                    addCategory: _addIncomeCategory,
-                  ),
-                ),
-              ),
-              child: DottedBorder(
-                child: Container(
-                  width: MediaQuery.of(context).size.width - 30,
-                  child: Center(
-                    child: Text(
-                      '+',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ),
-                padding: EdgeInsets.all(12),
-              ),
-            ),
-            const Gap(50),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Expense Category',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black45,
-                ),
-              ),
-            ),
-            Column(
-              children: TransactionCategoryManager.expenseCategories
-                  .map(
-                    (e) => CategoryItem(
-                      category: e,
-                      removeCategory: _removeCategory,
-                    ),
-                  )
-                  .toList(),
-            ),
-            const Gap(10),
-            GestureDetector(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      AddCategory(addCategory: _addExpenseCategory),
-                ),
-              ),
-              child: DottedBorder(
-                child: Container(
-                  width: MediaQuery.of(context).size.width - 30,
-                  child: Center(
-                    child: Text(
-                      '+',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ),
-                padding: EdgeInsets.all(12),
-              ),
-            ),
-          ],
-        ),
+      body: PageView(
+        controller: _controller,
+        onPageChanged: _onPageChanged,
+        children: [IncomeCategory(), ExpenseCategory()],
       ),
     );
   }
