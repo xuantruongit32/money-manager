@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:moneyManager/network/fire_store.dart';
 import 'package:moneyManager/services/functions/transaction_category_manager.dart';
 import 'package:moneyManager/services/pages/others/addCategory.dart';
 import 'package:moneyManager/services/pages/others/categoryItem.dart';
@@ -13,11 +14,13 @@ class ExpenseCategory extends StatefulWidget {
 }
 
 class _ExpenseCategoryState extends State<ExpenseCategory> {
-    void _addExpenseCategory(String category) {
+  void _addExpenseCategory(String category) {
     setState(() {
       TransactionCategoryManager.addExpenseCategory(category);
+      FireStore().addExpenseCategoryToFireStore(category);
     });
   }
+
   void _removeExpenseCategory(String category) {
     showDialog(
       context: context,

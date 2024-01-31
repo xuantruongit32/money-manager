@@ -18,21 +18,42 @@ class FireStore {
 
     CollectionReference transactionsCollection =
         FirebaseFirestore.instance.collection('users/$userId/transactions');
-      await transactionsCollection.doc(tran.id).set({
-        'note': tran.note,
-        'amount': tran.amount,
-        'date': tran.date,
-        'id': tran.id,
-        'category': tran.category,
-        'accountId': tran.acc.id,
-        'type': tran.type.toString(),
-      });
+    await transactionsCollection.doc(tran.id).set({
+      'note': tran.note,
+      'amount': tran.amount,
+      'date': tran.date,
+      'id': tran.id,
+      'category': tran.category,
+      'accountId': tran.acc.id,
+      'type': tran.type.toString(),
+    });
   }
+
   Future<void> removeTransactionToFireStore(var tran) async {
     final userId = getUserId();
 
     CollectionReference transactionsCollection =
         FirebaseFirestore.instance.collection('users/$userId/transactions');
-      await transactionsCollection.doc(tran.id).delete();
+    await transactionsCollection.doc(tran.id).delete();
+  }
+
+  Future<void> addIncomeCategoryToFireStore(String category) async {
+    final userId = getUserId();
+    CollectionReference categoryCollection =
+        FirebaseFirestore.instance.collection('users/$userId/category');
+
+    await categoryCollection.doc('income').update({
+      'categories': category,
+    });
+  }
+
+  Future<void> addExpenseCategoryToFireStore(String category) async {
+    final userId = getUserId();
+    CollectionReference categoryCollection =
+        FirebaseFirestore.instance.collection('users/$userId/category');
+
+    await categoryCollection.doc('expense').update({
+      'categories': category,
+    });
   }
 }

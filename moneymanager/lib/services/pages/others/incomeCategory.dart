@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:moneyManager/network/fire_store.dart';
 import 'package:moneyManager/services/functions/transaction_category_manager.dart';
 import 'package:moneyManager/services/pages/others/addCategory.dart';
 import 'package:moneyManager/services/pages/others/categoryItem.dart';
@@ -16,6 +17,7 @@ class _IncomeCategoryState extends State<IncomeCategory> {
   void _addIncomeCategory(String category) {
     setState(() {
       TransactionCategoryManager.addIncomeCategory(category);
+      FireStore().addIncomeCategoryToFireStore(category);
     });
   }
 
