@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:moneyManager/network/fire_store.dart';
-import 'package:moneyManager/services/functions/transaction_manager.dart';
 import 'firebase_options.dart';
 import 'package:moneyManager/auth/authPage.dart';
 import 'package:flutter/services.dart';
@@ -23,26 +21,10 @@ class MoneyManager extends StatefulWidget {
   _MoneyManagerState createState() => _MoneyManagerState();
 }
 
-class _MoneyManagerState extends State<MoneyManager>
-    with WidgetsBindingObserver {
+class _MoneyManagerState extends State<MoneyManager> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.inactive) {
-      FireStore().addTransactionToFireStore(TransactionManager.trans);
-    }
   }
 
   @override

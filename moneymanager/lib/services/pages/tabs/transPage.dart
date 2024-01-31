@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:moneyManager/network/fire_store.dart';
-import 'package:moneyManager/services/models/transaction.dart';
+import 'package:moneyManager/services/functions/account_manager.dart';
+import 'package:moneyManager/services/models/trans.dart';
 import 'package:moneyManager/services/pages/others/newTransaction.dart';
 import 'package:moneyManager/services/pages/others/transactionList.dart';
 import 'package:moneyManager/services/functions/transaction_manager.dart';
 
-class Trans extends StatefulWidget {
-  Trans({Key? key}) : super(key: key);
+class TransPage extends StatefulWidget {
+  TransPage({Key? key}) : super(key: key);
 
   @override
-  State<Trans> createState() => _TransState();
+  State<TransPage> createState() => _TransPageState();
 }
 
-class _TransState extends State<Trans> {
+class _TransPageState extends State<TransPage> {
   var _selectedPage = 0;
   final _controller = PageController(initialPage: 0);
 
@@ -38,19 +39,19 @@ class _TransState extends State<Trans> {
     super.initState();
   }
 
-  void _deleteTransaction(Transaction tran) {
+  void _deleteTransaction(Trans tran) {
     final transactionIndex = TransactionManager.trans.indexOf(tran);
     final todayTransactionIndex = TransactionManager.todayTrans.indexOf(tran);
     final monthTransactionIndex = TransactionManager.monthlyTrans.indexOf(tran);
     final yearlyTransactionIndex = TransactionManager.yearlyTrans.indexOf(tran);
     setState(() {
       if (tran.type == Type.Income) {
-        tran.acc.amount -= tran.amount;
+        AccountManager.findAccById(tran.id).amount -= tran.amount;
       } else if (tran.type == Type.Expense) {
-        tran.acc.amount += tran.amount;
+        AccountManager.findAccById(tran.id).amount;
       } else {
-        tran.acc.amount += tran.amount;
-        tran.acc2.amount -= tran.amount;
+        AccountManager.findAccById(tran.accId).amount += tran.amount;
+        AccountManager.findAccById(tran.accId).amount -= tran.amount;
       }
       TransactionManager.trans.remove(tran);
       FireStore().removeTransactionToFireStore(tran);
@@ -74,12 +75,12 @@ class _TransState extends State<Trans> {
             onPressed: () {
               setState(() {
                 if (tran.type == Type.Income) {
-                  tran.acc.amount += tran.amount;
+                  AccountManager.findAccById(tran.id).amount += tran.amount;
                 } else if (tran.type == Type.Expense) {
-                  tran.acc.amount -= tran.amount;
+                  AccountManager.findAccById(tran.id).amount -= tran.amount;
                 } else {
-                  tran.acc.amount -= tran.amount;
-                  tran.acc2.amount += tran.amount;
+                  AccountManager.findAccById(tran.accId).amount -= tran.amount;
+                  AccountManager.findAccById(tran.accId).amount += tran.amount;
                 }
                 FireStore().addTransactionToFireStore(tran);
                 TransactionManager.trans.insert(transactionIndex, tran);
@@ -102,15 +103,15 @@ class _TransState extends State<Trans> {
     );
   }
 
-  void addTrans(Transaction tran) {
+  void addTrans(Trans tran) {
     setState(() {
       if (tran.type == Type.Income) {
-        tran.acc.amount += tran.amount;
+        AccountManager.findAccById(tran.accId).amount += tran.amount;
       } else if (tran.type == Type.Expense) {
-        tran.acc.amount -= tran.amount;
+       AccountManager.findAccById(tran.accId).amount -= tran.amount;
       } else {
-        tran.acc.amount -= tran.amount;
-        tran.acc2.amount += tran.amount;
+        AccountManager.findAccById(tran.accId).amount -= tran.amount;
+        AccountManager.findAccById(tran.accId).amount += tran.amount;
       }
       TransactionManager.trans.add(tran);
       FireStore().addTransactionToFireStore(tran);

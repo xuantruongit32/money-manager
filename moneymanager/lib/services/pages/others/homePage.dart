@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moneyManager/services/pages/tabs/accountPage.dart';
-import 'package:moneyManager/services/pages/tabs/trans.dart';
+import 'package:moneyManager/services/pages/tabs/transPage.dart';
 import 'package:moneyManager/services/pages/tabs/more.dart';
 import 'package:moneyManager/services/pages/tabs/stats.dart';
 import 'package:line_icons/line_icons.dart';
@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   var _currentIndex = 0;
 
   final tabs = [
-    Trans(),
+    TransPage(),
     Stats(),
     AccountPage(),
     More(),

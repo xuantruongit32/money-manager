@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
-import 'package:moneyManager/services/models/transaction.dart';
+import 'package:moneyManager/services/functions/account_manager.dart';
+import 'package:moneyManager/services/models/trans.dart';
 
 class TransactionItem extends StatelessWidget {
   TransactionItem({required this.transaction, Key? key}) : super(key: key);
-  final Transaction transaction;
+  final Trans transaction;
   final format = DateFormat('d/M/yy');
 
   @override
@@ -36,7 +37,7 @@ class TransactionItem extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  transaction.acc.name,
+                  AccountManager.findAccById(transaction.accId).name,
                   style: TextStyle(color: Colors.black38),
                 ),
                 Text(transaction.note),

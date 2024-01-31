@@ -46,4 +46,13 @@ class AccountManager {
     }
     return debt;
   }
+
+  static Account findAccById(String id) {
+    for (var acc in accounts) {
+      if (acc.id == id) {
+        return acc;
+      }
+    }
+    return Account.empty();
+  }
 }

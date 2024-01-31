@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:moneyManager/services/functions/account_manager.dart';
 import 'package:moneyManager/services/functions/transaction_category_manager.dart';
 import 'package:moneyManager/services/models/account.dart';
-import 'package:moneyManager/services/models/transaction.dart';
+import 'package:moneyManager/services/models/trans.dart';
 import 'package:moneyManager/services/functions/checkData.dart';
 
 class NewIncome extends StatefulWidget {
@@ -123,11 +123,11 @@ class _NewIncomeState extends State<NewIncome> {
             account: selectedAccount,
             category: selectedCategory)
         .checkDataTrans()) {
-      Transaction newIncome = Transaction(
+      Trans newIncome = Trans(
           date: _selectedDate,
           note: _noteController.text,
           amount: double.parse(_amountController.text),
-          acc: selectedAccount,
+          accId: selectedAccount.id,
           category: selectedCategory,
           type: Type.Income);
       widget.addTrans(newIncome);

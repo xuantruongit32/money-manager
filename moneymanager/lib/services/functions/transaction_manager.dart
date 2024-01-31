@@ -1,29 +1,12 @@
-import 'package:moneyManager/services/models/transaction.dart';
-import 'package:moneyManager/services/functions/transaction_category_manager.dart';
-import 'package:moneyManager/services/functions/account_manager.dart';
+import 'package:moneyManager/services/models/trans.dart';
 
 class TransactionManager {
-  static List<Transaction> trans = [
-    Transaction(
-        note: 'hehe1',
-        amount: 30,
-        date: DateTime.now(),
-        category: TransactionCategoryManager.expenseCategories[1],
-        acc: AccountManager.accounts[2],
-        type: Type.Expense),
-    Transaction(
-        note: 'hehe2',
-        amount: 30,
-        date: DateTime(
-            DateTime.now().year - 1, DateTime.now().month, DateTime.now().day),
-        category: TransactionCategoryManager.expenseCategories[1],
-        acc: AccountManager.accounts[2],
-        type: Type.Expense),
+  static List<Trans> trans = [
   ];
-  Map<DateTime, List<Transaction>> groupTransactionsByDate() {
-    Map<DateTime, List<Transaction>> groupedTransactions = {};
+  Map<DateTime, List<Trans>> groupTransactionsByDate() {
+    Map<DateTime, List<Trans>> groupedTransactions = {};
 
-    for (Transaction transaction in trans) {
+    for (Trans transaction in trans) {
       DateTime dateOnly = DateTime(
           transaction.date.year, transaction.date.month, transaction.date.day);
 
@@ -38,21 +21,21 @@ class TransactionManager {
   }
 
   void getTransactionsDaily(DateTime daily) {
-    Map<DateTime, List<Transaction>> groupedTransactions =
+    Map<DateTime, List<Trans>> groupedTransactions =
         groupTransactionsByDate();
     DateTime dateOnly = DateTime(daily.year, daily.month, daily.day);
     todayTrans = groupedTransactions[dateOnly] ?? [];
   }
 
   void getTransactionsWeekly(DateTime startDate) {
-    Map<DateTime, List<Transaction>> groupedTransactions =
+    Map<DateTime, List<Trans>> groupedTransactions =
         groupTransactionsByDate();
 
     DateTime currentDate =
         startDate.subtract(Duration(days: startDate.weekday - 1));
     DateTime endDate = currentDate.add(Duration(days: 6));
 
-    List<Transaction> weeklyTransactions = [];
+    List<Trans> weeklyTransactions = [];
 
     while (currentDate.isBefore(endDate) ||
         currentDate.isAtSameMomentAs(endDate)) {
@@ -69,7 +52,7 @@ class TransactionManager {
   }
 
   void getTransactionsMonthly(DateTime startDate) {
-    Map<DateTime, List<Transaction>> groupedTransactions =
+    Map<DateTime, List<Trans>> groupedTransactions =
         groupTransactionsByDate();
 
     int currentMonth = startDate.month;
@@ -80,7 +63,7 @@ class TransactionManager {
       Duration(days: 1),
     );
 
-    List<Transaction> monthlyTransactions = [];
+    List<Trans> monthlyTransactions = [];
 
     for (DateTime date = startDateOfMonth;
         date.isBefore(endDateOfMonth) || date.isAtSameMomentAs(endDateOfMonth);
@@ -95,14 +78,14 @@ class TransactionManager {
   }
 
   void getTransactionsYearly(DateTime startDate) {
-    Map<DateTime, List<Transaction>> groupedTransactions =
+    Map<DateTime, List<Trans>> groupedTransactions =
         groupTransactionsByDate();
 
     int currentYear = startDate.year;
     DateTime startDateOfYear = DateTime(currentYear, 1, 1);
     DateTime endDateOfYear = DateTime(currentYear, 12, 31);
 
-    List<Transaction> yearlyTransactions = [];
+    List<Trans> yearlyTransactions = [];
 
     for (DateTime date = startDateOfYear;
         date.isBefore(endDateOfYear) || date.isAtSameMomentAs(endDateOfYear);
@@ -116,15 +99,15 @@ class TransactionManager {
     yearlyTrans = yearlyTransactions;
   }
 
-  List<Transaction> getTransactionsYearlyForStats(DateTime startDate) {
-    Map<DateTime, List<Transaction>> groupedTransactions =
+  List<Trans> getTransactionsYearlyForStats(DateTime startDate) {
+    Map<DateTime, List<Trans>> groupedTransactions =
         groupTransactionsByDate();
 
     int currentYear = startDate.year;
     DateTime startDateOfYear = DateTime(currentYear, 1, 1);
     DateTime endDateOfYear = DateTime(currentYear, 12, 31);
 
-    List<Transaction> yearlyTransactions = [];
+    List<Trans> yearlyTransactions = [];
 
     for (DateTime date = startDateOfYear;
         date.isBefore(endDateOfYear) || date.isAtSameMomentAs(endDateOfYear);
@@ -137,8 +120,8 @@ class TransactionManager {
     return yearlyTransactions;
   }
 
-  List<Transaction> getTransactionsMonthlyForStats(DateTime startDate) {
-    Map<DateTime, List<Transaction>> groupedTransactions =
+  List<Trans> getTransactionsMonthlyForStats(DateTime startDate) {
+    Map<DateTime, List<Trans>> groupedTransactions =
         groupTransactionsByDate();
 
     int currentMonth = startDate.month;
@@ -149,7 +132,7 @@ class TransactionManager {
       Duration(days: 1),
     );
 
-    List<Transaction> monthlyTransactions = [];
+    List<Trans> monthlyTransactions = [];
 
     for (DateTime date = startDateOfMonth;
         date.isBefore(endDateOfMonth) || date.isAtSameMomentAs(endDateOfMonth);
@@ -162,15 +145,15 @@ class TransactionManager {
     return monthlyTransactions;
   }
 
-  List<Transaction> getTransactionsWeeklyForStats(DateTime startDate) {
-    Map<DateTime, List<Transaction>> groupedTransactions =
+  List<Trans> getTransactionsWeeklyForStats(DateTime startDate) {
+    Map<DateTime, List<Trans>> groupedTransactions =
         groupTransactionsByDate();
 
     DateTime currentDate =
         startDate.subtract(Duration(days: startDate.weekday - 1));
     DateTime endDate = currentDate.add(Duration(days: 6));
 
-    List<Transaction> weeklyTransactions = [];
+    List<Trans> weeklyTransactions = [];
 
     while (currentDate.isBefore(endDate) ||
         currentDate.isAtSameMomentAs(endDate)) {
@@ -188,7 +171,7 @@ class TransactionManager {
   double getIncomeWeeklyCategory(DateTime startDate, String category) {
     double totalIncome = 0;
 
-    for (Transaction transaction in getTransactionsWeeklyForStats(startDate)) {
+    for (Trans transaction in getTransactionsWeeklyForStats(startDate)) {
       if (transaction.type == Type.Income && transaction.category == category) {
         totalIncome += transaction.amount;
       }
@@ -200,7 +183,7 @@ class TransactionManager {
   double getExpenseWeeklyCategory(DateTime startDate, String category) {
     double totalExpense = 0;
 
-    for (Transaction transaction in getTransactionsWeeklyForStats(startDate)) {
+    for (Trans transaction in getTransactionsWeeklyForStats(startDate)) {
       if (transaction.type == Type.Expense &&
           transaction.category == category) {
         totalExpense += transaction.amount;
@@ -213,7 +196,7 @@ class TransactionManager {
   double getIncomeMonthlyCategory(DateTime startDate, String category) {
     double totalIncome = 0;
 
-    for (Transaction transaction in getTransactionsMonthlyForStats(startDate)) {
+    for (Trans transaction in getTransactionsMonthlyForStats(startDate)) {
       if (transaction.type == Type.Income && transaction.category == category) {
         totalIncome += transaction.amount;
       }
@@ -225,7 +208,7 @@ class TransactionManager {
   double getExpenseMonthlyCategory(DateTime startDate, String category) {
     double totalExpense = 0;
 
-    for (Transaction transaction in getTransactionsMonthlyForStats(startDate)) {
+    for (Trans transaction in getTransactionsMonthlyForStats(startDate)) {
       if (transaction.type == Type.Expense &&
           transaction.category == category) {
         totalExpense += transaction.amount;
@@ -238,7 +221,7 @@ class TransactionManager {
   double getIncomeYearlyCategory(DateTime startDate, String category) {
     double totalIncome = 0;
 
-    for (Transaction transaction in getTransactionsYearlyForStats(startDate)) {
+    for (Trans transaction in getTransactionsYearlyForStats(startDate)) {
       if (transaction.type == Type.Income && transaction.category == category) {
         totalIncome += transaction.amount;
       }
@@ -250,7 +233,7 @@ class TransactionManager {
   double getExpenseYearlyCategory(DateTime startDate, String category) {
     double totalExpense = 0;
 
-    for (Transaction transaction in getTransactionsYearlyForStats(startDate)) {
+    for (Trans transaction in getTransactionsYearlyForStats(startDate)) {
       if (transaction.type == Type.Expense &&
           transaction.category == category) {
         totalExpense += transaction.amount;
@@ -260,8 +243,8 @@ class TransactionManager {
     return totalExpense;
   }
 
-  static List<Transaction> todayTrans = [];
-  static List<Transaction> weeklyTrans = [];
-  static List<Transaction> monthlyTrans = [];
-  static List<Transaction> yearlyTrans = [];
+  static List<Trans> todayTrans = [];
+  static List<Trans> weeklyTrans = [];
+  static List<Trans> monthlyTrans = [];
+  static List<Trans> yearlyTrans = [];
 }

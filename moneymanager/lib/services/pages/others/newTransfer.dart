@@ -8,7 +8,7 @@ import 'package:moneyManager/services/pages/reusable/auth/errorDialog.dart';
 import 'package:intl/intl.dart';
 import 'package:moneyManager/services/functions/account_manager.dart';
 import 'package:moneyManager/services/models/account.dart';
-import 'package:moneyManager/services/models/transaction.dart';
+import 'package:moneyManager/services/models/trans.dart';
 import 'package:moneyManager/services/functions/checkData.dart';
 
 class NewTransfer extends StatefulWidget {
@@ -122,14 +122,14 @@ class _NewTransferState extends State<NewTransfer> {
             account: _selectedAcc1,
             category: _selectedAcc2.name)
         .checkDataTransfer(_selectedAcc2)) {
-      Transaction newTransfer = Transaction(
+      Trans newTransfer = Trans(
           date: _selectedDate,
           note: _noteController.text,
           amount: double.parse(_amountController.text),
-          acc: _selectedAcc1,
+          accId: _selectedAcc1.id,
           category: _selectedAcc2.name,
           type: Type.Transfer);
-      newTransfer.acc2 = _selectedAcc2;
+      newTransfer.acc2Id = _selectedAcc2.id;
       widget.addTrans(newTransfer);
     } else {
       showDialog(

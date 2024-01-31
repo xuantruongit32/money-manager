@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:moneyManager/services/pages/others/transactionItem.dart';
-import 'package:moneyManager/services/models/transaction.dart';
+import 'package:moneyManager/services/models/trans.dart';
 
 class TransactionList extends StatefulWidget {
   TransactionList(
       {required this.transList, required this.deleteTransaction, Key? key})
       : super(key: key);
-  final Function(Transaction tran) deleteTransaction;
+  final Function(Trans tran) deleteTransaction;
   final transList;
 
   @override

@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:moneyManager/services/functions/account_manager.dart';
 import 'package:moneyManager/services/functions/transaction_category_manager.dart';
 import 'package:moneyManager/services/models/account.dart';
-import 'package:moneyManager/services/models/transaction.dart';
+import 'package:moneyManager/services/models/trans.dart';
 import 'package:moneyManager/services/functions/checkData.dart';
 
 class NewExpense extends StatefulWidget {
@@ -123,11 +123,11 @@ class _NewExpenseState extends State<NewExpense> {
             account: selectedAccount,
             category: selectedCategory)
         .checkDataTrans()) {
-      Transaction newExpense = Transaction(
+      Trans newExpense = Trans(
           date: _selectedDate,
           note: _noteController.text,
           amount: double.parse(_amountController.text),
-          acc: selectedAccount,
+          accId: selectedAccount.id,
           category: selectedCategory,
           type: Type.Expense);
       widget.addTrans(newExpense);

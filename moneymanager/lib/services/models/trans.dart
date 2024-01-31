@@ -1,17 +1,17 @@
+
 import 'package:uuid/uuid.dart';
-import 'package:moneyManager/services/models/account.dart';
 
 var uuid = const Uuid();
 
 enum Type { Income, Expense, Transfer }
 
-class Transaction {
-  Transaction(
+class Trans {
+  Trans(
       {required this.note,
       required this.amount,
       required this.date,
       required this.category,
-      required this.acc,
+      required this.accId,
       required this.type})
       : id = uuid.v4();
   final String note;
@@ -19,7 +19,17 @@ class Transaction {
   final DateTime date;
   final String id;
   final String category;
-  final Account acc;
-  Account acc2 = Account.empty();
+  final String accId;
   final Type type;
+  String acc2Id = '';
+
+  String stringType() {
+    if (type == Type.Income) {
+      return 'Income';
+    } else if (type == Type.Expense) {
+      return 'Expense';
+    } else {
+      return 'Transfer';
+    }
+  }
 }
