@@ -43,6 +43,14 @@ class _TransState extends State<Trans> {
     final monthTransactionIndex = TransactionManager.monthlyTrans.indexOf(tran);
     final yearlyTransactionIndex = TransactionManager.yearlyTrans.indexOf(tran);
     setState(() {
+      if (tran.type == Type.Income) {
+        tran.acc.amount -= tran.amount;
+      } else if (tran.type == Type.Expense) {
+        tran.acc.amount += tran.amount;
+      } else {
+        tran.acc.amount += tran.amount;
+        tran.acc2.amount -= tran.amount;
+      }
       TransactionManager.trans.remove(tran);
       TransactionManager.todayTrans.remove(tran);
       TransactionManager.monthlyTrans.remove(tran);
@@ -56,6 +64,14 @@ class _TransState extends State<Trans> {
             label: 'Undo',
             onPressed: () {
               setState(() {
+                if (tran.type == Type.Income) {
+                  tran.acc.amount += tran.amount;
+                } else if (tran.type == Type.Expense) {
+                  tran.acc.amount -= tran.amount;
+                } else {
+                  tran.acc.amount -= tran.amount;
+                  tran.acc2.amount += tran.amount;
+                }
                 TransactionManager.trans.insert(transactionIndex, tran);
                 TransactionManager.todayTrans
                     .insert(todayTransactionIndex, tran);
@@ -71,6 +87,14 @@ class _TransState extends State<Trans> {
 
   void addTrans(Transaction tran) {
     setState(() {
+      if (tran.type == Type.Income) {
+        tran.acc.amount += tran.amount;
+      } else if (tran.type == Type.Expense) {
+        tran.acc.amount -= tran.amount;
+      } else {
+        tran.acc.amount -= tran.amount;
+        tran.acc2.amount += tran.amount;
+      }
       TransactionManager.trans.add(tran);
       TransactionManager().getTransactionsDaily(_selectedDate);
       TransactionManager().getTransactionsMonthly(_selectedDate);
