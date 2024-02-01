@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:moneyManager/services/functions/account_manager.dart';
+import 'package:moneyManager/services/functions/transaction_category_manager.dart';
 import 'package:moneyManager/services/functions/transaction_manager.dart';
+import 'package:moneyManager/services/models/account.dart';
 import 'package:moneyManager/services/models/trans.dart';
 
 class FireStore {
@@ -98,6 +101,7 @@ class FireStore {
   }
 
   Future<void> fetchTransactionsFromFireStore(var userId) async {
+    TransactionManager.trans.clear();
     QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
         .instance
         .collection('users/$userId/transactions')
@@ -106,7 +110,7 @@ class FireStore {
     for (QueryDocumentSnapshot<Map<String, dynamic>> document
         in snapshot.docs) {
       Map<String, dynamic> data = document.data();
-      Trans tran = Trans(
+      Trans tran = Trans.old(
         accId: data['acc1'],
         amount: data['amount'],
         note: data['note'],
@@ -115,9 +119,29 @@ class FireStore {
           (type) => type.toString() == data['type'],
         ),
         category: data['category'],
+        id: data['id'],
       );
       tran.acc2Id = data['acc2'];
       TransactionManager.trans.add(tran);
+    }
+  }
+
+  Future<void> fetchAccountsFromFireStore(var userId) async {
+    AccountManager.accounts.clear();
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection('users/$userId/accounts')
+        .get();
+
+    for (QueryDocumentSnapshot<Map<String, dynamic>> document
+        in snapshot.docs) {
+      Map<String, dynamic> data = document.data();
+      Account acc = Account.old(
+        name: data['name'],
+        amount: data['amount'],
+        id: data['id'],
+      );
+      AccountManager.accounts.add(acc);
     }
   }
 }

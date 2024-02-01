@@ -31,6 +31,7 @@ class _TransPageState extends State<TransPage> {
   }
 
   var _selectedDate = DateTime.now();
+
   @override
   void initState() {
     TransactionManager().getTransactionsDaily(_selectedDate);
@@ -108,7 +109,7 @@ class _TransPageState extends State<TransPage> {
       if (tran.type == Type.Income) {
         AccountManager.findAccById(tran.accId).amount += tran.amount;
       } else if (tran.type == Type.Expense) {
-       AccountManager.findAccById(tran.accId).amount -= tran.amount;
+        AccountManager.findAccById(tran.accId).amount -= tran.amount;
       } else {
         AccountManager.findAccById(tran.accId).amount -= tran.amount;
         AccountManager.findAccById(tran.accId).amount += tran.amount;

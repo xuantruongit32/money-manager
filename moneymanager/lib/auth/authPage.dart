@@ -6,6 +6,7 @@ import 'package:moneyManager/auth/login_or_register.dart';
 class AuthPage extends StatelessWidget {
   const AuthPage({Key? key}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +14,8 @@ class AuthPage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: ((context, snapshot) {
           if (snapshot.hasData) {
-            return HomePage();
+            return HomePage(
+            );
           } else
             return LoginOrRegister();
         }),
