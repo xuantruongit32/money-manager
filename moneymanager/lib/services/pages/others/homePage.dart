@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moneyManager/network/fire_store.dart';
 import 'package:moneyManager/services/pages/tabs/accountPage.dart';
 import 'package:moneyManager/services/pages/tabs/transPage.dart';
 import 'package:moneyManager/services/pages/tabs/more.dart';
@@ -13,6 +14,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    var userId = FireStore().getUserId();
+    FireStore().fetchTransactionsFromFireStore(userId);
+    super.initState();
+  }
+
   var _currentIndex = 0;
 
   final tabs = [

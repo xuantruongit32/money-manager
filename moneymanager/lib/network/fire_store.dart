@@ -28,7 +28,7 @@ class FireStore {
       'category': tran.category,
       'acc1': tran.accId,
       'acc2': tran.acc2Id,
-      'type': tran.stringType(),
+      'type': tran.type.toString(),
     });
   }
 
@@ -97,8 +97,7 @@ class FireStore {
     await accountCollection.doc(acc.id).delete();
   }
 
-  Future<void> fetchTransactionsFromFireStore() async {
-    final userId = getUserId();
+  Future<void> fetchTransactionsFromFireStore(var userId) async {
     QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
         .instance
         .collection('users/$userId/transactions')
@@ -107,9 +106,18 @@ class FireStore {
     for (QueryDocumentSnapshot<Map<String, dynamic>> document
         in snapshot.docs) {
       Map<String, dynamic> data = document.data();
-      TransactionManager.trans.add(
-        Trans(note: data['note'], amount: data['amount'], date: data['date'].toDate(), accId: data['accId'], id: )
+      Trans tran = Trans(
+        accId: data['acc1'],
+        amount: data['amount'],
+        note: data['note'],
+        date: data['date'].toDate(),
+        type: Type.values.firstWhere(
+          (type) => type.toString() == data['type'],
+        ),
+        category: data['category'],
       );
+      tran.acc2Id = data['acc2'];
+      TransactionManager.trans.add(tran);
     }
   }
 }

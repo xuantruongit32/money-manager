@@ -23,11 +23,6 @@ class MoneyManager extends StatefulWidget {
 
 class _MoneyManagerState extends State<MoneyManager> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
