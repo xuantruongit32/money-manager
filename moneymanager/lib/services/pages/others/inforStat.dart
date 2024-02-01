@@ -34,7 +34,7 @@ class InformationStat extends StatelessWidget {
                     '${dataEntry.value.toStringAsFixed(2)}',
                     style: TextStyle(
                       fontSize: 16.0,
-                      color: colors[index],
+                      color: colors[index] ,
                     ),
                   ),
                 ],

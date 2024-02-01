@@ -243,25 +243,55 @@ class _TransPageState extends State<TransPage> {
         scrollDirection: Axis.horizontal,
         children: [
           TransactionManager.todayTrans.length == 0
-              ? Center(child: Text('No transaction found'))
+              ? Center(
+                  child: Text(
+                  'No transaction found!',
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ))
               : TransactionList(
                   transList: TransactionManager.todayTrans,
                   deleteTransaction: _deleteTransaction,
                 ),
           TransactionManager.monthlyTrans.length == 0
-              ? Center(child: Text('No transaction found'))
+              ? Center(
+                  child: Text(
+                  'No transaction found!',
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ))
               : TransactionList(
                   transList: TransactionManager.monthlyTrans,
                   deleteTransaction: _deleteTransaction,
                 ),
           TransactionManager.yearlyTrans.length == 0
-              ? Center(child: Text('No transaction found'))
+              ? Center(
+                  child: Text(
+                    'No transaction found!',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
               : TransactionList(
                   transList: TransactionManager.yearlyTrans,
                   deleteTransaction: _deleteTransaction,
                 ),
           TransactionManager.trans.length == 0
-              ? Center(child: Text('No transaction found'))
+              ? Center(
+                  child: Text(
+                    'No transaction found!',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
               : TransactionList(
                   transList: TransactionManager.trans,
                   deleteTransaction: _deleteTransaction,
