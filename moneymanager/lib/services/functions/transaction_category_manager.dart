@@ -1,11 +1,6 @@
 class TransactionCategoryManager {
-  static List<String> expenseCategories = ['food', 'entertain'];
+  static List<String> expenseCategories = [];
   static List<String> incomeCategories = [
-    'bonus',
-    'salary',
-    'mom',
-    'salary2',
-    'salary3',
   ];
 
   static void addIncomeCategory(String category) {

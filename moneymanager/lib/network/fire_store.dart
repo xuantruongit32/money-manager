@@ -48,9 +48,12 @@ class FireStore {
     CollectionReference categoryCollection =
         FirebaseFirestore.instance.collection('users/$userId/category');
 
-    await categoryCollection.doc('income').update({
-      category: category,
-    });
+    await categoryCollection.doc('income').set(
+      {
+        category: category,
+      },
+      SetOptions(merge: true),
+    );
   }
 
   Future<void> addExpenseCategoryToFireStore(String category) async {
@@ -58,9 +61,12 @@ class FireStore {
     CollectionReference categoryCollection =
         FirebaseFirestore.instance.collection('users/$userId/category');
 
-    await categoryCollection.doc('expense').update({
-      category: category,
-    });
+    await categoryCollection.doc('expense').set(
+      {
+        category: category,
+      },
+      SetOptions(merge: true),
+    );
   }
 
   Future<void> removeIncomeCategoryFromFireStore(String category) async {
@@ -68,7 +74,7 @@ class FireStore {
     CollectionReference categoryCollection =
         FirebaseFirestore.instance.collection('users/$userId/category');
     await categoryCollection.doc('income').update({
-      category: FieldValue.arrayRemove([category]),
+      category: FieldValue.delete(),
     });
   }
 
@@ -140,6 +146,32 @@ class FireStore {
       );
       AccountManager.accounts.add(acc);
     }
-  }
+    TransactionCategoryManager.incomeCategories.clear();
+    TransactionCategoryManager.expenseCategories.clear();
 
+    DocumentSnapshot<Map<String, dynamic>> snapshotIncomeCate =
+        await FirebaseFirestore.instance
+            .collection('users/$userId/category')
+            .doc('income')
+            .get();
+    Map<String, dynamic>? incomeCategoryData = snapshotIncomeCate.data();
+
+    if (incomeCategoryData != null) {
+      TransactionCategoryManager.incomeCategories =
+          incomeCategoryData.keys.toList();
+    }
+
+    DocumentSnapshot<Map<String, dynamic>> snapshotExpenseCate =
+        await FirebaseFirestore.instance
+            .collection('users/$userId/category')
+            .doc('expense')
+            .get();
+
+    Map<String, dynamic>? expenseCategoryData = snapshotExpenseCate.data();
+
+    if (expenseCategoryData != null) {
+      TransactionCategoryManager.expenseCategories =
+          expenseCategoryData.keys.toList();
+    }
+  }
 }
