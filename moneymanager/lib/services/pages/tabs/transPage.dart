@@ -34,9 +34,13 @@ class _TransPageState extends State<TransPage> {
 
   @override
   void initState() {
-    TransactionManager().getTransactionsDaily(_selectedDate);
-    TransactionManager().getTransactionsMonthly(_selectedDate);
-    TransactionManager().getTransactionsYearly(_selectedDate);
+    var userId = FireStore().getUserId();
+    FireStore().fetchTransactionsFromFireStore(userId).then((value) {
+      TransactionManager().getTransactionsDaily(_selectedDate);
+      TransactionManager().getTransactionsMonthly(_selectedDate);
+      TransactionManager().getTransactionsYearly(_selectedDate);
+      setState(() {});
+    });
     super.initState();
   }
 

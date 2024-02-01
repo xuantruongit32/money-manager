@@ -13,17 +13,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   @override
   void initState() {
-    var userId = FireStore().getUserId();
-    FireStore().fetchTransactionsFromFireStore(userId);
     super.initState();
   }
 
   var _currentIndex = 0;
 
   final tabs = [
-    TransPage(),
+    TransPage(
+    ),
     Stats(),
     AccountPage(),
     More(),
