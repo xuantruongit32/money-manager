@@ -35,7 +35,7 @@ class _TransPageState extends State<TransPage> {
   @override
   void initState() {
     var userId = FireStore().getUserId();
-    FireStore().fetchTransactionsFromFireStore(userId).then((value) {
+    FireStore().fetchAllDataFromFireStore(userId).then((value) {
       TransactionManager().getTransactionsDaily(_selectedDate);
       TransactionManager().getTransactionsMonthly(_selectedDate);
       TransactionManager().getTransactionsYearly(_selectedDate);
@@ -56,7 +56,7 @@ class _TransPageState extends State<TransPage> {
         AccountManager.findAccById(tran.id).amount;
       } else {
         AccountManager.findAccById(tran.accId).amount += tran.amount;
-        AccountManager.findAccById(tran.accId).amount -= tran.amount;
+        AccountManager.findAccById(tran.acc2Id).amount -= tran.amount;
       }
       TransactionManager.trans.remove(tran);
       FireStore().removeTransactionToFireStore(tran);
@@ -114,9 +114,9 @@ class _TransPageState extends State<TransPage> {
         AccountManager.findAccById(tran.accId).amount += tran.amount;
       } else if (tran.type == Type.Expense) {
         AccountManager.findAccById(tran.accId).amount -= tran.amount;
-      } else {
+      } else if (tran.type == Type.Transfer) {
         AccountManager.findAccById(tran.accId).amount -= tran.amount;
-        AccountManager.findAccById(tran.accId).amount += tran.amount;
+        AccountManager.findAccById(tran.acc2Id).amount += tran.amount;
       }
       TransactionManager.trans.add(tran);
       FireStore().addTransactionToFireStore(tran);

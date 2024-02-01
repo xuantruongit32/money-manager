@@ -100,7 +100,7 @@ class FireStore {
     await accountCollection.doc(acc.id).delete();
   }
 
-  Future<void> fetchTransactionsFromFireStore(var userId) async {
+  Future<void> fetchAllDataFromFireStore(var userId) async {
     TransactionManager.trans.clear();
     QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
         .instance
@@ -124,17 +124,14 @@ class FireStore {
       tran.acc2Id = data['acc2'];
       TransactionManager.trans.add(tran);
     }
-  }
-
-  Future<void> fetchAccountsFromFireStore(var userId) async {
     AccountManager.accounts.clear();
-    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+    QuerySnapshot<Map<String, dynamic>> snapshot2 = await FirebaseFirestore
         .instance
         .collection('users/$userId/accounts')
         .get();
 
     for (QueryDocumentSnapshot<Map<String, dynamic>> document
-        in snapshot.docs) {
+        in snapshot2.docs) {
       Map<String, dynamic> data = document.data();
       Account acc = Account.old(
         name: data['name'],
@@ -144,4 +141,5 @@ class FireStore {
       AccountManager.accounts.add(acc);
     }
   }
+
 }

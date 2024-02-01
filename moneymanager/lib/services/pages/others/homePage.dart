@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:moneyManager/network/fire_store.dart';
 import 'package:moneyManager/services/pages/tabs/accountPage.dart';
 import 'package:moneyManager/services/pages/tabs/transPage.dart';
 import 'package:moneyManager/services/pages/tabs/more.dart';

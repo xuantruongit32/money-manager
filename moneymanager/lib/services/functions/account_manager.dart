@@ -1,14 +1,7 @@
 import 'package:moneyManager/services/models/account.dart';
 
 class AccountManager {
-  static List<Account> accounts = [
-    Account(amount: 30, name: 'Test1'),
-    Account(amount: -30, name: 'Test2'),
-    Account(amount: 30, name: 'Test3'),
-    Account(amount: 30, name: 'Test4'),
-    Account(amount: 30, name: 'Test5'),
-    Account(amount: 30, name: 'Test6'),
-  ];
+  static List<Account> accounts = [];
 
   static void addAccount(Account acc) {
     accounts.add(acc);
