@@ -66,7 +66,10 @@ class _CategoryPageState extends State<CategoryPage> {
       body: PageView(
         controller: _controller,
         onPageChanged: _onPageChanged,
-        children: [IncomeCategory(), ExpenseCategory()],
+        children: [
+          IncomeCategory(),
+          ExpenseCategory(),
+        ],
       ),
     );
   }

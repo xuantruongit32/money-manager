@@ -22,6 +22,13 @@ class _IncomeCategoryState extends State<IncomeCategory> {
     });
   }
 
+  void _editIncomeCategory(String newName, Category category) {
+    setState(() {
+      category.name = newName;
+      FireStore().editIncomeCategoryToFireStore(newName, category);
+    });
+  }
+
   void _removeIncomeCategory(Category category) {
     showDialog(
       context: context,
@@ -59,6 +66,7 @@ class _IncomeCategoryState extends State<IncomeCategory> {
             children: TransactionCategoryManager.incomeCategories
                 .map(
                   (e) => CategoryItem(
+                    editCate: _editIncomeCategory,
                     category: e,
                     removeCategory: _removeIncomeCategory,
                   ),

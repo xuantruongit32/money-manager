@@ -118,6 +118,26 @@ class FireStore {
     });
   }
 
+  Future<void> editIncomeCategoryToFireStore(
+      var newName, Category category) async {
+    final userId = getUserId();
+    CollectionReference categoryCollection =
+        FirebaseFirestore.instance.collection('users/$userId/category');
+    await categoryCollection.doc('income').update({
+      category.id: newName,
+    });
+  }
+
+  Future<void> editExpenseCategoryToFireStore(
+      var newName, Category category) async {
+    final userId = getUserId();
+    CollectionReference categoryCollection =
+        FirebaseFirestore.instance.collection('users/$userId/category');
+    await categoryCollection.doc('expense').update({
+      category.id: newName,
+    });
+  }
+
   Future<void> fetchAllDataFromFireStore(var userId) async {
     TransactionManager.trans.clear();
     QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore

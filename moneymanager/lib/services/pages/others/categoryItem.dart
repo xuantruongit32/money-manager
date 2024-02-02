@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:moneyManager/services/models/category.dart';
+import 'package:moneyManager/services/pages/others/editCategory.dart';
 
 class CategoryItem extends StatelessWidget {
   const CategoryItem(
-      {Key? key, required this.category, required this.removeCategory})
+      {Key? key,
+      required this.category,
+      required this.removeCategory,
+      required this.editCate})
       : super(key: key);
   final Category category;
   final Function removeCategory;
+  final Function editCate;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +29,15 @@ class CategoryItem extends StatelessWidget {
             Row(
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditCategory(
+                            editCategory: editCate, category: category),
+                      ),
+                    );
+                  },
                   icon: Icon(
                     Icons.edit,
                   ),

@@ -22,6 +22,13 @@ class _ExpenseCategoryState extends State<ExpenseCategory> {
     });
   }
 
+  void _editExpenseCategory(String newName, Category category) {
+    setState(() {
+      category.name = newName;
+      FireStore().editExpenseCategoryToFireStore(newName, category);
+    });
+  }
+
   void _removeExpenseCategory(Category category) {
     showDialog(
       context: context,
@@ -59,6 +66,7 @@ class _ExpenseCategoryState extends State<ExpenseCategory> {
             children: TransactionCategoryManager.expenseCategories
                 .map(
                   (e) => CategoryItem(
+                    editCate: _editExpenseCategory,
                     category: e,
                     removeCategory: _removeExpenseCategory,
                   ),
