@@ -4,6 +4,7 @@ import 'package:moneyManager/services/functions/account_manager.dart';
 import 'package:moneyManager/services/functions/transaction_category_manager.dart';
 import 'package:moneyManager/services/functions/transaction_manager.dart';
 import 'package:moneyManager/services/models/account.dart';
+import 'package:moneyManager/services/models/category.dart';
 import 'package:moneyManager/services/models/trans.dart';
 
 class FireStore {
@@ -43,47 +44,47 @@ class FireStore {
     await transactionsCollection.doc(tran.id).delete();
   }
 
-  Future<void> addIncomeCategoryToFireStore(String category) async {
+  Future<void> addIncomeCategoryToFireStore(Category category) async {
     final userId = getUserId();
     CollectionReference categoryCollection =
         FirebaseFirestore.instance.collection('users/$userId/category');
 
     await categoryCollection.doc('income').set(
       {
-        category: category,
+        category.id: category.name,
       },
       SetOptions(merge: true),
     );
   }
 
-  Future<void> addExpenseCategoryToFireStore(String category) async {
+  Future<void> addExpenseCategoryToFireStore(Category category) async {
     final userId = getUserId();
     CollectionReference categoryCollection =
         FirebaseFirestore.instance.collection('users/$userId/category');
 
     await categoryCollection.doc('expense').set(
       {
-        category: category,
+        category.id: category.name,
       },
       SetOptions(merge: true),
     );
   }
 
-  Future<void> removeIncomeCategoryFromFireStore(String category) async {
+  Future<void> removeIncomeCategoryFromFireStore(Category category) async {
     final userId = getUserId();
     CollectionReference categoryCollection =
         FirebaseFirestore.instance.collection('users/$userId/category');
     await categoryCollection.doc('income').update({
-      category: FieldValue.delete(),
+      category.id: FieldValue.delete(),
     });
   }
 
-  Future<void> removeExpenseCategoryFromFireStore(String category) async {
+  Future<void> removeExpenseCategoryFromFireStore(Category category) async {
     final userId = getUserId();
     CollectionReference categoryCollection =
         FirebaseFirestore.instance.collection('users/$userId/category');
     await categoryCollection.doc('expense').update({
-      category: FieldValue.delete(),
+      category.id: FieldValue.delete(),
     });
   }
 
@@ -168,8 +169,16 @@ class FireStore {
     Map<String, dynamic>? incomeCategoryData = snapshotIncomeCate.data();
 
     if (incomeCategoryData != null) {
-      TransactionCategoryManager.incomeCategories =
-          incomeCategoryData.keys.toList();
+      for (var data in incomeCategoryData.entries) {
+        var id = data.key;
+        var name = data.value.toString();
+        TransactionCategoryManager.addIncomeCategory(
+          Category.old(
+            name: name,
+            id: id,
+          ),
+        );
+      }
     }
 
     DocumentSnapshot<Map<String, dynamic>> snapshotExpenseCate =
@@ -181,8 +190,16 @@ class FireStore {
     Map<String, dynamic>? expenseCategoryData = snapshotExpenseCate.data();
 
     if (expenseCategoryData != null) {
-      TransactionCategoryManager.expenseCategories =
-          expenseCategoryData.keys.toList();
+      for (var data in expenseCategoryData.entries) {
+        var id = data.key;
+        var name = data.value.toString();
+        TransactionCategoryManager.addExpenseCategory(
+          Category.old(
+            name: name,
+            id: id,
+          ),
+        );
+      }
     }
   }
 }

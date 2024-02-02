@@ -1,21 +1,36 @@
-class TransactionCategoryManager {
-  static List<String> expenseCategories = [];
-  static List<String> incomeCategories = [
-  ];
+import 'package:moneyManager/services/models/category.dart';
 
-  static void addIncomeCategory(String category) {
+class TransactionCategoryManager {
+  static List<Category> expenseCategories = [];
+  static List<Category> incomeCategories = [];
+
+  static void addIncomeCategory(Category category) {
     incomeCategories.add(category);
   }
 
-  static void addExpenseCategory(String category) {
+  static void addExpenseCategory(Category category) {
     expenseCategories.add(category);
   }
 
-  static void removeIncomeCategory(String category) {
+  static void removeIncomeCategory(Category category) {
     incomeCategories.remove(category);
   }
 
   static void removeExpenseCategory(String category) {
     expenseCategories.remove(category);
+  }
+
+  static Category getCategoryFromId(String id) {
+    for (var cate in expenseCategories) {
+      if (cate.id == id) {
+        return cate;
+      }
+    }
+    for (var cate in incomeCategories) {
+      if (cate.id == id) {
+        return cate;
+      }
+    }
+    return Category.empty();
   }
 }
