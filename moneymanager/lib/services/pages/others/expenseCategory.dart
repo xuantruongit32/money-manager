@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:moneyManager/network/fire_store.dart';
 import 'package:moneyManager/services/functions/transaction_category_manager.dart';
+import 'package:moneyManager/services/models/category.dart';
 import 'package:moneyManager/services/pages/others/addCategory.dart';
 import 'package:moneyManager/services/pages/others/categoryItem.dart';
 
@@ -14,14 +15,14 @@ class ExpenseCategory extends StatefulWidget {
 }
 
 class _ExpenseCategoryState extends State<ExpenseCategory> {
-  void _addExpenseCategory(String category) {
+  void _addExpenseCategory(Category category) {
     setState(() {
       TransactionCategoryManager.addExpenseCategory(category);
       FireStore().addExpenseCategoryToFireStore(category);
     });
   }
 
-  void _removeExpenseCategory(String category) {
+  void _removeExpenseCategory(Category category) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(

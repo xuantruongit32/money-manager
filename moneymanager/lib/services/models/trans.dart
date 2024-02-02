@@ -31,5 +31,4 @@ class Trans {
   final String accId;
   final Type type;
   String acc2Id = '';
-
 }

@@ -53,7 +53,7 @@ class _AccountPageState extends State<AccountPage> {
                     ),
                   ),
                 );
-              } else if (value == 'Remove') {
+              } else if (value == 'Edit') {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -67,7 +67,6 @@ class _AccountPageState extends State<AccountPage> {
             },
             itemBuilder: (context) => <PopupMenuEntry<String>>[
               PopupMenuItem(child: Text('Add'), value: 'Add'),
-              PopupMenuItem(child: Text('Remove'), value: 'Remove'),
               PopupMenuItem(child: Text('Edit'), value: 'Edit'),
             ],
           ),

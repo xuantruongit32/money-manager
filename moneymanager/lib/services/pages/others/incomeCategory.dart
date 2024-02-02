@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:moneyManager/network/fire_store.dart';
 import 'package:moneyManager/services/functions/transaction_category_manager.dart';
+import 'package:moneyManager/services/models/category.dart';
 import 'package:moneyManager/services/pages/others/addCategory.dart';
 import 'package:moneyManager/services/pages/others/categoryItem.dart';
 
@@ -14,14 +15,14 @@ class IncomeCategory extends StatefulWidget {
 }
 
 class _IncomeCategoryState extends State<IncomeCategory> {
-  void _addIncomeCategory(String category) {
+  void _addIncomeCategory(Category category) {
     setState(() {
       TransactionCategoryManager.addIncomeCategory(category);
       FireStore().addIncomeCategoryToFireStore(category);
     });
   }
 
-  void _removeIncomeCategory(String category) {
+  void _removeIncomeCategory(Category category) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(

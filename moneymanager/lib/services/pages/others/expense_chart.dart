@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moneyManager/services/functions/transaction_category_manager.dart';
 import 'package:moneyManager/services/functions/transaction_manager.dart';
+import 'package:moneyManager/services/models/category.dart';
 import 'package:moneyManager/services/pages/others/inforStat.dart';
 import 'package:moneyManager/services/pages/reusable/pie_chart.dart';
 
@@ -14,12 +15,12 @@ class ExpenseChart extends StatelessWidget {
   Widget build(BuildContext context) {
     double total = 0;
     Map<String, double> dataMap = {
-      for (String category in TransactionCategoryManager.expenseCategories)
-        category: time == 'Monthly'
-            ? TransactionManager().getExpenseMonthlyCategory(date, category)
+      for (Category category in TransactionCategoryManager.expenseCategories)
+        category.name: time == 'Monthly'
+            ? TransactionManager().getExpenseMonthlyCategory(date, category.id)
             : time == 'Yearly'
-                ? TransactionManager().getExpenseYearlyCategory(date, category)
-                : TransactionManager().getExpenseWeeklyCategory(date, category),
+                ? TransactionManager().getExpenseYearlyCategory(date, category.id)
+                : TransactionManager().getExpenseWeeklyCategory(date, category.id),
     };
     dataMap.forEach((key, value) {
       total += value;

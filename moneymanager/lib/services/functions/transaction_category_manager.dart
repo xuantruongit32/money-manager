@@ -16,7 +16,7 @@ class TransactionCategoryManager {
     incomeCategories.remove(category);
   }
 
-  static void removeExpenseCategory(String category) {
+  static void removeExpenseCategory(Category category) {
     expenseCategories.remove(category);
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moneyManager/services/models/category.dart';
 import 'package:moneyManager/services/pages/reusable/lineOfAddTrans.dart';
 import 'package:moneyManager/services/pages/reusable/addTextField.dart';
 import 'package:moneyManager/services/pages/reusable/auth/errorDialog.dart';
@@ -28,7 +29,7 @@ class _NewExpenseState extends State<NewExpense> {
   String showCategory = TransactionCategoryManager.incomeCategories.isNotEmpty
       ? "                   "
       : 'No category available';
-  String selectedCategory = '';
+  Category selectedCategory = Category.empty();
 
   var format = DateFormat('d/M/yyyy (E)');
   var _selectedDate = DateTime.now();
@@ -121,14 +122,14 @@ class _NewExpenseState extends State<NewExpense> {
     if (CheckData(
             amount: _amountController.text,
             account: selectedAccount,
-            category: selectedCategory)
+            category: selectedCategory.id)
         .checkDataTrans()) {
       Trans newExpense = Trans(
           date: _selectedDate,
           note: _noteController.text,
           amount: double.parse(_amountController.text),
           accId: selectedAccount.id,
-          category: selectedCategory,
+          category: selectedCategory.id,
           type: Type.Expense);
       widget.addTrans(newExpense);
     } else {
@@ -142,7 +143,7 @@ class _NewExpenseState extends State<NewExpense> {
   }
 
   void _showCategoryPicker(BuildContext context) async {
-    final selected = await showDialog<String>(
+    final selected = await showDialog<Category>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -168,7 +169,7 @@ class _NewExpenseState extends State<NewExpense> {
                         ),
                         child: ListTile(
                           title: Text(
-                            category,
+                            category.name,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 16.0,
@@ -200,7 +201,7 @@ class _NewExpenseState extends State<NewExpense> {
     if (selected != null) {
       setState(() {
         selectedCategory = selected;
-        showCategory = selected;
+        showCategory = selected.name;
       });
     }
   }
