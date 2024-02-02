@@ -36,6 +36,13 @@ class _RemoveAccountState extends State<RemoveAccount> {
     );
   }
 
+  void editAccount(var acc, var newName, double amount) {
+    setState(() {
+      acc.name = newName;
+      acc.amount = amount;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +56,7 @@ class _RemoveAccountState extends State<RemoveAccount> {
             children: AccountManager.accounts
                 .map(
                   (e) => AccountItemRm(
+                    editAcc: editAccount,
                     account: e,
                     removeAcc: removeAccount,
                   ),

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
 class AccountItemRm extends StatelessWidget {
-  const AccountItemRm(
-      {Key? key, required this.account, required this.removeAcc})
-      : super(key: key);
+  const AccountItemRm({
+    Key? key,
+    required this.account,
+    required this.removeAcc,
+    required this.editAcc,
+  }) : super(key: key);
 
   final Function removeAcc;
+  final Function editAcc;
 
   final account;
   @override
@@ -19,12 +23,22 @@ class AccountItemRm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(account.name),
-          IconButton(
-            onPressed: () => removeAcc(account),
-            icon: Icon(
-              Icons.remove_circle,
-              color: Colors.red,
-            ),
+          Row(
+            children: [
+              IconButton(
+                onPressed: () => removeAcc(account),
+                icon: Icon(
+                  Icons.edit,
+                ),
+              ),
+              IconButton(
+                onPressed: () => removeAcc(account),
+                icon: Icon(
+                  Icons.remove_circle,
+                  color: Colors.red,
+                ),
+              ),
+            ],
           ),
         ],
       ),

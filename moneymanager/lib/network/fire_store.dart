@@ -83,7 +83,7 @@ class FireStore {
     CollectionReference categoryCollection =
         FirebaseFirestore.instance.collection('users/$userId/category');
     await categoryCollection.doc('expense').update({
-      category: FieldValue.arrayRemove([category]),
+      category: FieldValue.delete(),
     });
   }
 
@@ -104,6 +104,17 @@ class FireStore {
     CollectionReference accountCollection =
         FirebaseFirestore.instance.collection('/users/$userId/accounts');
     await accountCollection.doc(acc.id).delete();
+  }
+
+  Future<void> editAccountToFireStore(
+      var acc, var newName, var newAmount) async {
+    final userId = getUserId();
+    CollectionReference accountCollection =
+        FirebaseFirestore.instance.collection('users/$userId/accounts');
+    await accountCollection.doc(acc.id).update({
+      'amount': newAmount,
+      'name': newName,
+    });
   }
 
   Future<void> fetchAllDataFromFireStore(var userId) async {
