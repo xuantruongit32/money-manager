@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moneyManager/services/pages/others/editAccountPage.dart';
 
 class AccountItemRm extends StatelessWidget {
   const AccountItemRm({
@@ -26,7 +27,15 @@ class AccountItemRm extends StatelessWidget {
           Row(
             children: [
               IconButton(
-                onPressed: () => removeAcc(account),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          EditAccountPage(editAcc: editAcc, acc: account),
+                    ),
+                  );
+                },
                 icon: Icon(
                   Icons.edit,
                 ),

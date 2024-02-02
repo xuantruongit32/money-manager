@@ -5,7 +5,7 @@ import 'package:moneyManager/services/functions/account_manager.dart';
 import 'package:moneyManager/services/models/account.dart';
 import 'package:moneyManager/services/pages/others/accountItem.dart';
 import 'package:moneyManager/services/pages/others/newAccount.dart';
-import 'package:moneyManager/services/pages/others/removeAccount.dart';
+import 'package:moneyManager/services/pages/others/editAccount.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -19,6 +19,14 @@ class _AccountPageState extends State<AccountPage> {
     setState(() {
       AccountManager.accounts.add(acc);
       FireStore().addAccountToFireStore(acc);
+    });
+  }
+
+  void editAccount(var acc, var newName, double newAmount) {
+    setState(() {
+      acc.name = newName;
+      acc.amount = newAmount;
+      FireStore().editAccountToFireStore(acc, newName, newAmount);
     });
   }
 
@@ -49,7 +57,8 @@ class _AccountPageState extends State<AccountPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => RemoveAccount(
+                    builder: (context) => EditAccount(
+                      editAcc: editAccount,
                       removeAcc: removeAcc,
                     ),
                   ),

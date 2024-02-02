@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:moneyManager/services/functions/account_manager.dart';
 import 'package:moneyManager/services/pages/others/accountItemRm.dart';
 
-class RemoveAccount extends StatefulWidget {
-  RemoveAccount({Key? key, required this.removeAcc}) : super(key: key);
+class EditAccount extends StatefulWidget {
+  EditAccount({Key? key, required this.removeAcc, required this.editAcc}) : super(key: key);
   final Function removeAcc;
+  final Function editAcc;
 
   @override
-  _RemoveAccountState createState() => _RemoveAccountState();
+  _EditAccountState createState() => _EditAccountState();
 }
 
-class _RemoveAccountState extends State<RemoveAccount> {
+class _EditAccountState extends State<EditAccount> {
   void removeAccount(var acc) {
     showDialog(
       context: context,
@@ -36,18 +37,11 @@ class _RemoveAccountState extends State<RemoveAccount> {
     );
   }
 
-  void editAccount(var acc, var newName, double amount) {
-    setState(() {
-      acc.name = newName;
-      acc.amount = amount;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Remove Account'),
+        title: Text('Edit Account'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -56,7 +50,7 @@ class _RemoveAccountState extends State<RemoveAccount> {
             children: AccountManager.accounts
                 .map(
                   (e) => AccountItemRm(
-                    editAcc: editAccount,
+                    editAcc: widget.editAcc,
                     account: e,
                     removeAcc: removeAccount,
                   ),
