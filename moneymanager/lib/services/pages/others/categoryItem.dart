@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:moneyManager/services/models/category.dart';
 
 class CategoryItem extends StatelessWidget {
   const CategoryItem(
       {Key? key, required this.category, required this.removeCategory})
       : super(key: key);
-  final category;
+  final Category category;
   final Function removeCategory;
 
   @override
@@ -19,7 +20,7 @@ class CategoryItem extends StatelessWidget {
         padding: EdgeInsets.all(8),
         child: Row(
           children: [
-            Text(category),
+            Text(category.name),
             Row(
               children: [
                 IconButton(

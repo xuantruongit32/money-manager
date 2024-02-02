@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:moneyManager/services/functions/account_manager.dart';
+import 'package:moneyManager/services/functions/transaction_category_manager.dart';
 import 'package:moneyManager/services/models/trans.dart';
 
 class TransactionItem extends StatelessWidget {
@@ -27,7 +28,9 @@ class TransactionItem extends StatelessWidget {
                     format.format(transaction.date),
                   ),
                   Text(
-                    transaction.category,
+                    TransactionCategoryManager.getCategoryFromId(
+                            transaction.category)
+                        .name,
                     style: TextStyle(color: Colors.black38),
                   ),
                 ],

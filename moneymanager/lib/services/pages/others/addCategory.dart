@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:moneyManager/services/models/category.dart';
 import 'package:moneyManager/services/pages/reusable/addTextField.dart';
 import 'package:moneyManager/services/pages/reusable/auth/authButton.dart';
 
@@ -39,7 +40,8 @@ class _AddCategoryState extends State<AddCategory> {
               AuthButton(
                 buttonText: 'Save',
                 fun: () {
-                  widget.addCategory(_nameController.text);
+                  Category category = Category(name: _nameController.text);
+                  widget.addCategory(category);
                   Navigator.pop(context);
                 },
               ),
