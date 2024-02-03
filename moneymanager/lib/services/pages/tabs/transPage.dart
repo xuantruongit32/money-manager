@@ -31,13 +31,14 @@ class _TransPageState extends State<TransPage> {
   }
 
   void _editTransfer(Trans transfer, var newAccId, var newAcc2Id, var newAmount,
-      var newCategory, var newNote) {
+      var newCategory, var newNote, var newDate) {
     setState(() {
       transfer.accId = newAccId;
       transfer.acc2Id = newAcc2Id;
       transfer.amount = newAmount;
       transfer.category = newCategory;
       transfer.note = newNote;
+      transfer.date = newDate;
 
       AccountManager.findAccById(transfer.accId).amount =
           AccountManager.findAccById(transfer.accId).amount +
@@ -46,7 +47,10 @@ class _TransPageState extends State<TransPage> {
       AccountManager.findAccById(transfer.acc2Id).amount -
           transfer.amount +
           newAmount;
+      FireStore().editTransferToFireStore(transfer, newAccId, newAcc2Id,
+          newAmount, newCategory, newNote, newDate);
     });
+    Navigator.pop(context);
   }
 
   var _selectedDate = DateTime.now();
@@ -273,6 +277,7 @@ class _TransPageState extends State<TransPage> {
                   ),
                 ))
               : TransactionList(
+                  editTransfer: _editTransfer,
                   transList: TransactionManager.weeklyTrans,
                   deleteTransaction: _deleteTransaction,
                 ),
@@ -286,6 +291,7 @@ class _TransPageState extends State<TransPage> {
                   ),
                 ))
               : TransactionList(
+                  editTransfer: _editTransfer,
                   transList: TransactionManager.monthlyTrans,
                   deleteTransaction: _deleteTransaction,
                 ),
@@ -300,6 +306,7 @@ class _TransPageState extends State<TransPage> {
                   ),
                 )
               : TransactionList(
+                  editTransfer: _editTransfer,
                   transList: TransactionManager.yearlyTrans,
                   deleteTransaction: _deleteTransaction,
                 ),
@@ -314,6 +321,7 @@ class _TransPageState extends State<TransPage> {
                   ),
                 )
               : TransactionList(
+                  editTransfer: _editTransfer,
                   transList: TransactionManager.trans,
                   deleteTransaction: _deleteTransaction,
                 ),

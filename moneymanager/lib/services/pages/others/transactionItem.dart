@@ -4,15 +4,28 @@ import 'package:intl/intl.dart';
 import 'package:moneyManager/services/functions/account_manager.dart';
 import 'package:moneyManager/services/functions/transaction_category_manager.dart';
 import 'package:moneyManager/services/models/trans.dart';
+import 'package:moneyManager/services/pages/others/editTranferPage.dart';
 
 class TransactionItem extends StatelessWidget {
-  TransactionItem({required this.transaction, Key? key}) : super(key: key);
+  TransactionItem(
+      {required this.transaction, required this.editTransfer, Key? key})
+      : super(key: key);
   final Trans transaction;
   final format = DateFormat('d/M/yy');
+  final Function editTransfer;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EditTransferPage(
+                editTransfer: editTransfer, transfer: transaction),
+          ),
+        );
+      },
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(1),

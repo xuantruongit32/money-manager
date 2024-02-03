@@ -138,6 +138,27 @@ class FireStore {
     });
   }
 
+  Future<void> editTransferToFireStore(
+      Trans transfer,
+      var newAccId,
+      var newAcc2Id,
+      var newAmount,
+      var newCategory,
+      var newNote,
+      var newDate) async {
+    final userId = getUserId();
+    CollectionReference transferCollection =
+        FirebaseFirestore.instance.collection('/users/$userId/transactions');
+    await transferCollection.doc(transfer.id).update({
+      'note': newNote,
+      'amount': newAmount,
+      'date': newDate,
+      'category': newCategory,
+      'acc1': newAccId,
+      'acc2': newAcc2Id,
+    });
+  }
+
   Future<void> fetchAllDataFromFireStore(var userId) async {
     TransactionManager.trans.clear();
     QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore

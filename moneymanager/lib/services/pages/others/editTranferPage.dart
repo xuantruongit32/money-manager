@@ -23,14 +23,10 @@ class EditTransferPage extends StatefulWidget {
 }
 
 class _EditTransferPageState extends State<EditTransferPage> {
+  late String showAccount1;
+  late String showAccount2;
   late Account _selectedAcc1;
-  String showAccount1 = AccountManager.accounts.isNotEmpty
-      ? "                     "
-      : 'No accounts available';
   late Account _selectedAcc2;
-  String showAccount2 = AccountManager.accounts.isNotEmpty
-      ? "                     "
-      : 'No accounts available';
   var format = DateFormat('d/M/yyyy (E)');
   late var _selectedDate;
   final _amountController = TextEditingController();
@@ -39,9 +35,16 @@ class _EditTransferPageState extends State<EditTransferPage> {
   @override
   void initState() {
     _selectedAcc1 = AccountManager.findAccById(widget.transfer.accId);
-    _selectedAcc1 = AccountManager.findAccById(widget.transfer.acc2Id);
+    _selectedAcc2 = AccountManager.findAccById(widget.transfer.acc2Id);
     _amountController.text = widget.transfer.amount.toString();
     _noteController.text = widget.transfer.note;
+    showAccount1 = AccountManager.accounts.isNotEmpty
+        ? _selectedAcc1.name
+        : 'No accounts available';
+    showAccount2 = AccountManager.accounts.isNotEmpty
+        ? _selectedAcc2.name
+        : 'No accounts available';
+    _selectedDate = widget.transfer.date;
     super.initState();
   }
 
@@ -134,7 +137,14 @@ class _EditTransferPageState extends State<EditTransferPage> {
             account: _selectedAcc1,
             category: _selectedAcc2.name)
         .checkDataTransfer(_selectedAcc2)) {
-      
+      widget.editTransfer(
+          widget.transfer,
+          _selectedAcc1.id,
+          _selectedAcc2.id,
+          double.parse(_amountController.text),
+          _selectedAcc2.name,
+          _noteController.text,
+          _selectedDate);
     } else {
       showDialog(
         context: context,
