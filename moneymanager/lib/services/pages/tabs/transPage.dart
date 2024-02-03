@@ -36,7 +36,7 @@ class _TransPageState extends State<TransPage> {
   void initState() {
     var userId = FireStore().getUserId();
     FireStore().fetchAllDataFromFireStore(userId).then((value) {
-      TransactionManager().getTransactionsDaily(_selectedDate);
+      TransactionManager().getTransactionsWeekly(_selectedDate);
       TransactionManager().getTransactionsMonthly(_selectedDate);
       TransactionManager().getTransactionsYearly(_selectedDate);
       setState(() {});
@@ -44,9 +44,15 @@ class _TransPageState extends State<TransPage> {
     super.initState();
   }
 
+  bool _isSameWeek(DateTime date1, DateTime date2) {
+    final weekNumber = DateFormat('w').format;
+
+    return weekNumber(date1) == weekNumber(date2) && date1.year == date2.year;
+  }
+
   void _deleteTransaction(Trans tran) {
     final transactionIndex = TransactionManager.trans.indexOf(tran);
-    final todayTransactionIndex = TransactionManager.todayTrans.indexOf(tran);
+    final weeklyTransactionIndex = TransactionManager.weeklyTrans.indexOf(tran);
     final monthTransactionIndex = TransactionManager.monthlyTrans.indexOf(tran);
     final yearlyTransactionIndex = TransactionManager.yearlyTrans.indexOf(tran);
     setState(() {
@@ -60,10 +66,8 @@ class _TransPageState extends State<TransPage> {
       }
       TransactionManager.trans.remove(tran);
       FireStore().removeTransactionToFireStore(tran);
-      if (tran.date.day == _selectedDate.day &&
-          tran.date.month == _selectedDate.month &&
-          tran.date.year == _selectedDate.year) {
-        TransactionManager.todayTrans.remove(tran);
+      if (_isSameWeek(tran.date, _selectedDate)) {
+        TransactionManager.weeklyTrans.remove(tran);
       } else if (tran.date.month == _selectedDate.month &&
           tran.date.year == _selectedDate.year) {
         TransactionManager.monthlyTrans.remove(tran);
@@ -89,11 +93,9 @@ class _TransPageState extends State<TransPage> {
                 }
                 FireStore().addTransactionToFireStore(tran);
                 TransactionManager.trans.insert(transactionIndex, tran);
-                if (tran.date.day == _selectedDate.day &&
-                    tran.date.month == _selectedDate.month &&
-                    tran.date.year == _selectedDate.year) {
-                  TransactionManager.todayTrans
-                      .insert(todayTransactionIndex, tran);
+                if (_isSameWeek(tran.date, _selectedDate)) {
+                  TransactionManager.weeklyTrans
+                      .insert(weeklyTransactionIndex, tran);
                 } else if (tran.date.month == _selectedDate.month &&
                     tran.date.year == _selectedDate.year) {
                   TransactionManager.monthlyTrans
@@ -120,7 +122,7 @@ class _TransPageState extends State<TransPage> {
       }
       TransactionManager.trans.add(tran);
       FireStore().addTransactionToFireStore(tran);
-      TransactionManager().getTransactionsDaily(_selectedDate);
+      TransactionManager().getTransactionsWeekly(_selectedDate);
       TransactionManager().getTransactionsMonthly(_selectedDate);
       TransactionManager().getTransactionsYearly(_selectedDate);
     });
@@ -138,7 +140,7 @@ class _TransPageState extends State<TransPage> {
           context: context, firstDate: first, lastDate: last, initialDate: now);
       setState(() {
         _selectedDate = pickedDate!;
-        TransactionManager().getTransactionsDaily(_selectedDate);
+        TransactionManager().getTransactionsWeekly(_selectedDate);
         TransactionManager().getTransactionsMonthly(_selectedDate);
         TransactionManager().getTransactionsYearly(_selectedDate);
       });
@@ -167,7 +169,7 @@ class _TransPageState extends State<TransPage> {
               );
             },
             child: Text(
-              'Daily',
+              'Weekly',
               style: TextStyle(
                 color: _selectedPage == 0 ? Colors.black : Colors.deepPurple,
               ),
@@ -242,7 +244,7 @@ class _TransPageState extends State<TransPage> {
         controller: _controller,
         scrollDirection: Axis.horizontal,
         children: [
-          TransactionManager.todayTrans.length == 0
+          TransactionManager.weeklyTrans.length == 0
               ? Center(
                   child: Text(
                   'No transaction found!',
@@ -252,7 +254,7 @@ class _TransPageState extends State<TransPage> {
                   ),
                 ))
               : TransactionList(
-                  transList: TransactionManager.todayTrans,
+                  transList: TransactionManager.weeklyTrans,
                   deleteTransaction: _deleteTransaction,
                 ),
           TransactionManager.monthlyTrans.length == 0

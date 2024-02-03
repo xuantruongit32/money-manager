@@ -1,8 +1,7 @@
 import 'package:moneyManager/services/models/trans.dart';
 
 class TransactionManager {
-  static List<Trans> trans = [
-  ];
+  static List<Trans> trans = [];
   Map<DateTime, List<Trans>> groupTransactionsByDate() {
     Map<DateTime, List<Trans>> groupedTransactions = {};
 
@@ -20,16 +19,8 @@ class TransactionManager {
     return groupedTransactions;
   }
 
-  void getTransactionsDaily(DateTime daily) {
-    Map<DateTime, List<Trans>> groupedTransactions =
-        groupTransactionsByDate();
-    DateTime dateOnly = DateTime(daily.year, daily.month, daily.day);
-    todayTrans = groupedTransactions[dateOnly] ?? [];
-  }
-
   void getTransactionsWeekly(DateTime startDate) {
-    Map<DateTime, List<Trans>> groupedTransactions =
-        groupTransactionsByDate();
+    Map<DateTime, List<Trans>> groupedTransactions = groupTransactionsByDate();
 
     DateTime currentDate =
         startDate.subtract(Duration(days: startDate.weekday - 1));
@@ -52,8 +43,7 @@ class TransactionManager {
   }
 
   void getTransactionsMonthly(DateTime startDate) {
-    Map<DateTime, List<Trans>> groupedTransactions =
-        groupTransactionsByDate();
+    Map<DateTime, List<Trans>> groupedTransactions = groupTransactionsByDate();
 
     int currentMonth = startDate.month;
     int currentYear = startDate.year;
@@ -78,8 +68,7 @@ class TransactionManager {
   }
 
   void getTransactionsYearly(DateTime startDate) {
-    Map<DateTime, List<Trans>> groupedTransactions =
-        groupTransactionsByDate();
+    Map<DateTime, List<Trans>> groupedTransactions = groupTransactionsByDate();
 
     int currentYear = startDate.year;
     DateTime startDateOfYear = DateTime(currentYear, 1, 1);
@@ -100,8 +89,7 @@ class TransactionManager {
   }
 
   List<Trans> getTransactionsYearlyForStats(DateTime startDate) {
-    Map<DateTime, List<Trans>> groupedTransactions =
-        groupTransactionsByDate();
+    Map<DateTime, List<Trans>> groupedTransactions = groupTransactionsByDate();
 
     int currentYear = startDate.year;
     DateTime startDateOfYear = DateTime(currentYear, 1, 1);
@@ -121,8 +109,7 @@ class TransactionManager {
   }
 
   List<Trans> getTransactionsMonthlyForStats(DateTime startDate) {
-    Map<DateTime, List<Trans>> groupedTransactions =
-        groupTransactionsByDate();
+    Map<DateTime, List<Trans>> groupedTransactions = groupTransactionsByDate();
 
     int currentMonth = startDate.month;
     int currentYear = startDate.year;
@@ -146,8 +133,7 @@ class TransactionManager {
   }
 
   List<Trans> getTransactionsWeeklyForStats(DateTime startDate) {
-    Map<DateTime, List<Trans>> groupedTransactions =
-        groupTransactionsByDate();
+    Map<DateTime, List<Trans>> groupedTransactions = groupTransactionsByDate();
 
     DateTime currentDate =
         startDate.subtract(Duration(days: startDate.weekday - 1));
@@ -243,7 +229,6 @@ class TransactionManager {
     return totalExpense;
   }
 
-  static List<Trans> todayTrans = [];
   static List<Trans> weeklyTrans = [];
   static List<Trans> monthlyTrans = [];
   static List<Trans> yearlyTrans = [];
