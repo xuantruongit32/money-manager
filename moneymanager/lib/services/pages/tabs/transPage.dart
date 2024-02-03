@@ -58,7 +58,7 @@ class _TransPageState extends State<TransPage> {
   @override
   void initState() {
     var userId = FireStore().getUserId();
-    FireStore().fetchAllDataFromFireStore(userId).then((value) {
+    FireStore().fetchAllTransactionsFromFireStore(userId).then((value) {
       TransactionManager().getTransactionsWeekly(_selectedDate);
       TransactionManager().getTransactionsMonthly(_selectedDate);
       TransactionManager().getTransactionsYearly(_selectedDate);
@@ -80,9 +80,9 @@ class _TransPageState extends State<TransPage> {
     final yearlyTransactionIndex = TransactionManager.yearlyTrans.indexOf(tran);
     setState(() {
       if (tran.type == Type.Income) {
-        AccountManager.findAccById(tran.id).amount -= tran.amount;
+        AccountManager.findAccById(tran.accId).amount -= tran.amount;
       } else if (tran.type == Type.Expense) {
-        AccountManager.findAccById(tran.id).amount;
+        AccountManager.findAccById(tran.accId).amount;
       } else {
         AccountManager.findAccById(tran.accId).amount += tran.amount;
         AccountManager.findAccById(tran.acc2Id).amount -= tran.amount;
@@ -107,9 +107,9 @@ class _TransPageState extends State<TransPage> {
             onPressed: () {
               setState(() {
                 if (tran.type == Type.Income) {
-                  AccountManager.findAccById(tran.id).amount += tran.amount;
+                  AccountManager.findAccById(tran.accId).amount += tran.amount;
                 } else if (tran.type == Type.Expense) {
-                  AccountManager.findAccById(tran.id).amount -= tran.amount;
+                  AccountManager.findAccById(tran.accId).amount -= tran.amount;
                 } else {
                   AccountManager.findAccById(tran.accId).amount -= tran.amount;
                   AccountManager.findAccById(tran.accId).amount += tran.amount;

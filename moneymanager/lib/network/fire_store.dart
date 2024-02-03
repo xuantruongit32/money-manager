@@ -34,6 +34,28 @@ class FireStore {
       'acc2': tran.acc2Id,
       'type': tran.type.toString(),
     });
+    double newAmountAccount = 0;
+    double newAmountAccount2 = 0;
+    if (tran.type == Type.Income) {
+      newAmountAccount =
+          AccountManager.findAccById(tran.accId).amount + tran.amount;
+    } else if (tran.type == Type.Expense) {
+      newAmountAccount =
+          AccountManager.findAccById(tran.accId).amount + tran.amount;
+    } else {
+      newAmountAccount =
+          AccountManager.findAccById(tran.accId).amount - tran.amount;
+      newAmountAccount2 =
+          AccountManager.findAccById(tran.acc2Id).amount + tran.amount;
+    }
+    CollectionReference accountCollection =
+        FirebaseFirestore.instance.collection('users/$userId/accounts');
+    await accountCollection.doc(tran.accId).update({
+      'amount': newAmountAccount,
+    });
+    await accountCollection.doc(tran.acc2Id).update({
+      'amount': newAmountAccount2,
+    });
   }
 
   Future<void> removeTransactionToFireStore(var tran) async {
@@ -42,6 +64,10 @@ class FireStore {
     CollectionReference transactionsCollection =
         FirebaseFirestore.instance.collection('users/$userId/transactions');
     await transactionsCollection.doc(tran.id).delete();
+    final newAmountAccount =
+        AccountManager.findAccById(tran.accId).amount - tran.amount;
+    await editAccountToFireStore(AccountManager.findAccById(tran.accId),
+        AccountManager.findAccById(tran.accId).name, newAmountAccount);
   }
 
   Future<void> addIncomeCategoryToFireStore(Category category) async {
@@ -159,7 +185,7 @@ class FireStore {
     });
   }
 
-  Future<void> fetchAllDataFromFireStore(var userId) async {
+  Future<void> fetchAllTransactionsFromFireStore(var userId) async {
     TransactionManager.trans.clear();
     QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
         .instance
@@ -183,6 +209,9 @@ class FireStore {
       tran.acc2Id = data['acc2'];
       TransactionManager.trans.add(tran);
     }
+  }
+
+  Future<void> fetchAllDataFromFireStore(var userId) async {
     AccountManager.accounts.clear();
     QuerySnapshot<Map<String, dynamic>> snapshot2 = await FirebaseFirestore
         .instance
