@@ -23,12 +23,12 @@ class Trans {
     required this.type,
     required this.id,
   });
-  final String note;
-  final double amount;
-  final DateTime date;
+   String note;
+   double amount;
+   DateTime date;
   final String id;
-  final String category;
-  final String accId;
-  final Type type;
+   String category;
+   String accId;
+   Type type;
   String acc2Id = '';
 }

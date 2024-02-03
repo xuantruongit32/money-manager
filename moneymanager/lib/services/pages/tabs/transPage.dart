@@ -30,6 +30,25 @@ class _TransPageState extends State<TransPage> {
     });
   }
 
+  void _editTransfer(Trans transfer, var newAccId, var newAcc2Id, var newAmount,
+      var newCategory, var newNote) {
+    setState(() {
+      transfer.accId = newAccId;
+      transfer.acc2Id = newAcc2Id;
+      transfer.amount = newAmount;
+      transfer.category = newCategory;
+      transfer.note = newNote;
+
+      AccountManager.findAccById(transfer.accId).amount =
+          AccountManager.findAccById(transfer.accId).amount +
+              transfer.amount -
+              newAmount;
+      AccountManager.findAccById(transfer.acc2Id).amount -
+          transfer.amount +
+          newAmount;
+    });
+  }
+
   var _selectedDate = DateTime.now();
 
   @override
