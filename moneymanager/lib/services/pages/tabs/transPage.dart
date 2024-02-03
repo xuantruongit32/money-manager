@@ -33,6 +33,10 @@ class _TransPageState extends State<TransPage> {
   void _editTransfer(Trans transfer, var newAccId, var newAcc2Id, var newAmount,
       var newCategory, var newNote, var newDate) {
     setState(() {
+      AccountManager.findAccById(transfer.accId).amount +=
+          (transfer.amount - newAmount);
+      AccountManager.findAccById(transfer.acc2Id).amount -=
+          (transfer.amount - newAmount);
       transfer.accId = newAccId;
       transfer.acc2Id = newAcc2Id;
       transfer.amount = newAmount;
@@ -40,16 +44,17 @@ class _TransPageState extends State<TransPage> {
       transfer.note = newNote;
       transfer.date = newDate;
 
-      AccountManager.findAccById(transfer.accId).amount =
-          AccountManager.findAccById(transfer.accId).amount +
-              transfer.amount -
-              newAmount;
-      AccountManager.findAccById(transfer.acc2Id).amount -
-          transfer.amount +
-          newAmount;
-      FireStore().editTransferToFireStore(transfer, newAccId, newAcc2Id,
+      FireStore().editTransactionToFireStore(transfer, newAccId, newAcc2Id,
           newAmount, newCategory, newNote, newDate);
     });
+    FireStore().editAccountToFireStore(
+        AccountManager.findAccById(transfer.accId),
+        AccountManager.findAccById(transfer.accId).name,
+        AccountManager.findAccById(transfer.accId).amount);
+    FireStore().editAccountToFireStore(
+        AccountManager.findAccById(transfer.acc2Id),
+        AccountManager.findAccById(transfer.acc2Id).name,
+        AccountManager.findAccById(transfer.acc2Id).amount);
     Navigator.pop(context);
   }
 

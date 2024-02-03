@@ -138,7 +138,7 @@ class FireStore {
     });
   }
 
-  Future<void> editTransferToFireStore(
+  Future<void> editTransactionToFireStore(
       Trans transfer,
       var newAccId,
       var newAcc2Id,
