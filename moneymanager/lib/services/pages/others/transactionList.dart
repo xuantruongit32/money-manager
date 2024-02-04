@@ -6,12 +6,12 @@ class TransactionList extends StatefulWidget {
   TransactionList(
       {required this.transList,
       required this.deleteTransaction,
-      required this.editTransfer,
+      required this.editTransaction,
       Key? key})
       : super(key: key);
   final Function(Trans tran) deleteTransaction;
   final transList;
-  final Function editTransfer;
+  final Function editTransaction;
 
   @override
   State<TransactionList> createState() => _TransactionListState();
@@ -25,7 +25,7 @@ class _TransactionListState extends State<TransactionList> {
       itemBuilder: (ctx, index) => Dismissible(
         key: ValueKey(widget.transList[index]),
         child: TransactionItem(
-          editTransfer: widget.editTransfer,
+          editTransaction: widget.editTransaction,
           transaction: widget.transList[index],
         ),
         onDismissed: (direction) {

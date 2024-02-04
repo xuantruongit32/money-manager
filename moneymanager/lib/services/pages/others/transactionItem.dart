@@ -4,15 +4,17 @@ import 'package:intl/intl.dart';
 import 'package:moneyManager/services/functions/account_manager.dart';
 import 'package:moneyManager/services/functions/transaction_category_manager.dart';
 import 'package:moneyManager/services/models/trans.dart';
-import 'package:moneyManager/services/pages/others/editTranferPage.dart';
+import 'package:moneyManager/services/pages/others/editExpensePage.dart';
+import 'package:moneyManager/services/pages/others/editIncomePage.dart';
+import 'package:moneyManager/services/pages/others/editTransferPage.dart';
 
 class TransactionItem extends StatelessWidget {
   TransactionItem(
-      {required this.transaction, required this.editTransfer, Key? key})
+      {required this.transaction, required this.editTransaction, Key? key})
       : super(key: key);
   final Trans transaction;
   final format = DateFormat('d/M/yy');
-  final Function editTransfer;
+  final Function editTransaction;
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +23,14 @@ class TransactionItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EditTransferPage(
-                editTransfer: editTransfer, transfer: transaction),
+            builder: (context) => transaction.type == Type.Transfer
+                ? EditTransferPage(
+                    editTransfer: editTransaction, transfer: transaction)
+                : transaction.type == Type.Income
+                    ? EditIncomePage(
+                        editTrans: editTransaction, tran: transaction)
+                    : EditExpensePage(
+                        editTrans: editTransaction, tran: transaction),
           ),
         );
       },

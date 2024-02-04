@@ -78,6 +78,7 @@ class _TransPageState extends State<TransPage> {
           AccountManager.findAccById(tran.accId).name,
           AccountManager.findAccById(tran.accId).amount);
     }
+    Navigator.pop(context);
   }
 
   var _selectedDate = DateTime.now();
@@ -352,7 +353,7 @@ class _TransPageState extends State<TransPage> {
                   ),
                 ))
               : TransactionList(
-                  editTransfer: _editTransaction,
+                  editTransaction: _editTransaction,
                   transList: TransactionManager.weeklyTrans,
                   deleteTransaction: _deleteTransaction,
                 ),
@@ -366,7 +367,7 @@ class _TransPageState extends State<TransPage> {
                   ),
                 ))
               : TransactionList(
-                  editTransfer: _editTransaction,
+                  editTransaction: _editTransaction,
                   transList: TransactionManager.monthlyTrans,
                   deleteTransaction: _deleteTransaction,
                 ),
@@ -381,7 +382,7 @@ class _TransPageState extends State<TransPage> {
                   ),
                 )
               : TransactionList(
-                  editTransfer: _editTransaction,
+                  editTransaction: _editTransaction,
                   transList: TransactionManager.yearlyTrans,
                   deleteTransaction: _deleteTransaction,
                 ),
@@ -396,7 +397,7 @@ class _TransPageState extends State<TransPage> {
                   ),
                 )
               : TransactionList(
-                  editTransfer: _editTransaction,
+                  editTransaction: _editTransaction,
                   transList: TransactionManager.trans,
                   deleteTransaction: _deleteTransaction,
                 ),

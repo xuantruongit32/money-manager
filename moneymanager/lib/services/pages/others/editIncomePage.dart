@@ -26,7 +26,7 @@ class EditIncomePage extends StatefulWidget {
 class _EditIncomePageState extends State<EditIncomePage> {
   late Account selectedAccount;
   late String showAccount;
-  late String showCategory ;
+  late String showCategory;
   late Category selectedCategory;
 
   var format = DateFormat('d/M/yyyy (E)');
@@ -46,6 +46,8 @@ class _EditIncomePageState extends State<EditIncomePage> {
     _selectedDate = widget.tran.date;
     _amountController.text = widget.tran.amount.toString();
     _noteController.text = widget.tran.note;
+    selectedCategory =
+        TransactionCategoryManager.getCategoryFromId(widget.tran.category);
     super.initState();
   }
 
@@ -222,6 +224,9 @@ class _EditIncomePageState extends State<EditIncomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Edit Income'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Column(

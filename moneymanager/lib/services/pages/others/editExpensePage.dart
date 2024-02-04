@@ -46,6 +46,8 @@ class _EditExpensePageState extends State<EditExpensePage> {
     _selectedDate = widget.tran.date;
     _amountController.text = widget.tran.amount.toString();
     _noteController.text = widget.tran.note;
+    selectedCategory =
+        TransactionCategoryManager.getCategoryFromId(widget.tran.category);
     super.initState();
   }
 
@@ -222,6 +224,9 @@ class _EditExpensePageState extends State<EditExpensePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Edit Expense'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Column(
