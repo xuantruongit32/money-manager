@@ -1,0 +1,2 @@
+1. Cong tien khi add va edit Transaction dang bi sai
+2. Transfer chua hien thi acc2
