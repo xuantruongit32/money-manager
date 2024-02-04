@@ -95,10 +95,10 @@ class _TransPageState extends State<TransPage> {
     super.initState();
   }
 
-  bool _isSameWeek(DateTime date1, DateTime date2) {
-    final weekNumber = DateFormat('w').format;
-
-    return weekNumber(date1) == weekNumber(date2) && date1.year == date2.year;
+  bool isSameWeek(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.difference(date2).inDays.abs() < 7 &&
+        date1.weekday == date2.weekday;
   }
 
   void _deleteTransaction(Trans tran) {
@@ -133,11 +133,22 @@ class _TransPageState extends State<TransPage> {
       }
       TransactionManager.trans.remove(tran);
       FireStore().removeTransactionToFireStore(tran);
-      if (_isSameWeek(tran.date, _selectedDate)) {
+      if (isSameWeek(tran.date, _selectedDate)) {
+        print(_selectedDate);
+        print(tran.date);
+        print(isSameWeek(tran.date, _selectedDate));
+        print(
+            "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
+        print('week' + weeklyTransactionIndex.toString());
+        print('month' + monthTransactionIndex.toString());
+        print('year' + yearlyTransactionIndex.toString());
         TransactionManager.weeklyTrans.remove(tran);
+        TransactionManager.monthlyTrans.remove(tran);
+        TransactionManager.yearlyTrans.remove(tran);
       } else if (tran.date.month == _selectedDate.month &&
           tran.date.year == _selectedDate.year) {
         TransactionManager.monthlyTrans.remove(tran);
+        TransactionManager.yearlyTrans.remove(tran);
       } else if (tran.date.year == _selectedDate.year) {
         TransactionManager.yearlyTrans.remove(tran);
       }
@@ -176,13 +187,19 @@ class _TransPageState extends State<TransPage> {
                 }
                 FireStore().addTransactionToFireStore(tran);
                 TransactionManager.trans.insert(transactionIndex, tran);
-                if (_isSameWeek(tran.date, _selectedDate)) {
+                if (isSameWeek(tran.date, _selectedDate)) {
                   TransactionManager.weeklyTrans
                       .insert(weeklyTransactionIndex, tran);
+                  TransactionManager.monthlyTrans
+                      .insert(monthTransactionIndex, tran);
+                  TransactionManager.yearlyTrans
+                      .insert(yearlyTransactionIndex, tran);
                 } else if (tran.date.month == _selectedDate.month &&
                     tran.date.year == _selectedDate.year) {
                   TransactionManager.monthlyTrans
                       .insert(monthTransactionIndex, tran);
+                  TransactionManager.yearlyTrans
+                      .insert(yearlyTransactionIndex, tran);
                 } else if (tran.date.year == _selectedDate.year) {
                   TransactionManager.yearlyTrans
                       .insert(yearlyTransactionIndex, tran);
