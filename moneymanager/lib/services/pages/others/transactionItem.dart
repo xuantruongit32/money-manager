@@ -49,9 +49,11 @@ class TransactionItem extends StatelessWidget {
                     format.format(transaction.date),
                   ),
                   Text(
-                    TransactionCategoryManager.getCategoryFromId(
-                            transaction.category)
-                        .name,
+                    transaction.type == Type.Transfer
+                        ? AccountManager.findAccById(transaction.acc2Id).name
+                        : TransactionCategoryManager.getCategoryFromId(
+                                transaction.category)
+                            .name,
                     style: TextStyle(color: Colors.black38),
                   ),
                 ],
