@@ -30,32 +30,54 @@ class _TransPageState extends State<TransPage> {
     });
   }
 
-  void _editTransfer(Trans transfer, var newAccId, var newAcc2Id, var newAmount,
+  void _editTransaction(Trans tran, var newAccId, var newAcc2Id, var newAmount,
       var newCategory, var newNote, var newDate) {
-    setState(() {
-      AccountManager.findAccById(transfer.accId).amount +=
-          (transfer.amount - newAmount);
-      AccountManager.findAccById(transfer.acc2Id).amount -=
-          (transfer.amount - newAmount);
-      transfer.accId = newAccId;
-      transfer.acc2Id = newAcc2Id;
-      transfer.amount = newAmount;
-      transfer.category = newCategory;
-      transfer.note = newNote;
-      transfer.date = newDate;
+    if (tran.type == Type.Transfer) {
+      setState(() {
+        AccountManager.findAccById(tran.accId).amount +=
+            (tran.amount - newAmount);
+        AccountManager.findAccById(tran.acc2Id).amount -=
+            (tran.amount - newAmount);
+        tran.accId = newAccId;
+        tran.acc2Id = newAcc2Id;
+        tran.amount = newAmount;
+        tran.category = newCategory;
+        tran.note = newNote;
+        tran.date = newDate;
 
-      FireStore().editTransactionToFireStore(transfer, newAccId, newAcc2Id,
-          newAmount, newCategory, newNote, newDate);
-    });
-    FireStore().editAccountToFireStore(
-        AccountManager.findAccById(transfer.accId),
-        AccountManager.findAccById(transfer.accId).name,
-        AccountManager.findAccById(transfer.accId).amount);
-    FireStore().editAccountToFireStore(
-        AccountManager.findAccById(transfer.acc2Id),
-        AccountManager.findAccById(transfer.acc2Id).name,
-        AccountManager.findAccById(transfer.acc2Id).amount);
-    Navigator.pop(context);
+        FireStore().editTransactionToFireStore(tran, newAccId, newAcc2Id,
+            newAmount, newCategory, newNote, newDate);
+      });
+      FireStore().editAccountToFireStore(
+          AccountManager.findAccById(tran.accId),
+          AccountManager.findAccById(tran.accId).name,
+          AccountManager.findAccById(tran.accId).amount);
+      FireStore().editAccountToFireStore(
+          AccountManager.findAccById(tran.acc2Id),
+          AccountManager.findAccById(tran.acc2Id).name,
+          AccountManager.findAccById(tran.acc2Id).amount);
+      Navigator.pop(context);
+    } else {
+      setState(() {
+        tran.type == Type.Income
+            ? AccountManager.findAccById(tran.accId).amount -=
+                (tran.amount - newAmount)
+            : AccountManager.findAccById(tran.accId).amount +=
+                (tran.amount - newAmount);
+        tran.accId = newAccId;
+        tran.acc2Id = newAcc2Id;
+        tran.amount = newAmount;
+        tran.category = newCategory;
+        tran.note = newNote;
+        tran.date = newDate;
+      });
+      FireStore().editTransactionToFireStore(
+          tran, newAccId, newAcc2Id, newAmount, newCategory, newNote, newDate);
+      FireStore().editAccountToFireStore(
+          AccountManager.findAccById(tran.accId),
+          AccountManager.findAccById(tran.accId).name,
+          AccountManager.findAccById(tran.accId).amount);
+    }
   }
 
   var _selectedDate = DateTime.now();
@@ -330,7 +352,7 @@ class _TransPageState extends State<TransPage> {
                   ),
                 ))
               : TransactionList(
-                  editTransfer: _editTransfer,
+                  editTransfer: _editTransaction,
                   transList: TransactionManager.weeklyTrans,
                   deleteTransaction: _deleteTransaction,
                 ),
@@ -344,7 +366,7 @@ class _TransPageState extends State<TransPage> {
                   ),
                 ))
               : TransactionList(
-                  editTransfer: _editTransfer,
+                  editTransfer: _editTransaction,
                   transList: TransactionManager.monthlyTrans,
                   deleteTransaction: _deleteTransaction,
                 ),
@@ -359,7 +381,7 @@ class _TransPageState extends State<TransPage> {
                   ),
                 )
               : TransactionList(
-                  editTransfer: _editTransfer,
+                  editTransfer: _editTransaction,
                   transList: TransactionManager.yearlyTrans,
                   deleteTransaction: _deleteTransaction,
                 ),
@@ -374,7 +396,7 @@ class _TransPageState extends State<TransPage> {
                   ),
                 )
               : TransactionList(
-                  editTransfer: _editTransfer,
+                  editTransfer: _editTransaction,
                   transList: TransactionManager.trans,
                   deleteTransaction: _deleteTransaction,
                 ),
