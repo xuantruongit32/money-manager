@@ -88,7 +88,7 @@ class FireStore {
     });
   }
 
-  Future<void> addAccountToFireStore(var acc) async {
+  Future<void> addAccountToFireStore(Account acc) async {
     final userId = getUserId();
 
     CollectionReference transactionsCollection =

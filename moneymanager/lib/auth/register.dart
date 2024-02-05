@@ -44,7 +44,6 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //safeArea: avoid certain system-defined areas
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -110,7 +109,9 @@ class _RegisterState extends State<Register> {
                   children: [
                     AuthSquareTile(
                       imagePath: 'assets/images/google.png',
-                      onTap: () => GoogleAuthService().signInWithGoogle(),
+                      onTap: () {
+                        GoogleAuthService().signInWithGoogle();
+                      },
                     ),
                     const Gap(25),
                     AuthSquareTile(
