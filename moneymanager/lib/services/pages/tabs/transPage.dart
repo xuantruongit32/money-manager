@@ -95,11 +95,20 @@ class _TransPageState extends State<TransPage> {
     super.initState();
   }
 
-  bool isSameWeek(DateTime date1, DateTime date2) {
-    return date1.year == date2.year &&
-        date1.difference(date2).inDays.abs() < 7 &&
-        date1.weekday == date2.weekday;
+int getIsoWeekNumber(DateTime date) {
+    DateTime monday = date.subtract(Duration(days: date.weekday - 1));
+    DateTime thursday = monday.add(Duration(days: 3));
+    DateTime yearStart = DateTime.utc(date.year, 1, 1);
+    int weekNumber = ((thursday.difference(yearStart).inDays) / 7).ceil();
+    return weekNumber;
   }
+
+  bool isSameWeek(DateTime date1, DateTime date2) {
+    int weekNumber1 = getIsoWeekNumber(date1);
+    int weekNumber2 = getIsoWeekNumber(date2);
+    return date1.year == date2.year && weekNumber1 == weekNumber2;
+  }
+
 
   void _deleteTransaction(Trans tran) {
     final transactionIndex = TransactionManager.trans.indexOf(tran);
@@ -134,14 +143,6 @@ class _TransPageState extends State<TransPage> {
       TransactionManager.trans.remove(tran);
       FireStore().removeTransactionToFireStore(tran);
       if (isSameWeek(tran.date, _selectedDate)) {
-        print(_selectedDate);
-        print(tran.date);
-        print(isSameWeek(tran.date, _selectedDate));
-        print(
-            "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
-        print('week' + weeklyTransactionIndex.toString());
-        print('month' + monthTransactionIndex.toString());
-        print('year' + yearlyTransactionIndex.toString());
         TransactionManager.weeklyTrans.remove(tran);
         TransactionManager.monthlyTrans.remove(tran);
         TransactionManager.yearlyTrans.remove(tran);
